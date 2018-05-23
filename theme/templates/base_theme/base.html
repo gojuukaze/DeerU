@@ -1,0 +1,36 @@
+{% load base_theme_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "base_theme/head.html" %}
+    {% block head_static %}
+    {% endblock %}
+
+</head>
+<body style="background-color: #fafafa">
+{% block body_navbar %}
+    {% include "base_theme/body_navbar.html" %}
+{% endblock %}
+
+{% block body_section %}
+    <section class="section">
+        <div class="container">
+            {% block columns %}
+                <div class="columns">
+                    {% block columns_left %}
+                    {% endblock %}
+                    {% block columns_right %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+    </section>
+{% endblock %}
+{% block end_body %}
+{% endblock %}
+</body>
+{% block after_body%}
+{% endblock %}
+</html>

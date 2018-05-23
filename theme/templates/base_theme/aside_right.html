@@ -1,0 +1,43 @@
+{% load base_theme_filter %}
+
+<aside class="column is-hidden-touch is-4 " style="padding-left: 20px">
+    <nav class="panel mpanel has-shadow">
+        <p class="panel-heading"><strong>标签 </strong></p>
+        <div class="panel-block">
+            <div class="field is-grouped-multiline" style="margin: 0;">
+                {% for t,num,f_size in aside_tags|aside_tags %}
+                    <a class="aside_tag_a" style="font-size: {{ f_size }}"
+                       href="{% url 'app:tag_article' t.id %}"><span>{{ t.name }}</span></a>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </nav>
+
+    {{ aside_category|aside_category }}
+
+
+</aside>
+
+<script>
+    $(".panel-child").each(function () {
+        var pChild = $(this);
+        var but = pChild.prev().find('span');
+        but.click(function () {
+            but.children().remove();
+            if (pChild.is(':hidden')) {
+                $('<i class="fas fa-chevron-up" aria-hidden="true"></i>').appendTo(but);
+                $(".panel-child").each(function () {
+                    if ($(this) !== pChild)
+                        $(this).slideUp();
+                })
+            }
+            else
+                $('<i class="fas fa-chevron-down" aria-hidden="true"></i>').appendTo(but);
+
+            pChild.slideToggle();
+
+        })
+    });
+</script>
