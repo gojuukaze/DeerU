@@ -1,0 +1,29 @@
+{% extends 'admin/change_form.html' %}
+{% load static %}
+
+{% block admin_change_form_document_ready %}
+    {{ block.super }}
+    <script>
+        $(function () {
+
+            let title = $('#id_title');
+            title.width(title.parent().outerWidth() - title.prev().outerWidth() - 26 + 'px');
+            let cover_img = $('#id_cover_img');
+            let cover_summary = $('#id_cover_summary');
+
+            cover_img.width(cover_summary.width() + 'px');
+            var help = $('<p class="help"></p>');
+            cover_img.after(help);
+            help.after($('<div class="field-box field-is_use_cover_img" style="margin-left:' + cover_img.prev().outerWidth() + 'px">\n' +
+                '<input type="checkbox" name="is_use_cover_img" id="id_is_use_cover_img" checked><label class="vCheckboxLabel inline" for="id_is_use_cover_img">是否使用自定义封面图片，否则将自动提取</label>\n' +
+                '</div>'));
+
+            help = $('<p class="help"></p>');
+            cover_summary.after(help);
+            help.after($('<div class="field-box field-is_use_cover_summary" style="margin-left:' + cover_summary.prev().outerWidth() + 'px">\n' +
+                '<input type="checkbox" name="is_use_cover_summary" id="id_is_use_cover_summary" checked><label class="vCheckboxLabel inline" for="id_is_use_cover_summary">是否使用自定义简介，否则将自动提取</label>\n' +
+                '</div>'));
+        });
+
+    </script>
+{% endblock %}

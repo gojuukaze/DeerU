@@ -1,9 +1,11 @@
 from ast import literal_eval
 
 from django.contrib import admin
+from django.template.loader import render_to_string
 
 # Register your models here.
 from django.core.cache import cache
+from django.utils.safestring import mark_safe
 from ktag.admin import MultipleChoiceAdmin
 
 from app.consts import Global_value_cache_key, Config_Name
@@ -19,9 +21,46 @@ from tool.kblog_html import Tag as htag
 
 @admin.register(Article)
 class ArticleAdmin(MultipleChoiceAdmin):
-    list_display = ['id', 'title', ]
-    list_editable = ['title']
     form = ArticleAdminForm
+    change_form_template = 'app/admin/article_change_form.html'
+    search_fields = ['title', 'id']
+    # date_hierarchy = 'created_time'
+
+    list_display = ['m_title', 'read_num', 'comment_num']
+    # list_editable = ['title']
+    # list_display_links = ['title']
+
+    fields = ('title', 'cover_img', 'cover_summary', 'content', 'category', 'tag')
+
+    # fieldsets = (
+    #     (None, {
+    #         'fields': ('title',)
+    #     }),
+    #     ('其他选项', {
+    #         'classes': ('collapse',),
+    #         'fields': ('cover_img', 'cover_summary'),
+    #     }),
+    #     (None, {
+    #         'fields': ('content', 'category', 'tag')
+    #     }),
+    # )
+
+    # fields = ( 'read_num', 'comment_num')
+
+    def m_title(self, obj):
+        return render_to_string('app/admin/article_title.html', {'article': obj})
+
+    m_title.short_description = '标题'
+
+    def read_num(self, obj):
+        return obj.meta_data().read_num
+
+    read_num.short_description = '阅读数'
+
+    def comment_num(self, obj):
+        return obj.meta_data().comment_num
+
+    comment_num.short_description = '评论数'
 
     def get_object(self, request, object_id, from_field=None):
         obj = super().get_object(request, object_id, from_field)
@@ -31,12 +70,19 @@ class ArticleAdmin(MultipleChoiceAdmin):
         self.choice_field_value['category'] = [c.id for c in filter_category_by_article(obj.id)]
         self.choice_field_value['tag'] = ' '.join([t.name for t in self.old_tag])
 
+        self.choice_field_value['cover_img'] = obj.image
+        self.choice_field_value['cover_summary'] = obj.summary[:-3]
+
         return obj
 
     def get_form(self, request, obj=None, **kwargs):
         return super().get_form(request, obj, **kwargs)
 
     def save_model(self, request, obj, form, change):
+        cover_img = form.cleaned_data['cover_img'] if form.cleaned_data['is_use_cover_img'] else None
+        cover_summary = form.cleaned_data['cover_summary'] if form.cleaned_data['is_use_cover_summary'] else None
+        obj.cover_img = cover_img
+        obj.cover_summary = cover_summary
         result = super().save_model(request, obj, form, change)
         new_category = form.cleaned_data['category']
         update_one_to_many_relation_model(ArticleCategory, 'article_id', obj.id, 'category_id', new_category,

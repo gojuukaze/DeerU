@@ -17,6 +17,8 @@ def sta(l):
 
 def shuffle(l):
     n = len(l)
+    if n==1:
+        return l
     for i in range(n):
         j = random.randint(0, n - 2)
         l[i], l[j] = l[j], l[i]

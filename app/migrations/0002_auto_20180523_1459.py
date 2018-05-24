@@ -6,6 +6,7 @@ from django.core.files.images import ImageFile
 from django.db import migrations
 
 from app.consts import Config_Name
+from app.manager.manager import update_one_to_many_relation_model
 
 
 def init_config(apps, schema_editor):
@@ -23,36 +24,54 @@ def init_config(apps, schema_editor):
     ])
 
 
+def upload_img(model, name, path):
+    with open(path, 'rb')as f:
+        img = ImageFile(f)
+        a = model(name=name)
+        a.img.save(name, img)
+
+
 def init_img(apps, schema_editor):
     Album = apps.get_model("app", "Album")
     base_dir = settings.BASE_DIR
-    with open(os.path.join(base_dir, 'logo_white.png'), 'rb')as f:
-        logo_white = ImageFile(f)
-        a = Album(name='logo_white')
-        a.img.save('logo_white.png', logo_white)
+    upload_img(Album, 'logo_white.png', os.path.join(base_dir, 'logo_white.png'))
+    upload_img(Album, 'logo_black.png', os.path.join(base_dir, 'logo_black.png'))
 
-    with open(os.path.join(base_dir, 'logo_black.png'), 'rb')as f:
-        logo_black = ImageFile(f)
-        a = Album(name='logo_black')
-        a.img.save('logo_black.png', logo_black)
+    upload_img(Album, 'deeru_green.png', os.path.join(base_dir, 'deeru_green.png'))
+
+    # with open(os.path.join(base_dir, 'logo_white.png'), 'rb')as f:
+    #     logo_white = ImageFile(f)
+    #     a = Album(name='logo_white')
+    #     a.img.save('logo_white.png', logo_white)
+
+    # with open(os.path.join(base_dir, 'logo_black.png'), 'rb')as f:
+    #     logo_black = ImageFile(f)
+    #     a = Album(name='logo_black')
+    #     a.img.save('logo_black.png', logo_black)
 
 
 def init_content(apps, schema_editor):
     Category = apps.get_model("app", "Category")
     c = Category.objects.create(name='默认分类')
 
+    Tag = apps.get_model("app", "Tag")
+    t = Tag.objects.create(name='DeerU')
 
     Article = apps.get_model("app", "Article")
-    base_dir = settings.BASE_DIR
-    with open(os.path.join(base_dir, 'logo_white.png'), 'rb')as f:
-        logo_white = ImageFile(f)
-        a = Album(name='logo_white')
-        a.img.save('logo_white.png', logo_white)
+    a = Article.objects.create(title='欢迎使用DeerU',
+                               content='<p><img src="/media/logo_black.png" data-name="logo_black.png" data-id="2" style="width: 300px;" class="fr-fic fr-dib"></p><p><br></p><hr><p style="text-align: center;"><br></p><p style="text-align: center;"><span style="font-size: 18px;"><strong>感谢你试用DeerU<span class="fr-emoticon fr-deletable">😀</span>&nbsp;</strong>&nbsp;</span></p><p style="text-align: center;"><strong><span style="font-size: 18px;">DeerU是一个开源的博客系统</span></strong></p><p style="text-align: center;"><strong><span style="font-size: 18px;">目前最新版DeerU为Alpha版，可能会存在一些BUG</span></strong></p><p style="text-align: center;"><strong><span style="font-size: 18px;">如果你有什么问题或者建议欢迎联系反馈给我</span></strong></p><p style="text-align: center;"><br></p><p style="text-align: center;"><strong><span style="font-size: 18px;">GITHUB：<a data-fr-linked="true" href="https://github.com/gojuukaze/DeerU​​​">https://github.com/gojuukaze/DeerU</a></span></strong></p><p style="text-align: center;"><strong><span style="font-size: 18px;">ISSUES：</span></strong><a href="https://github.com/gojuukaze/DeerU/issues" rel="noopener noreferrer" target="_blank"><span style="font-size: 18px;"><strong>https://github.com/gojuukaze/DeerU/issues</strong></span></a></p>',
+                               summary='感谢你试用DeerU😀<br>DeerU是一个开源的博客系统<br>目前最新版DeerU为Alpha版，可能会存在一些BUG<br>如果你有什么问题或者建议欢迎联系反馈给我<br>...',
+                               image='/media/deeru_green.png'
+                               )
+    ArticleMeta = apps.get_model("app", "ArticleMeta")
+    ArticleMeta.objects.create(article_id=a.id)
 
-    with open(os.path.join(base_dir, 'logo_black.png'), 'rb')as f:
-        logo_black = ImageFile(f)
-        a = Album(name='logo_black')
-        a.img.save('logo_black.png', logo_black)
+    ArticleCategory = apps.get_model("app", "ArticleCategory")
+    update_one_to_many_relation_model(ArticleCategory, 'article_id', a.id, 'category_id', [c.id],
+                                      lambda x: x, [])
+    ArticleTag = apps.get_model("app", "ArticleTag")
+    update_one_to_many_relation_model(ArticleTag, 'article_id', a.id, 'tag_id', [t.id],
+                                      lambda x: x, [])
 
 
 class Migration(migrations.Migration):
@@ -62,6 +81,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(init_config),
-        migrations.RunPython(init_img)
+        migrations.RunPython(init_img),
+        migrations.RunPython(init_content),
 
     ]

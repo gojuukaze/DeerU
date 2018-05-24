@@ -10,11 +10,22 @@ from tool.kblog_expression.manager import format_expression
 
 @receiver(pre_save, sender=Article, dispatch_uid="article_pre_save")
 def article_pre_save(sender, **kwargs):
+    print('rrrrrr')
+    cover_img = kwargs['instance'].cover_img
+    cover_summary = kwargs['instance'].cover_summary
     soup = BeautifulSoup(kwargs['instance'].content)
-    img = soup.find('img')
-    if img:
-        kwargs['instance'].image = img['src']
-    kwargs['instance'].summary = soup.get_text()[:170] + "..."
+
+    if cover_img:
+        kwargs['instance'].image = cover_img
+    else:
+        img = soup.find('img')
+        if img:
+            kwargs['instance'].image = img['src']
+    if cover_summary:
+        kwargs['instance'].summary = cover_summary + "..."
+    else:
+
+        kwargs['instance'].summary = soup.get_text()[:170] + "..."
 
 
 @receiver(post_save, sender=Article, dispatch_uid="article_post_save")

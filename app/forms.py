@@ -10,6 +10,13 @@ class ArticleAdminForm(forms.ModelForm):
         model = Article
         fields = '__all__'
 
+    is_use_cover_img = forms.BooleanField(label='是否使用自定义封面图片', initial=True)
+    cover_img = forms.CharField(label='封面图片', max_length=150, required=False)
+    is_use_cover_summary = forms.BooleanField(label='是否使用自定义简介', required=False)
+
+    cover_summary = forms.CharField(label='封面简介', max_length=200, required=False, help_text='为空将自动自取',
+                                    widget=forms.Textarea(attrs={'rows': '4', 'cols': '55'}), )
+
     category = forms.MultipleChoiceField(label='分类', choices=get_category_for_choice)
     tag = TagField(label='标签', delimiters=' ', help_text="输入标签，用空格分隔", data_list=get_tag_for_choice, required=False)
 
@@ -18,4 +25,3 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = '__all__'
-
