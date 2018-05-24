@@ -1,0 +1,61 @@
+{
+  "name": "bulma-tooltip",
+  "version": "1.0.4",
+  "description": "Display a tooltip attached to any kind of element, in different position.",
+  "main": "dist/bulma-tooltip.sass",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wikiki/bulma-tooltip.git"
+  },
+  "keywords": [
+    "Bulma",
+    "bulma",
+    "bulma.io",
+    "extensions",
+    "tooltip"
+  ],
+  "author": "Wikiki <wikiki@protonmail.com> (https://wikiki.github.io/bulma-extensions/overview)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Wikiki/bulma-tooltip/issues"
+  },
+  "homepage": "https://github.com/Wikiki/bulma-tooltip#readme",
+  "scripts": {
+    "build": "gulp"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.39",
+    "@babel/preset-env": "^7.0.0-beta.39",
+    "babel-core": "^7.0.0-beta.3",
+    "bulma": "^0.6.2",
+    "camelcase": "^4.1.0",
+    "conventional-github-releaser": "^2.0.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.1.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-babel-minify": "^0.3.0",
+    "gulp-better-rollup": "^3.0.0",
+    "gulp-bump": "^3.1.0",
+    "gulp-clean-css": "^3.9.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-conventional-changelog": "^1.1.11",
+    "gulp-git": "^2.5.1",
+    "gulp-postcss": "^7.0.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "rollup-plugin-babel": "^3.0.3",
+    "run-sequence": "^2.2.1"
+  },
+  "files": [
+    "dist/tooltip.sass",
+    "dist/bulma-tooltip.min.css",
+    "LICENSE",
+    "README.md"
+  ]
+}

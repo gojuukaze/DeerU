@@ -1,0 +1,158 @@
+.panel-child {
+    display: none;
+}
+
+.panel-child > .panel-block {
+    border-top-width: 0;
+    padding-left: 50px;
+}
+
+.mpanel > .panel-heading {
+    border-bottom-color: red
+}
+
+.mpanel > .panel-heading, .panel-block {
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    background-color: white;
+}
+
+.aside_tag_a {
+    margin-right: 10px;
+    float: bottom;
+}
+
+.aside_tag_a:link {
+    color: #363636
+}
+
+.aside_tag_a:visited {
+    color: #363636
+}
+
+.aside_tag_a:hover {
+    color: #ff4d3a
+}
+
+.aside_tag_a:active {
+    color: #363636
+}
+
+.red_a:link {
+    color: #363636
+}
+
+.red_a:visited {
+    color: #363636
+}
+
+.red_a:hover {
+    color: #ff4d3a
+}
+
+.red_a:active {
+    color: #363636
+}
+
+.red_child_a:link {
+    color: #777
+}
+
+.red_child_a:visited {
+    color: #777
+}
+
+.red_child_a:hover {
+    color: #ff4d3a
+}
+
+.red_child_a:active {
+    color: #777
+}
+
+.aside_tag_a:last-child {
+    margin-right: 0;
+}
+
+.img_head {
+    overflow: hidden;
+}
+
+.img_head p {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    border: 2px solid #fff;
+    overflow: hidden;
+    -webkit-box-shadow: 0 0 3px #ccc;
+    box-shadow: 0 0 3px #ccc;
+}
+
+.img_head img {
+    width: 100%;
+    min-height: 100%;
+    text-align: center;
+}
+
+.emoji_tabs {
+
+    font-size: 21px;
+    text-align: center;
+    line-height: 25px;
+}
+
+.emoji_tabs > a {
+    margin: 10px 5px 5px 5px;
+    text-decoration: none;
+}
+
+.emoji_tabs + a {
+    margin-top: 5px;
+}
+
+pre {
+    background: #f0f0f0;
+    tab-size: 4;
+    overflow: auto;
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+}
+
+.article-header {
+    border-bottom: 1px solid #e8e8e8;
+    border-radius: 6px 6px 0 0;
+    border-top: 1px solid #fff;
+    background-color: #fdfdfd;
+    position: relative;
+}
+
+.detail_article_box > * {
+    padding: 20px;
+}
+
+.article_header_a:link {
+    color: #696969
+}
+
+.article_header_a:visited {
+    color: #696969
+}
+
+.article_header_a:hover {
+    color: #ff4d3a
+}
+
+.article_header_a:active {
+    color: #696969
+}
+
+.article_end {
+    padding: 10px;
+
+    font-size: 14px;
+    border: 1px solid #ff4d3a;
+    border-left-width: thick;
+}
