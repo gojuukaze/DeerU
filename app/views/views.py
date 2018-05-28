@@ -13,7 +13,6 @@ def upload_image(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed(['GET', 'POST'])
     file = request.FILES.get('file')
-    print(type(file))
     try:
         from PIL import Image as pil_image
         pil_image.open(file).verify()

@@ -1,7 +1,7 @@
 import re
 
-from tool.kblog_exceptions import ExpressionTypeError
-from tool.kblog_html import Tag
+from tool.deeru_exceptions import ExpressionTypeError
+from tool.deeru_html import Tag as HtmlTag
 
 
 class BaseExpression(object):
@@ -33,7 +33,7 @@ class BaseExpression(object):
         return self.result
 
     def __str__(self):
-        return '<%s>:"%s"'%(self.__class__,self.args)
+        return '%s:"%s"' % (self.__class__, self.args)
 
 
 class Img(BaseExpression):
@@ -79,7 +79,7 @@ class Img(BaseExpression):
                 except:
                     img = None
 
-        img_tag = Tag('img')
+        img_tag = HtmlTag('img')
         if img:
             img_tag.set_attr('src', img.img.url)
         for attr in temp_args[1:]:
@@ -114,8 +114,8 @@ class Fa(BaseExpression):
                     attrs['style'] = v
         else:
             svg = self.args
-        span = Tag('span', attrs=attrs)
-        span.append(Tag('i', attrs={'class': svg}))
+        span = HtmlTag('span', attrs=attrs)
+        span.append(HtmlTag('i', attrs={'class': svg}))
         self.result = span
 
 
@@ -140,7 +140,7 @@ class Cat(BaseExpression):
             temp_args = self.args.split('|')
             temp_args[-1] = temp_args[-1].strip()
             if temp_args[-1] not in ['name', 'url']:
-                raise ExpressionTypeError('表达式 cat 最后一个参数仅支持 "name","url"')
+                raise ExpressionTypeError('表达式 cat 最后一个参数仅支持 ["name","url"]')
             category = None
             if re.search(r'=', temp_args[0]):
                 k, v = temp_args[0].split('=')
@@ -164,4 +164,77 @@ class Cat(BaseExpression):
         if temp_args[-1] == 'name':
             self.result = category.name
         elif temp_args[-1] == 'url':
-            pass
+            self.result = category.url()
+
+
+class Tag(BaseExpression):
+    """
+    分类表达式
+    {% tag| 值 | 返回值(name/url) %}
+
+    {% tag| xx | name %} --> 匹配：id=xx 或 name.startswith(xx) 返回name
+    {% tag| name = xx | name %} --> 匹配name.startswith(xx) 返回name
+    {% tag| id = xx | url %} --> 匹配id=xx 返回url
+
+    """
+
+    def calculate(self):
+        from app.db_manager.content_manager import get_tag_by_id, filter_tag_by_start_name
+        if not self.args:
+            self.args = ''
+        self.args = self.args.strip()
+
+        if re.search(r'\|', self.args):
+            temp_args = self.args.split('|')
+            temp_args[-1] = temp_args[-1].strip()
+            if temp_args[-1] not in ['name', 'url']:
+                raise ExpressionTypeError('表达式 tag 最后一个参数仅支持 ["name","url"]')
+            tag = None
+            if re.search(r'=', temp_args[0]):
+                k, v = temp_args[0].split('=')
+                k = k.strip()
+                v = v.strip()
+                if k == 'id':
+                    tag = get_tag_by_id(v)
+                elif k == 'name':
+                    tag = filter_tag_by_start_name(v)[0]
+            else:
+                v = temp_args[0].strip()
+                tag = get_tag_by_id(v)
+                if not tag:
+                    tag = filter_tag_by_start_name(v)[0]
+        else:
+            raise ExpressionTypeError('表达式 tag 至少需要一个参数')
+
+        if not tag:
+            self.result = ''
+
+        if temp_args[-1] == 'name':
+            self.result = tag.name
+        elif temp_args[-1] == 'url':
+            self.result = tag.url()
+
+
+class Text(BaseExpression):
+    """
+    分类表达式
+    {% text| 值 | [style] %}
+
+    {% text| 1122 %} --> 返回：<span>1122</span>
+    {% text| 1122 | style="color:red;" %} -->  返回：<span style="color:red;">1122</span>
+
+    """
+
+    def calculate(self):
+        if not self.args:
+            self.args = ''
+        self.args = self.args.strip()
+        args = self.args.split('|')
+        attrs = {}
+        if len(args) == 2:
+            k, v = args[1].split('=')
+            if k.strip() != 'style':
+                raise ExpressionTypeError('表达式 text 可选项只支持style')
+            attrs['style'] = v
+
+        self.result = HtmlTag('span', text=args[0], attrs=attrs)

@@ -2,8 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
     {% include "base_theme/head.html" %}
     {% block head_static %}
     {% endblock %}
@@ -28,7 +26,8 @@
         </div>
     </section>
 {% endblock %}
-{% block end_body %}
+{% block body_footer %}
+    {% include 'base_theme/body_footer.html' %}
 {% endblock %}
 </body>
 {% block after_body%}

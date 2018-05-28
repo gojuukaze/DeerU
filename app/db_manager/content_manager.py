@@ -122,6 +122,10 @@ def get_tag_by_id(id):
         return None
 
 
+def filter_tag_by_start_name(name):
+    return Tag.objects.filter(name__istartswith=name)
+
+
 def create_tag(name):
     return Tag.objects.create(name=name)
 

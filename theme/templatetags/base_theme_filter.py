@@ -2,8 +2,9 @@ from django import template
 from django.utils.safestring import mark_safe
 
 from theme.manager.base_theme_manager import get_top_menu_htmltag_list, get_aside_category_htmltag, \
-    get_aside_tag_htmltag_list, get_comment_tree, get_top_ico_htmltag_list
-from tool.kblog_math import shuffle
+    get_aside_tag_htmltag_list, get_comment_tree, get_left_logo_tag, get_left_blog_name_tag, \
+    get_top_ico_right_htmltag_list, get_page_html_list
+from tool.deeru_math import shuffle
 
 register = template.Library()
 
@@ -13,12 +14,26 @@ def top_menu(menu_config):
     return get_top_menu_htmltag_list(menu_config)
 
 
-@register.filter(name='top_ico')
-def top_ico(ico_config, key):
-    if key == 'logo':
-        return get_top_ico_htmltag_list([ico_config[key]])
+# @register.filter(name='top_ico')
+# def top_ico(ico_config, key):
+#     if key == 'logo':
+#         return get_top_ico_htmltag_list([ico_config[key]])
+#
+#     return get_top_ico_right_htmltag_list(ico_config[key])
 
-    return get_top_ico_htmltag_list(ico_config[key])
+@register.filter(name='top_ico_right')
+def top_ico_right(right_config):
+    return get_top_ico_right_htmltag_list(right_config)
+
+
+@register.filter(name='top_ico_left_logo')
+def top_ico_left_logo(config):
+    return mark_safe(get_left_logo_tag(config))
+
+
+@register.filter(name='top_ico_left_blog_name')
+def top_ico_left_blog_name(config):
+    return mark_safe(get_left_blog_name_tag(config))
 
 
 @register.filter(name='aside_category')
@@ -32,13 +47,15 @@ def aside_category(category):
 def aside_tags(tags):
     if not tags:
         return []
-    # l=['acm','dijkstra','elasticsearch','freopen','ik','multiprocessing','pool','poj','python','typedef','中文搜索','八数码','多进程','快排','指针','排序','搜索','最短路','翻译','计蒜客','进程池','迪杰斯特拉']
-    # import random
-    # t=[[random.randint(1,10),i] for i in l]
-    # print(t)
     t = get_aside_tag_htmltag_list(tags)
+    return t
 
-    return shuffle(t)
+    # return shuffle(t)
+
+
+@register.filter(name='page_list')
+def page_list(paginator):
+    return get_page_html_list(paginator)
 
 
 @register.filter(name='comment_tree')

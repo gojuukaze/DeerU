@@ -109,6 +109,10 @@ class Command(BaseCommand):
                 new_c = old_c
             except:
                 new_c = Category.objects.create(name=c['name'])
+            new_c.m_order = new_c.id
+
+            new_c.save()
+
             c['id'] = new_c.id
 
         for key, c in self.category.items():
@@ -125,6 +129,9 @@ class Command(BaseCommand):
                 new_c = old_c
             except:
                 new_c = Category.objects.create(name=c['name'], father_id=father_id)
+            new_c.m_order = new_c.id
+
+            new_c.save()
             c['id'] = new_c.id
 
     def get_tag(self):
@@ -283,9 +290,9 @@ class Command(BaseCommand):
                 if int(parent) == 0:
                     root_id = -1
                     to_id = -1
-                    type=201
+                    type = 201
                 else:
-                    type=202
+                    type = 202
                     root_id = wpid_to_comment_rootid[parent]
                     to_id = wpid_to_commentid[parent]
 
@@ -295,15 +302,13 @@ class Command(BaseCommand):
                         parent] + ' </span>:</p>' + cm['content']
 
                 new_cm = Comment.objects.create(nickname=cm['nickname'], content=cm['content'],
-                                                created_time=cm['created_time'],type=type,
+                                                created_time=cm['created_time'], type=type,
                                                 email=cm['email'], article_id=a_id, root_id=root_id, to_id=to_id)
                 wpid_to_commentid[wp_id] = new_cm.id
                 if int(parent) == 0:
-                    wpid_to_comment_rootid[wp_id]=new_cm.id
+                    wpid_to_comment_rootid[wp_id] = new_cm.id
                 else:
-                    wpid_to_comment_rootid[wp_id]=root_id
-
-
+                    wpid_to_comment_rootid[wp_id] = root_id
 
     def handle(self, *args, **options):
         self.error = self.stderr.write

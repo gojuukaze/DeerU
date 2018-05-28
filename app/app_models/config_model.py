@@ -1,6 +1,6 @@
 from django.db import models
 
-from tool.kblog_model_field import ConfigField
+from app.ex_fields.fields import ConfigField
 
 __all__ = ['Config', 'UiConfig']
 

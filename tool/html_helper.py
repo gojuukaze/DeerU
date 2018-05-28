@@ -1,9 +1,6 @@
-# -*- coding:utf-8 -*-
 import bleach
 from bleach.sanitizer import Cleaner
 from bs4 import BeautifulSoup
-
-__author__ = 'lnx'
 
 COMMENT_ALLOWED_TAGS = [
     'a',

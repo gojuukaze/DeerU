@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block head_static %}
+    <title>{{ article.title }} |{{ global_value.title }}</title>
     <link href="https://cdn.bootcss.com/jodit/3.1.94/jodit.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jodit/3.1.94/jodit.min.js"></script>
@@ -16,11 +17,9 @@
     <div class="column is-8 is-paddingless">
         <div id="detail_article" class="container" style="width: 100%">
             <div class="box detail_article_box" style="padding: 0">
-
                 <!-- 文章顶部 -->
 
                 <div class="article-header">
-
                     <h1 class="title" style="margin-bottom: 16px">
                         {{ article.title }}
                     </h1>
@@ -51,17 +50,11 @@
                                         <a href="#comment_header"
                                            class="red_a">评论：{{ article.meta_data.comment_num }}</a>
                                     </p>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="level-right">
                             <div class="level-item" style="justify-content:flex-start;font-size: 15px">
-
-
                                 <p>分享：</p>
                                 <div class="dropdown is-hoverable">
                                     <div class="dropdown-trigger">
@@ -90,8 +83,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div class="dropdown is-right is-hoverable">
                                     <div class="dropdown-trigger">
                                         <button id="copy_url" class="button" style="border-width:0">
@@ -117,8 +108,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -130,6 +119,10 @@
                     </p>
                 </div>
 
+                <br>
+
+                <hr style="padding: 0;margin-top:10px;margin-bottom: 10px">
+
                 <!-- 文章结尾作者标签 -->
                 <div>
                     <div class="article_end">
@@ -140,6 +133,8 @@
 
                     </div>
                 </div>
+
+                <!-- 文章标签 -->
                 <div class=" tags" style="margin: 0">
                     标签：
                     {% for t in article.tags %}
@@ -147,15 +142,17 @@
                     {% endfor %}
                 </div>
 
-                <hr style="padding: 0;margin-top:10px;margin-bottom: 10px">
-                <!-- 上一篇 -->
-                <nav class="level is-mobile">
-                    <div class="level-left ">
-                        {% if article.last_article %}
+
+            </div>
+            <!-- 上一篇 下一篇 -->
+            <nav class="level is-mobile ">
+                <div class="level-left ">
+                    {% if article.last_article %}
                         <div class="level-item" style="justify-content:flex-start">
                             <div class="dropdown is-up is-hoverable">
                                 <div class="dropdown-trigger">
-                                    <button class="button" aria-controls="last_article">
+                                    <button class="button is-medium" style="box-shadow: 0 2px 3px rgba(10,10,10,.1);"
+                                            aria-controls="last_article">
                                         <a style="color: #0a0a0a" href="{{ article.last_article.url }}">上一篇</a>
                                     </button>
                                 </div>
@@ -169,16 +166,17 @@
                                 </div>
                             </div>
                         </div>
-                        {% endif %}
+                    {% endif %}
 
-                    </div>
-                    <div class="level-right">
-                        {% if article.next_article  %}
+                </div>
+                <div class="level-right">
+                    {% if article.next_article %}
                         <div class="level-item" style="justify-content:flex-start;font-size: 15px">
 
                             <div class="dropdown is-up is-right is-hoverable">
                                 <div class="dropdown-trigger">
-                                    <button class="button" aria-controls="last_article">
+                                    <button class="button is-medium" style="box-shadow: 0 2px 3px rgba(10,10,10,.1);"
+                                            aria-controls="last_article">
                                         <a style="color: #0a0a0a" href="{{ article.next_article.url }}">下一篇</a>
                                     </button>
                                 </div>
@@ -193,18 +191,17 @@
                             </div>
 
                         </div>
-                        {% endif %}
-                    </div>
-                </nav>
+                    {% endif %}
+                </div>
+            </nav>
 
-
-                <br>
-
-                <strong id="comment_header" style="font-size: larger">本文共 {{ article.meta_data.comment_num }}
-                    个回复</strong>
+            <div class="box detail_article_box" style="padding: 0">
+                <div class="article-header">
+                    <strong id="comment_header" style="font-size: larger">本文共 {{ article.meta_data.comment_num }}
+                        个回复</strong></div>
                 <div id="comment">
                     {% for c in article.comments|comment_tree %}
-                        <hr>
+
                         <article class="media">
                             <figure class="media-left img_head">
                                 <p class="image is-60x60">
@@ -270,7 +267,9 @@
                         </article>
                     {% endfor %}
                     <br>
-                    <hr>
+                    {% if article.meta_data.comment_num != 0 %}
+                        <hr>
+                    {% endif %}
                     <p>
                         <strong style="font-size: larger;">发表评论</strong>
                         <span id="comment_help" style="color: rgb(44, 130, 201);">  (对文章评论)</span>
@@ -339,6 +338,7 @@
         </div>
     </div>
     <script>
+        document.title="{{ article.title }} | {{ global_value.title }}";
         var current_url = document.location.origin + document.location.pathname;
         $('#qrcode_url').qrcode({
             text: current_url,

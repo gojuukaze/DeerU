@@ -1,5 +1,5 @@
 {% extends "base_theme/base.html" %}
-
+{% load base_theme_filter %}
 
 {% block columns_left %}
     <div class="column is-8" style="padding-right: 20px">
@@ -63,8 +63,10 @@
             <nav class="pagination is-right" role="navigation" aria-label="pagination">
 
                 <ul class="pagination-list">
-                    {% for p in page_list %}
+                    {% for p in paginator|page_list %}
                         <li><a class="pagination-link {{ p.is_current }}"
+                               style="background-color: {% if p.is_current %}#3273dc
+                                   {% else %}{% if p.disabled %}#dbdbdb{% else %}#ffffff{% endif %}{% endif %}"
                                href="{{ p.href }}" {{ p.disabled }}>{{ p.text }}</a>
                         </li>
                     {% endfor %}

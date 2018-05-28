@@ -1,5 +1,5 @@
 """
-WSGI config for ikaze project.
+WSGI config for deeru project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

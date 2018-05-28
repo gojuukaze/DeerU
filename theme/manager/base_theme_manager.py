@@ -1,9 +1,10 @@
 from django.urls import reverse
+from django.utils.html import format_html
 
-from tool.kblog_expression.expressions import BaseExpression
-from tool.kblog_expression.manager import format_expression
-from tool.kblog_html import Tag
-from tool.kblog_math import var, sta
+from tool.deeru_expression.expressions import BaseExpression
+from tool.deeru_expression.manager import format_expression
+from tool.deeru_html import Tag
+from tool.deeru_math import var, sta
 
 
 def get_img_tag(img):
@@ -21,21 +22,34 @@ def get_img_tag(img):
     return img_tag
 
 
-def format_ico_config(config):
+def format_right_ico_config(config):
     img = format_expression(config.get('img'))
     url = format_expression(config.get('url', '#'))
-    print(img)
     img_tag = get_img_tag(img)
     a_tag = Tag('a', attrs={'href': url, 'class': 'navbar-item'})
     a_tag.append(img_tag)
     return a_tag
 
 
-def get_top_ico_htmltag_list(config):
+def get_top_ico_right_htmltag_list(config):
     result = []
     for c in config:
-        result.append(format_ico_config(c))
+        result.append(format_right_ico_config(c))
     return result
+
+
+def get_left_logo_tag(config):
+    img = format_expression(config)
+    img_tag = get_img_tag(img)
+
+    return img_tag
+
+
+def get_left_blog_name_tag(config):
+    blog_name = format_expression(config)
+    if isinstance(blog_name, BaseExpression):
+        return blog_name.get_result()
+    return blog_name
 
 
 def format_menu_config(config):
@@ -44,6 +58,11 @@ def format_menu_config(config):
     url = format_expression(config.get('url', ''))
     line = config.get('line')
     children = config.get('children')
+
+    if isinstance(name, BaseExpression):
+        name = name.get_result()
+    if isinstance(url, BaseExpression):
+        url = url.get_result()
 
     if line:
         return Tag('hr', attrs={'class': "navbar-divider"})
@@ -124,6 +143,34 @@ def get_aside_tag_htmltag_list(aside_tags):
         else:
             t.append('')
     return aside_tags
+
+
+def get_page_html_list(paginator):
+    number = paginator.current_page_num
+    page = paginator.get_page_list()
+    html1 = [{'text': format_html('<span class="icon is-small"><i class="fas fa-angle-double-left"></i></span>'),
+              'disabled': '', 'is_current': '', 'href': ' '},
+             {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-left"></i></span>'),
+              'disabled': '', 'is_current': '', 'href': ' '},
+             {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-right"></i></span>'),
+              'disabled': '', 'is_current': '', 'href': ' '},
+             {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-double-right"></i></span>'),
+              'disabled': '', 'is_current': '', 'href': ' '}]
+    i = 0
+    for p in page[:2] + page[-2:]:
+        if p:
+            html1[i]['href'] = '?page=%d' % (p,)
+        else:
+            html1[i]['href'] = 'javascript:void(0)'
+            html1[i]['disabled'] = 'disabled'
+        i += 1
+
+    html2 = []
+    for p in page[2]:
+        html2.append({'text': '%d' % (p,), 'disabled': '',
+                      'is_current': 'is-current' if p == number else '', 'href': '?page=%d' % (p,)})
+
+    return html1[:2] + html2 + html1[-2:]
 
 
 def get_comment_tree(comments):

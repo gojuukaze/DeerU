@@ -1,7 +1,7 @@
 """
 生成html
 """
-from tool.kblog_exceptions import NotSupportedError
+from tool.deeru_exceptions import NotSupportedError
 from django.utils.html import format_html
 
 

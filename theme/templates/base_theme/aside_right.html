@@ -1,27 +1,66 @@
 {% load base_theme_filter %}
 
 <aside class="column is-hidden-touch is-4 " style="padding-left: 20px">
-    <nav class="panel mpanel has-shadow">
-        <p class="panel-heading"><strong>标签 </strong></p>
-        <div class="panel-block">
-            <div class="field is-grouped-multiline" style="margin: 0;">
+
+    <nav class="panel mpanel " style="">
+        <div class="panel-heading">
+            <div class="tabs">
+                <ul>
+                    <li class="is-active"><a><strong style="font-size: 22px">标签</strong></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-block" style="padding-bottom: 24px;border-bottom: 0">
+            <div class="field is-grouped-multiline">
+
                 {% for t,num,f_size in aside_tags|aside_tags %}
-                    <a class="aside_tag_a" style="font-size: {{ f_size }}"
+                    <a class="button" style="margin: 3px;color: #666;font-size: 13px"
                        href="{% url 'app:tag_article' t.id %}"><span>{{ t.name }}</span></a>
                 {% endfor %}
             </div>
+        </div>
+    </nav>
 
+    <nav class="panel mpanel ">
+        <div class="panel-heading" style="padding-bottom: 0">
+            <div class="tabs">
+                <ul>
+                    <li class="is-active"><a><strong style="font-size: 22px">分类</strong></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel-block" style="padding-bottom: 24px;padding-top: 0">
+            <div style="width: 100%">
+                {% for c in aside_category %}
+                    <div class="control border-bt-line red_child_a">
+                        <a class="red_a" href="{{ c.category.url }}">{{ c.category.name }} </a>
+                        {% if c.children %}
+                            <span class="icon" style="position: absolute;right: 0;">
+                                <i class="fas fa-chevron-down" aria-hidden="true">  </i>
+                            </span>
+                        {% endif %}
+                    </div>
+                    {% if c.children %}
+
+                        <div class="panel-scroll" style="display: none;">
+                        {% for c2 in c.children %}
+                            <div class="border-bt-line"><a class="red_child_a" href="{{ c2.category.url }}">{{ c2.category.name }} </a></div>
+                        {% endfor %}
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
         </div>
 
     </nav>
 
-    {{ aside_category|aside_category }}
-
-
 </aside>
 
 <script>
-    $(".panel-child").each(function () {
+    $(".panel-scroll").each(function () {
         var pChild = $(this);
         var but = pChild.prev().find('span');
         but.click(function () {

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from app.consts import Comment_Type
-from field_extension.fields import KFroalaField
+from app.ex_fields.fields import MFroalaField
 from tool.html_helper import clean_all_tags, get_safe_comment_html
 
 __all__ = ['Article', 'ArticleMeta', 'Category', 'ArticleCategory', 'Tag', 'ArticleTag']
@@ -18,7 +18,7 @@ class Article(models.Model):
     summary = models.CharField(verbose_name='摘要', max_length=200, null=True, blank=True, editable=False)
     image = models.CharField(verbose_name='图片', max_length=200, null=True, blank=True, editable=False)
 
-    content = KFroalaField(verbose_name='正文', null=False, blank=False,
+    content = MFroalaField(verbose_name='正文', null=False, blank=False,
                            options={
                                'height': 300,
                                'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
@@ -44,7 +44,7 @@ class Article(models.Model):
 
     def last_article(self):
         try:
-            a = Article.objects.filter(id__lt=self.id).values('id', 'title')[0]
+            a = Article.objects.filter(id__lt=self.id).values('id', 'title').order_by('-id')[0]
             a['url'] = reverse('app:detail_article', args=(a['id'],))
             return a
         except:
@@ -52,7 +52,7 @@ class Article(models.Model):
 
     def next_article(self):
         try:
-            a = Article.objects.filter(id__gt=self.id).values('id', 'title')[0]
+            a = Article.objects.filter(id__gt=self.id).values('id', 'title').order_by('-id')[0]
             a['url'] = reverse('app:detail_article', args=(a['id'],))
             return a
         except:
@@ -133,9 +133,11 @@ class Category(models.Model):
     class Meta:
         verbose_name = '分类'
         verbose_name_plural = '分类'
+        ordering = ['-m_order']
 
     name = models.CharField(verbose_name='名称', max_length=30, unique=True)
     father_id = models.IntegerField(verbose_name='父级目录', default=-1)
+    m_order = models.PositiveIntegerField(verbose_name='排序', default=0, blank=False, null=False)
 
     created_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)

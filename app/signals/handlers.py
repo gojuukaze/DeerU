@@ -5,14 +5,13 @@ from django.db.models.signals import post_save, pre_save
 from app.app_models.content_model import Article, Tag, Comment
 from app.app_models.other_model import Album
 from app.db_manager.content_manager import get_or_create_article_meta, get_article_meta_by_article
-from tool.kblog_expression.manager import format_expression
+from tool.deeru_expression.manager import format_expression
 
 
 @receiver(pre_save, sender=Article, dispatch_uid="article_pre_save")
 def article_pre_save(sender, **kwargs):
-    print('rrrrrr')
-    cover_img = kwargs['instance'].cover_img
-    cover_summary = kwargs['instance'].cover_summary
+    cover_img = getattr(kwargs['instance'], 'cover_img', None)
+    cover_summary = getattr(kwargs['instance'], 'cover_summary', None)
     soup = BeautifulSoup(kwargs['instance'].content)
 
     if cover_img:

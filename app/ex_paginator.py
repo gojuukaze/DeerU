@@ -2,17 +2,18 @@ from django.core.paginator import Paginator
 from django.utils.html import format_html
 
 
-class kblogPaginator(Paginator):
-    def __init__(self, object_list, per_page, orphans=0, allow_empty_first_page=True):
+class DeerUPaginator(Paginator):
+    def __init__(self, object_list, per_page, current_page_num, orphans=0, allow_empty_first_page=True):
         super().__init__(object_list, per_page, orphans, allow_empty_first_page)
+        self.current_page_num = current_page_num
         self.start_index = 1
         self.end_index = self.num_pages
 
-    def get_page_list(self, number):
+    def get_page_list(self, number=None):
         """
-        :param number: int
         :return:
         """
+        number = number or self.current_page_num
         result = [None, None, [], None, None]
         if number - 1 > 0:
             result[2].append(number - 1)
@@ -38,15 +39,20 @@ class kblogPaginator(Paginator):
 
     def get_page_html_list(self, number):
         page = self.get_page_list(number)
-        html1 = [{'text': format_html('<span class="icon is-small"><i class="fas fa-angle-double-left"></i></span>'), 'disabled': '', 'is_current': ' ', 'href': ' '},
-                 {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-left"></i></span>'), 'disabled': '', 'is_current': ' ', 'href': ' '},
-                 {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-right"></i></span>'), 'disabled': '', 'is_current': ' ', 'href': ' '},
-                 {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-double-right"></i></span>'), 'disabled': '', 'is_current': ' ', 'href': ' '}]
+        html1 = [{'text': format_html('<span class="icon is-small"><i class="fas fa-angle-double-left"></i></span>'),
+                  'disabled': '', 'is_current': ' ', 'href': ' '},
+                 {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-left"></i></span>'),
+                  'disabled': '', 'is_current': ' ', 'href': ' '},
+                 {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-right"></i></span>'),
+                  'disabled': '', 'is_current': ' ', 'href': ' '},
+                 {'text': format_html('<span class="icon is-small"><i class="fas fa-angle-double-right"></i></span>'),
+                  'disabled': '', 'is_current': ' ', 'href': ' '}]
         i = 0
         for p in page[:2] + page[-2:]:
             if p:
                 html1[i]['href'] = '?page=%d' % (p,)
             else:
+                html1[i]['href'] = 'javascript:void(0)'
                 html1[i]['disabled'] = 'disabled'
             i += 1
 

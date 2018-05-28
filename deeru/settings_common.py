@@ -1,6 +1,6 @@
 import os
 
-from tool.kblog_expression.expressions import BaseExpression
+from tool.deeru_expression.expressions import BaseExpression
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -18,7 +18,7 @@ INSTALLED_APPS = [
 
     'froala_editor',
     'ktag.apps.KtagConfig',
-    'field_extension.apps.FieldExtensionConfig'
+    'app.ex_fields.apps.FieldExtensionConfig'
 
 ]
 
@@ -80,7 +80,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-EXPRESSION = ['tool.kblog_expression.expressions']
+EXPRESSION = ['tool.deeru_expression.expressions']
 
 from importlib import import_module
 

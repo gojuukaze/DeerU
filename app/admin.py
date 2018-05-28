@@ -1,26 +1,27 @@
 from ast import literal_eval
 
+from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 from django.template.loader import render_to_string
 
 # Register your models here.
 from django.core.cache import cache
-from django.utils.safestring import mark_safe
-from ktag.admin import MultipleChoiceAdmin
 
 from app.consts import Global_value_cache_key, Config_Name
-from app.forms import ArticleAdminForm
+from app.ex_admins.admin import FormInitAdmin
+from app.forms import ArticleAdminForm, CategoryAdminForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
     filter_tag_by_article
+from app.ex_admins.list_filter import CategoryFatherListFilter
 from app.manager.manager import update_one_to_many_relation_model, get_tag_for_choice
 from app.app_models.other_model import Album
 from app.app_models.config_model import Config
 from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag
-from tool.kblog_html import Tag as htag
+from tool.deeru_html import Tag as htag
 
 
 @admin.register(Article)
-class ArticleAdmin(MultipleChoiceAdmin):
+class ArticleAdmin(FormInitAdmin):
     form = ArticleAdminForm
     change_form_template = 'app/admin/article_change_form.html'
     search_fields = ['title', 'id']
@@ -67,11 +68,11 @@ class ArticleAdmin(MultipleChoiceAdmin):
 
         self.old_category = list(filter_category_by_article(obj.id))
         self.old_tag = list(filter_tag_by_article(obj.id))
-        self.choice_field_value['category'] = [c.id for c in filter_category_by_article(obj.id)]
-        self.choice_field_value['tag'] = ' '.join([t.name for t in self.old_tag])
+        self.field_init_value['category'] = [c.id for c in filter_category_by_article(obj.id)]
+        self.field_init_value['tag'] = ' '.join([t.name for t in self.old_tag])
 
-        self.choice_field_value['cover_img'] = obj.image
-        self.choice_field_value['cover_summary'] = obj.summary[:-3]
+        self.field_init_value['cover_img'] = obj.image
+        self.field_init_value['cover_summary'] = obj.summary[:-3]
 
         return obj
 
@@ -99,7 +100,7 @@ class ArticleAdmin(MultipleChoiceAdmin):
         return result
 
     def add_view(self, request, form_url='', extra_context=None):
-        self.choice_field_value = {}
+        self.field_init_value = {}
         self.old_category = []
         self.old_tag = []
         return super().add_view(request, form_url, extra_context)
@@ -134,8 +135,16 @@ class ConfigAdmin(admin.ModelAdmin):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name']
+class CategoryAdmin(SortableAdminMixin, admin.ModelAdmin):
+    form = CategoryAdminForm
+    change_list_template = 'app/admin/category_change_list.html'
+    list_display = ['name', 'id', ]
+    search_fields = ['name']
+    list_filter = (
+        CategoryFatherListFilter,
+    )
+
+
 
 
 @admin.register(Tag)

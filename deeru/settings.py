@@ -1,6 +1,6 @@
 import os
 
-from tool.kblog_expression.expressions import BaseExpression
+from tool.deeru_expression.expressions import BaseExpression
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -16,10 +16,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
+    'adminsortable2',
 
     'froala_editor',
     'ktag.apps.KtagConfig',
-    'field_extension.apps.FieldExtensionConfig',
 
     'app.apps.MAppConfig',
     'theme.apps.ThemeConfig',
@@ -85,7 +85,7 @@ USE_L10N = True
 
 USE_TZ = False
 
-EXPRESSION = ['tool.kblog_expression.expressions']
+EXPRESSION = ['tool.deeru_expression.expressions']
 
 from importlib import import_module
 
@@ -104,7 +104,7 @@ for f in EXPRESSION:
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "theme/static"), ]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "theme/static"), ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -149,6 +149,6 @@ CACHES = {
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','192.168.35.206']
+ALLOWED_HOSTS = ['*']
 
 # FROALA_INCLUDE_JQUERY = False

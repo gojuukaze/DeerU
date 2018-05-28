@@ -1,0 +1,25 @@
+{% extends 'adminsortable2/change_list.html' %}
+{% block object-tools-items %}
+    {{ block.super }}
+    {#    <li>#}
+    {#        <a href="mylink/">My Link</a>#}
+    {#    </li>#}
+    <script>
+        django.jQuery(function () {
+            var order_text = django.jQuery('#result_list thead:first tr:first th:nth-child(2) div.text a');
+            order_text.attr('title', '排序仅对一级分类有效');
+            var remove_a = django.jQuery('#result_list thead:first tr:first th:nth-child(2) div.sortoptions a.sortremove');
+
+            remove_a.attr('href', '#');
+            remove_a.attr('title', '排序仅对一级分类有效');
+            var father_id_options = django.jQuery('#toolbar form:first div:first span.changelist-filter-select-wrapper:first select:first').children('option');
+            father_id_options.eq(0).text('所有分类');
+            father_id_options.eq(1).remove();
+
+
+            //remove_a.append(django.jQuery('<p style="font-weight: normal;font-size: 0.85714rem;"><svg xmlns="http://www.w3.org/2000/svg" fill="#8B9AA7" viewBox="0 0 512 512"><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></svg></p>'))
+
+        });
+
+    </script>
+{% endblock %}

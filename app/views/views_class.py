@@ -6,14 +6,15 @@ from app.db_manager.content_manager import filter_article_order_by_id, get_artic
     get_category_by_id, filter_article_by_tag, get_article_meta_by_article, get_tag_by_id, filter_comment_by_article
 from app.forms import CommentForm
 from app.manager.config_manager import get_global_value
-from app.manager.uiconfig_manager import get_top_menu, get_aside_category, get_aside_tags, get_top_ico
-from tool.kblog_paginator import kblogPaginator
+from app.manager.uiconfig_manager import get_top_menu, get_aside_category, get_aside_tags, get_top_ico, \
+    get_aside_category2
+from app.ex_paginator import DeerUPaginator
 
 
 def get_base_data(context):
     context['top_menu'] = get_top_menu()
     context['global_value'] = get_global_value()
-    context['aside_category'] = get_aside_category()
+    context['aside_category'] = get_aside_category2()
     context['aside_tags'] = get_aside_tags()
     context['top_ico'] = get_top_ico()
 
@@ -24,7 +25,7 @@ class ArticleList(ListView):
     paginator = None
     allow_empty = True
 
-    def _get_paginator(self):
+    def _get_paginator(self, page):
         pass
 
     def get_queryset(self):
@@ -32,7 +33,7 @@ class ArticleList(ListView):
         if self.paginator:
             paginator = self.paginator
         else:
-            paginator = self._get_paginator()
+            paginator = self._get_paginator(page)
         if page < 1:
             page = 1
         if page > paginator.end_index:
@@ -46,7 +47,7 @@ class ArticleList(ListView):
         # context['top_menu'] = get_top_menu()
         # context['global_value'] = get_global_value()
         # context['aside_category'] = get_aside_category()
-        context['page_list'] = self.paginator.get_page_html_list(self.page)
+        context['paginator'] = self.paginator
         return context
 
 
@@ -54,8 +55,8 @@ class Home(ArticleList):
     template_name = 'base_theme/home.html'
     context_object_name = 'article_list'
 
-    def _get_paginator(self):
-        self.paginator = kblogPaginator(filter_article_order_by_id(), 7)
+    def _get_paginator(self, page):
+        self.paginator = DeerUPaginator(filter_article_order_by_id(), 7, page)
         return self.paginator
 
 
@@ -87,9 +88,9 @@ class CategoryArticle(ArticleList):
     template_name = 'base_theme/category.html'
     context_object_name = 'article_list'
 
-    def _get_paginator(self):
+    def _get_paginator(self, page):
         category_id = self.kwargs['category_id']
-        self.paginator = kblogPaginator(filter_article_by_category(category_id).order_by('-id'), 7)
+        self.paginator = DeerUPaginator(filter_article_by_category(category_id).order_by('-id'), 7, page)
         return self.paginator
 
     def get_context_data(self, **kwargs):
@@ -106,9 +107,9 @@ class TagArticle(ArticleList):
     template_name = 'base_theme/tag.html'
     context_object_name = 'article_list'
 
-    def _get_paginator(self):
+    def _get_paginator(self, page):
         tag_id = self.kwargs['tag_id']
-        self.paginator = kblogPaginator(filter_article_by_tag(tag_id).order_by('-id'), 7)
+        self.paginator = DeerUPaginator(filter_article_by_tag(tag_id).order_by('-id'), 7, page)
         return self.paginator
 
     def get_context_data(self, **kwargs):
