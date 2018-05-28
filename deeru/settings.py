@@ -7,6 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'bjxu7l2-r*8ar0*#_s360e!jm#5cs$3pd%k(ooz5g*p!72j07t'
 
 INSTALLED_APPS = [
+    # admin扩展
     'jet',
 
     'django.contrib.admin',
@@ -16,14 +17,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
+    'django.contrib.sitemaps',
+    # 分类排序
     'adminsortable2',
-
+    # 富文本
     'froala_editor',
+    # tag输入
     'ktag.apps.KtagConfig',
 
     'app.apps.MAppConfig',
     'theme.apps.ThemeConfig',
-    'scribbler',
 
 ]
 

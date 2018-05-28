@@ -1,3 +1,4 @@
+from django.contrib.sitemaps import Sitemap
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.views.generic import ListView, DetailView

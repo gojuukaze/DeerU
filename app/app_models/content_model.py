@@ -42,6 +42,9 @@ class Article(models.Model):
     def url(self):
         return reverse('app:detail_article', args=(self.id,))
 
+    def get_absolute_url(self):
+        return self.url()
+
     def last_article(self):
         try:
             a = Article.objects.filter(id__lt=self.id).values('id', 'title').order_by('-id')[0]
@@ -148,6 +151,9 @@ class Category(models.Model):
     def url(self):
         return reverse('app:category_article', args=(self.id,))
 
+    def get_absolute_url(self):
+        return self.url()
+
 
 class ArticleCategory(models.Model):
     class Meta:
@@ -176,6 +182,9 @@ class Tag(models.Model):
 
     def url(self):
         return reverse('app:tag_article', args=(self.id,))
+
+    def get_absolute_url(self):
+        return self.url()
 
 
 class ArticleTag(models.Model):

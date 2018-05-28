@@ -1,5 +1,8 @@
 from django.urls import path
+from django.contrib.sitemaps.views import sitemap
+from django.contrib.sitemaps import GenericSitemap
 
+from app.sitemap import article_dict
 from .views import views_class
 from .views import views
 
@@ -15,5 +18,9 @@ urlpatterns = [
     path('image/upload', views.upload_image, name='upload_image'),
     path('images', views.get_album, name='get_album'),
     path('image/delete', views.delete_image, name='delete_image'),
+    path('sitemap.xml', sitemap, {'sitemaps':
+                                      {'article': GenericSitemap(article_dict, priority=0.6), },
+                                  },
+         name='django.contrib.sitemaps.views.sitemap')
 
 ]
