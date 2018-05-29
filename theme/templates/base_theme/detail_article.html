@@ -336,7 +336,7 @@
         </div>
     </div>
     <script>
-        document.title="{{ article.title }} | {{ global_value.title }}";
+        document.title = "{{ article.title }} | {{ global_value.title }}";
         var current_url = document.location.origin + document.location.pathname;
         $('#qrcode_url').qrcode({
             text: current_url,
@@ -407,14 +407,22 @@
 
 {% endblock %}
 
-{% block after_body%}
+{% block after_body %}
     {% if theme_config.baidu_auto_push %}
         <script>
-        console.log("bbbbbbbb");
+            (function () {
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
         </script>
-    {% else %}
-        <script>
-        console.log("ccccccc {{ theme_config.baidu_auto_push }}");
-        </script>
+
     {% endif %}
 {% endblock %}

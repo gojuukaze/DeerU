@@ -19,7 +19,6 @@ def get_base_data(context):
     context['aside_tags'] = get_aside_tags()
     context['top_ico'] = get_top_ico()
     context['theme_config'] = get_theme_config()
-    print(context['global_value'])
 
     return context
 
