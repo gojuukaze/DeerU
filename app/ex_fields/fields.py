@@ -1,5 +1,6 @@
 import json
 from ast import literal_eval
+from pprint import pprint, pformat
 
 from django.db.models import TextField
 from django.forms import Textarea
@@ -23,6 +24,7 @@ class MFroalaField(FroalaField):
 
 
 class ConfigField(TextField):
+
     def to_python(self, value):
         value = super().to_python(value)
         if not value:

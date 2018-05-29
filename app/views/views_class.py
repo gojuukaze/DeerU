@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from app.db_manager.content_manager import filter_article_order_by_id, get_article_by_id, filter_article_by_category, \
     get_category_by_id, filter_article_by_tag, get_article_meta_by_article, get_tag_by_id, filter_comment_by_article
 from app.forms import CommentForm
-from app.manager.config_manager import get_global_value
+from app.manager.config_manager import get_global_value, get_theme_config
 from app.manager.uiconfig_manager import get_top_menu, get_aside_category, get_aside_tags, get_top_ico, \
     get_aside_category2
 from app.ex_paginator import DeerUPaginator
@@ -18,6 +18,8 @@ def get_base_data(context):
     context['aside_category'] = get_aside_category2()
     context['aside_tags'] = get_aside_tags()
     context['top_ico'] = get_top_ico()
+    context['theme_config'] = get_theme_config()
+    print(context['global_value'])
 
     return context
 

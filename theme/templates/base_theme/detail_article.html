@@ -300,7 +300,6 @@
                                         </p>
                                     </div>
 
-
                                     <div class="field">
                                         <p class="control has-icons-left has-icons-right">
                                             <input class="input" type="email" placeholder="邮箱" name="email"
@@ -331,7 +330,6 @@
                                     </div>
                                 </form>
                             </div>
-
                     </article>
                 </div>
             </div>
@@ -407,4 +405,16 @@
 {% block columns_right %}
     {% include "base_theme/aside_right.html" %}
 
+{% endblock %}
+
+{% block after_body%}
+    {% if theme_config.baidu_auto_push %}
+        <script>
+        console.log("bbbbbbbb");
+        </script>
+    {% else %}
+        <script>
+        console.log("ccccccc {{ theme_config.baidu_auto_push }}");
+        </script>
+    {% endif %}
 {% endblock %}

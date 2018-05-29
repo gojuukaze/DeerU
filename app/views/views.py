@@ -27,6 +27,7 @@ def upload_image(request):
 
 @permission_required('app', raise_exception=True)
 def get_album(request):
+
     images = get_all_image()
     return JsonResponse(
         [{'tag': 'img', "url": i.img.url, "thumb": i.img.url, 'id': i.id, 'name': i.img.name} for i in images],
