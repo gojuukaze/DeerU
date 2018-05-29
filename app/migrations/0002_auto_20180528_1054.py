@@ -24,6 +24,11 @@ def init_config(apps, schema_editor):
         # 全局变量
         Config(name=Config_Name['global_value'],
                config='{ "title": "Deeru - 开源博客系统", "blog_name": "Deeru - 开源博客系统", "nickname": "gojuukaze" }'),
+
+        # 主题配置
+        Config(name=Config_Name['theme_config'],
+               config='{ "theme": "base_theme", "baidu_auto_push": 0 }'),
+
     ])
 
 
@@ -41,16 +46,6 @@ def init_img(apps, schema_editor):
     upload_img(Album, 'logo_black.png', os.path.join(base_dir, 'logo_black.png'))
 
     upload_img(Album, 'deeru_green.png', os.path.join(base_dir, 'deeru_green.png'))
-
-    # with open(os.path.join(base_dir, 'logo_white.png'), 'rb')as f:
-    #     logo_white = ImageFile(f)
-    #     a = Album(name='logo_white')
-    #     a.img.save('logo_white.png', logo_white)
-
-    # with open(os.path.join(base_dir, 'logo_black.png'), 'rb')as f:
-    #     logo_black = ImageFile(f)
-    #     a = Album(name='logo_black')
-    #     a.img.save('logo_black.png', logo_black)
 
 
 def init_content(apps, schema_editor):
