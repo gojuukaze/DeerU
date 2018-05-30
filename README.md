@@ -14,3 +14,9 @@ ___
 
 * The Project is Bulding ..
 * 项目施工中~
+
+第一个测试版本已经完成，可以切换到dev分支试用 [https://github.com/gojuukaze/DeerU/tree/dev](https://github.com/gojuukaze/DeerU/tree/dev)
+-------------------------------------------------------------------------------------------------------------------
+测试版截图预览：
+
+<img alt="home" src="https://github.com/gojuukaze/DeerU/blob/dev/docs/source/_static/home.png?raw=true" width="80%">
