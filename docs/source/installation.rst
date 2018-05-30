@@ -14,7 +14,7 @@
 
 .. code-block:: bash
 
-    wget https://raw.githubusercontent.com/gojuukaze/DeerU/dev/install.py | python -
+    wget https://raw.githubusercontent.com/gojuukaze/DeerU/dev/install.py -O - | python -
 
 * 手动安装
 

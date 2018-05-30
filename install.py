@@ -14,7 +14,7 @@ def run():
         print('windows 不支持自动安装')
 
     os.system('git clone -b dev git@github.com:gojuukaze/DeerU.git')
-    os.system('cd DeerU && pip install requirements.txt')
+    os.system('cd DeerU && pip install -r requirements.txt')
     print('\n安装完成 ！！')
 
 
