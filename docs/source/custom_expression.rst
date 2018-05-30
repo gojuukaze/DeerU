@@ -28,25 +28,25 @@ DeerU只提供了几个简单的代码表达式，你可以根据需要自定义
         __init__.py
         custom_expression.py
 
-2. 把你的py文件加入 `settings_local.py` 的 `CUSTOM_EXPRESSION` 中
+2. 把你的py文件加入 ``settings_local.py`` 的 ``CUSTOM_EXPRESSION`` 中
 
 .. code-block:: python
 
     CUSTOM_EXPRESSION=['my_ex.custom_expression']
 
-3. 编写一个你的表达式类，继承 `tool.deeru_expression.expressions.BaseExpression`，并重写 `calculate()`
+3. 编写一个你的表达式类，继承 ``tool.deeru_expression.expressions.BaseExpression``，并重写 ``calculate()``
 
-函数 `format_expression()` 解析表达式时会把表达式分为 表达式名、参数 两部分，
+函数 ``format_expression()`` 解析表达式时会把表达式分为 表达式名、参数 两部分，
 
 这里再次强调以下，表达式名（也就是类名）最终会转为小写
 
 参数 会放到类的成员变量 args 里
 
-表达式名、参数 一定是用'|'分割开，如： `{% ptext | some args %}`
+表达式名、参数 一定是用'|'分割开，如： ``{% ptext | some args %}``
 
 参数部分没有限制，你可以仍然用'|'分割，也可自定义你的参数格式
 
-`calculate()` 的作用是解析参数，并返回需要的结果，它会在执行 `get_result()`时调用。注意： `calculate()` 只会在第一次调用 `get_result()` 时执行，
+``calculate()`` 的作用是解析参数，并返回需要的结果，它会在执行 ``get_result()``时调用。注意： ``calculate()`` 只会在第一次调用 `get_result()` 时执行，
 后面将返回缓存的结果，因此同一个表达式实例不能重复使用
 
 
@@ -86,4 +86,4 @@ DeerU只提供了几个简单的代码表达式，你可以根据需要自定义
 
 至此你已经成功编写了一个表达式，载入表达式需要重启工程
 
-在这里用来一个新的东西 `tool.deeru_html.Tag` 这是DeerU内置的html标签类，关于它的使用你可以在对应章节里找到
+在这里用来一个新的东西 ``tool.deeru_html.Tag`` 这是DeerU内置的html标签类，关于它的使用你可以在对应章节里找到

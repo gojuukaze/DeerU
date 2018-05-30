@@ -5,7 +5,7 @@
 
 .. note::
 
-    在这之前先确保你运行了初始化命令 `python manage.py init_deeru` ，并进入了工程目录.
+    在这之前先确保你运行了初始化命令 ``python manage.py init_deeru`` ，并进入了工程目录.
 
 debug模式运行
 ==============
@@ -18,7 +18,7 @@ debug模式运行
 
 .. warning::
 
-    `python manage.py runserver` 命令只能用于测试，不要在生成环境下使用这个命令部署项目
+    ``python manage.py runserver`` 命令只能用于测试，不要在生成环境下使用这个命令部署项目
 
 如果一切正常你可以打开浏览器访问 `http://127.0.0.1:8000 <http://127.0.0.1:8000>`_ ,正常情况下你将看到如下页面
 
@@ -28,7 +28,7 @@ debug模式运行
 正式部署
 ============
 
-* 正式部署前先把 derru/settings_local.py 中的 `DEBUG` 改为 `False` ，`ALLOWED_HOSTS` 改为你的ip或域名
+* 正式部署前先把 derru/settings_local.py 中的 ``DEBUG`` 改为 ``False`` ，``ALLOWED_HOSTS`` 改为你的ip或域名
 
 .. code-block:: python
 
@@ -68,7 +68,7 @@ django 非debug模式下并不会返回静态文件，你可以用下面两个�
        关于静态文件，媒体文件配置参考Setting中的 STATIC, MEDIA
 
 
-2. 把静态、媒体文件上传到七牛或其他cdn服务商，然后修改 `STATIC_URL` , `MEDIA_URL` 为对应的url（自动上传功能将在之后的版本加入）
+2. 把静态、媒体文件上传到七牛或其他cdn服务商，然后修改 ``STATIC_URL`` , ``MEDIA_URL`` 为对应的url（自动上传功能将在之后的版本加入）
 
 * 部署工程
 

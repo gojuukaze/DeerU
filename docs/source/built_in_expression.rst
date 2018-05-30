@@ -2,7 +2,7 @@
 内置代码表达式
 ===============
 
-你可以在 `tool/deeru_expression/expression.py` 中找到内置代码表达式
+你可以在 ``tool/deeru_expression/expression.py`` 中找到内置代码表达式
 
 
 img
@@ -13,6 +13,7 @@ img
 图片表达式，从上传的图片中获取图片，
 
 第二个参数： id或图片名，也可指定匹配id还是name
+
 第三个参数： 可选，只支持style , 你可以指定返回图片标签的style
 
 例子：

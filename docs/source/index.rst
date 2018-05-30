@@ -24,7 +24,7 @@ Deeru
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: 目录:
 
    installation

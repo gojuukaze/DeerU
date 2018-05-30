@@ -4,12 +4,12 @@ Django Settings
 
 下面只是列举了一些常见配置，以及DeerU的特殊配置，完成配置参考django文档 https://docs.djangoproject.com/zh-hans/2.0/ref/settings/
 
-DeerU所有的配置请在 `deeru.settings_local.py` 中添加或修改
+DeerU所有的配置请在 ``deeru.settings_local.py`` 中添加或修改
 
 数据库配置
 -----------
 
-DeerU默认使用sqlite，如果你需要使用mysql，在 `settings_local.py` 中添加
+DeerU默认使用sqlite，如果你需要使用mysql，在 ``settings_local.py`` 中添加
 
 .. code-block:: python
 
@@ -75,7 +75,7 @@ debug模式下会返回错误信息，不要在生产环境开启
 DEERU_APPS
 -------------------
 
-就是INSTALLED_APPS ，如果你添加了新的app，优先选择在 `DEERU_APP` 中加入
+就是INSTALLED_APPS ，如果你添加了新的app，优先选择在 ``DEERU_APP`` 中加入
 
 STATIC_URL
 -------------
@@ -89,7 +89,7 @@ STATIC_ROOT
 
 默认：工程目录下的 static 文件夹
 
-静态文件保存目录，如果你更改了这一项需要再次初始化项目，或者运行 `python manage.py collectstatic ` 收集静态文件
+静态文件保存目录，如果你更改了这一项需要再次初始化项目，或者运行 ``python manage.py collectstatic `` 收集静态文件
 
 
 MEDIA_URL
@@ -117,7 +117,7 @@ jet配置
 其他配置参考： http://jet.readthedocs.io/en/latest/
 
 froala编辑器配置
------------
+------------------
 
 DeerUh后台富文本编辑器使用 `froala编辑器 <https://github.com/froala/django-froala-editor>`_
 
