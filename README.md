@@ -7,13 +7,14 @@
   </a>
 </p>
 
-[DeerU](https://github.com/gojuukaze/DeerU) is a content management system, used for blogs.
+[DeerU](https://github.com/gojuukaze/DeerU) is a content management system, used for blogs.  
 DeerU 是一个开源博客系统
 ___
 <img alt="building" src="https://github.com/gojuukaze/DeerU/blob/master/building.png?raw=true" width="100">
 
 * The Project is Bulding ..
 * 项目施工中~
+
 
 第一个测试版本已经完成，可以切换到dev分支试用 [https://github.com/gojuukaze/DeerU/tree/dev](https://github.com/gojuukaze/DeerU/tree/dev)
 -------------------------------------------------------------------------------------------------------------------
