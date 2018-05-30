@@ -122,3 +122,28 @@ class TagArticle(ArticleList):
             raise Http404()
         context['tag'] = tag
         return context
+
+
+class DetailFlatPage(DetailView):
+    template_name = 'base_theme/detail_article.html'
+    context_object_name = 'article'
+
+    def get_object(self, queryset=None):
+        self.kwargs['article_id'] = self.kwargs['url']
+        try:
+            article_meta = get_article_meta_by_article(self.kwargs['url'])
+            article_meta.read_num += 1
+            article_meta.save()
+
+        except ObjectDoesNotExist:
+            raise Http404()
+
+        return get_article_by_id(self.kwargs['url'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        get_base_data(context)
+        context['comments'] = filter_comment_by_article(self.kwargs['url'])
+        context['comment_form'] = CommentForm()
+        context['form_error'] = self.request.GET.get('form_error', '')
+        return context

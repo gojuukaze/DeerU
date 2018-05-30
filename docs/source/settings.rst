@@ -2,7 +2,7 @@
 Django Settings
 ================
 
-下面只是列举了一些常见配置，以及DeerU的特殊配置，完成配置参考django文档 https://docs.djangoproject.com/zh-hans/2.0/ref/settings/
+下面只是列举了一些常见配置，以及DeerU的特殊配置，完整配置参考django文档 https://docs.djangoproject.com/zh-hans/2.0/ref/settings/
 
 DeerU所有的配置请在 ``deeru.settings_local.py`` 中添加或修改
 

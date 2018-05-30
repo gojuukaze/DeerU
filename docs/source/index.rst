@@ -35,7 +35,33 @@ Deeru
 License
 =============
 
-DeerU使用 `GNU General Public License v3.0 协议 <https://github.com/gojuukaze/DeerU/blob/master/LICENSE>`_
+DeerU使用 `GNU General Public License v3.0 协议 <https://github.com/gojuukaze/DeerU/blob/master/LICENSE>`_ ，
+你可以在遵循此协议的情况下免费使用DeerU
+
+.. warning::
+
+    需要注意的是，DeerU本身是免费的，但后台管理使用了富文本编辑器froala，其扩展插件并不免费，你可以在以下链接中查看收费信息：
+
+    https://github.com/froala/django-froala-editor#license
+
+    https://froala.com/wysiwyg-editor/pricing
+
+    （ 我会在之后尝试更换其他富文本编辑器，不过这貌似有点困难，开发时试了好多编辑器，这个是最好用 ）
+
+todo
+==========
+
+* 提供单页面支持
+
+* 整理代码
+
+* 尝试支持插件
+
+* 在支持插件的请款下支持主题扩展
+
+* 尝试其他富文本编辑器
+
+* 完善部署文档
 
 
 截图
