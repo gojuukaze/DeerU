@@ -22,7 +22,7 @@
 
     git clone -b dev git@github.com:gojuukaze/DeerU.git
     cd DeerU
-    pip install requirements.txt
+    pip install -r requirements.txt
 
 
 初始化
