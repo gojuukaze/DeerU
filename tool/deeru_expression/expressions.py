@@ -29,7 +29,7 @@ class BaseExpression(object):
         :return:
         """
         if not self.result:
-            self.calculate()
+            self.result = self.calculate()
         return self.result
 
     def __str__(self):
@@ -85,7 +85,7 @@ class Img(BaseExpression):
         for attr in temp_args[1:]:
             k, v = attr.split('=')
             img_tag.set_attr(k, v)
-        self.result = img_tag
+        return img_tag
 
 
 class Fa(BaseExpression):
@@ -116,7 +116,7 @@ class Fa(BaseExpression):
             svg = self.args
         span = HtmlTag('span', attrs=attrs)
         span.append(HtmlTag('i', attrs={'class': svg}))
-        self.result = span
+        return span
 
 
 class Cat(BaseExpression):
@@ -159,17 +159,17 @@ class Cat(BaseExpression):
             raise ExpressionTypeError('表达式 cat 至少需要一个参数')
 
         if not category:
-            self.result = ''
+            return ''
 
         if temp_args[-1] == 'name':
-            self.result = category.name
+            return category.name
         elif temp_args[-1] == 'url':
-            self.result = category.url()
+            return category.url()
 
 
 class Tag(BaseExpression):
     """
-    分类表达式
+    标签表达式
     {% tag| 值 | 返回值(name/url) %}
 
     {% tag| xx | name %} --> 匹配：id=xx 或 name.startswith(xx) 返回name
@@ -207,12 +207,12 @@ class Tag(BaseExpression):
             raise ExpressionTypeError('表达式 tag 至少需要一个参数')
 
         if not tag:
-            self.result = ''
+            return ''
 
         if temp_args[-1] == 'name':
-            self.result = tag.name
+            return tag.name
         elif temp_args[-1] == 'url':
-            self.result = tag.url()
+            return tag.url()
 
 
 class Text(BaseExpression):
@@ -237,4 +237,4 @@ class Text(BaseExpression):
                 raise ExpressionTypeError('表达式 text 可选项只支持style')
             attrs['style'] = v
 
-        self.result = HtmlTag('span', text=args[0], attrs=attrs)
+        return HtmlTag('span', text=args[0], attrs=attrs)

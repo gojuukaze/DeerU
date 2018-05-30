@@ -17,7 +17,7 @@ def init_config(apps, schema_editor):
     Config.objects.using(db_alias).bulk_create([
         # 顶部图标栏
         Config(name=Config_Name['top_ico'],
-               config='{ "left": { "logo": "{%img|logo_white %}", "blog_name": "{%text| 文字标题 | style=font-size:18px %}" }, "right": [ { "img": "{%fa|svg= fab fa-github|style=color:#ffffff;font-size:24px %}", "url": "https://github.com/gojuukaze" }]}'),
+               config='{ "left": { "logo": "{%img|logo_white %}", "blog_name": "{%text| 文字标题 | style=font-size:18px %}" }, "right": [ { "img": "{%fa|svg= fab fa-github|style=color:#ffffff;font-size:24px %}", "url": "https://github.com/gojuukaze/DeerU" } ] }'),
         # 顶部导航栏
         Config(name=Config_Name['top_menu'],
                config='[ { "url": "/", "name": "首页", "img": "{% fa|fas fa-home %}" }, { "name": "折叠菜单", "img": "{% fa|fas fa-list %}", "children": [ { "name": "默认分类", "url": "{% cat|name=默认分类|url%}" }, { "line": "line" }, { "name": "DeerU", "url": "{% tag|DeerU|url%}" } ] } ]'),
@@ -28,7 +28,6 @@ def init_config(apps, schema_editor):
         # 主题配置
         Config(name=Config_Name['theme_config'],
                config='{ "theme": "base_theme", "baidu_auto_push": 0 }'),
-
     ])
 
 

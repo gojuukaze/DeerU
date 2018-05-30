@@ -7,6 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'bjxu7l2-r*8ar0*#_s360e!jm#5cs$3pd%k(ooz5g*p!72j07t'
 
 INSTALLED_APPS = [
+    # admin扩展
     'jet',
 
     'django.contrib.admin',
@@ -15,11 +16,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django.contrib.admindocs',
+    'django.contrib.sitemaps',
+    # 分类排序
+    'adminsortable2',
+    # 富文本
     'froala_editor',
+    # tag输入
     'ktag.apps.KtagConfig',
-    'app.ex_fields.apps.FieldExtensionConfig'
-
 ]
 
 MIDDLEWARE = [
@@ -67,42 +71,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'Asia/Shanghai'
 
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-EXPRESSION = ['tool.deeru_expression.expressions']
-
-from importlib import import_module
-
-EXPRESSION_DICT = {}
-for f in EXPRESSION:
-    exp_mod = import_module(f)
-    for name in dir(exp_mod):
-        if name.startswith('_') or name == 'BaseExpression':
-            continue
-        try:
-            _class = getattr(exp_mod, name)
-            if isinstance(_class(None), BaseExpression):
-                EXPRESSION_DICT[name.lower()] = _class
-        except:
-            pass
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "theme/static"), ]
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
 
 # jet主题
 JET_DEFAULT_THEME = 'light-gray'
@@ -123,4 +94,48 @@ FROALA_EDITOR_OPTIONS = {
 
     'imageManagerDeleteURL': "/image/delete",
     'imageManagerDeleteMethod': "POST",
+    'emoticonsUseImage': False,
 }
+
+###########################
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+    }
+}
+
+# FROALA_INCLUDE_JQUERY = False
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "theme/static"), ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.11/topics/i18n/
+
+LANGUAGE_CODE = 'zh-hans'
+
+TIME_ZONE = 'Asia/Shanghai'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = False
+
+# 表达式
+
+EXPRESSION = ['tool.deeru_expression.expressions']

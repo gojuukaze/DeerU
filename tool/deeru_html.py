@@ -11,19 +11,15 @@ class Tag(object):
 
     extra_close_tag = ['br', 'hr']
 
-    def __init__(self, name_or_tag, text='', attrs=None):
+    def __init__(self, name, text='', attrs=None):
         if attrs is None:
             attrs = {}
-        if isinstance(name_or_tag, str):
-            self.name = name_or_tag
 
-            self.children = []
-            self.text = text
-            self.attrs = attrs
-        elif isinstance(name_or_tag, Tag):
-            self = name_or_tag
-        else:
-            self = None
+        self.name = name
+
+        self.children = []
+        self.text = text
+        self.attrs = attrs
 
     def append(self, tag):
         """
