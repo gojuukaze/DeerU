@@ -7,7 +7,7 @@ Django Settings
 DeerU所有的配置请在 ``deeru.settings_local.py`` 中添加或修改
 
 数据库配置
------------
+-----------e
 
 DeerU默认使用sqlite，如果你需要使用mysql，在 ``settings_local.py`` 中添加
 
