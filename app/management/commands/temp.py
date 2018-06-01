@@ -3,7 +3,7 @@ from pprint import pprint
 from django.core.management import BaseCommand
 
 from app.app_models.content_model import Article
-from app.manager.manager import get_category_for_choice
+from app.manager.ct_manager import get_category_for_choice
 
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt

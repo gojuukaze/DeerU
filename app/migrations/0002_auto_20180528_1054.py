@@ -7,7 +7,7 @@ from django.core.files.images import ImageFile
 from django.db import migrations
 
 from app.consts import Config_Name
-from app.manager.manager import update_one_to_many_relation_model
+from app.manager.ct_manager import update_one_to_many_relation_model
 
 
 def init_config(apps, schema_editor):

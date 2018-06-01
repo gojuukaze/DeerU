@@ -5,7 +5,7 @@ from django.core.management import BaseCommand
 from django.core.management.base import OutputWrapper
 
 from app.app_models.content_model import Article, Category, Tag, ArticleMeta, ArticleCategory, ArticleTag, Comment
-from app.manager.manager import update_one_to_many_relation_model
+from app.manager.ct_manager import update_one_to_many_relation_model
 from tool.datetime_helper import str_to_datetime
 
 try:

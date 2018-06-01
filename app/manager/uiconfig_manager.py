@@ -4,7 +4,7 @@ from app.app_models.content_model import Tag, ArticleTag
 from app.consts import Config_Name
 from app.db_manager.config_manager import get_config_by_name
 from app.db_manager.content_manager import get_tag_by_id
-from app.manager.manager import get_category_tree, get_category_tree2
+from app.manager.ct_manager import get_category_tree, get_category_tree2
 from tool.deeru_exceptions import ConfigNotExistError
 from ast import literal_eval
 

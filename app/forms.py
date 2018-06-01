@@ -1,7 +1,7 @@
 from django import forms
 from ktag.fields import TagField
 
-from app.manager.manager import get_category_for_choice, get_tag_for_choice, get_category_for_category_form_choice
+from app.manager.ct_manager import get_category_for_choice, get_tag_for_choice, get_category_for_category_form_choice
 from app.app_models.content_model import Article, Comment, Category
 
 

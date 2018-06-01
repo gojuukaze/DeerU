@@ -10,6 +10,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('froala_editor/', include('froala_editor.urls')),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
+    path('p/', include('deeru_flatpage.urls')),
 
 ]
 if settings.DEBUG:

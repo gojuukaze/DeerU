@@ -1,3 +1,7 @@
+"""
+category tag manager
+
+"""
 from django.utils.html import format_html
 
 from app.db_manager.content_manager import get_all_category, get_all_tag, get_category_by_id
