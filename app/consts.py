@@ -19,3 +19,5 @@ Comment_Type = (
     (201, '对文章的评论'),
     (202, '对评论的评论')
 )
+
+FLAT_PAGE_URL_CACHE_KEY = '1deeruflatpageurl_cache'

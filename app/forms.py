@@ -1,8 +1,10 @@
 from django import forms
+from django.utils.translation import gettext, gettext_lazy as _
+
 from ktag.fields import TagField
 
 from app.manager.ct_manager import get_category_for_choice, get_tag_for_choice, get_category_for_category_form_choice
-from app.app_models.content_model import Article, Comment, Category
+from app.app_models.content_model import Article, Comment, Category, FlatPage
 
 
 class ArticleAdminForm(forms.ModelForm):
@@ -42,3 +44,48 @@ class CategoryAdminForm(forms.ModelForm):
             self.add_error('father_id', '父目录不能是自己')
             return False
         return True
+
+
+class FlatpageAdminForm(forms.ModelForm):
+    url = forms.RegexField(
+        label='url',
+        max_length=100,
+        regex=r'^[-\w/\.~]+$',
+        help_text="如: '/about/contact/' ，最终url为你设置的前缀+url ",
+        error_messages={
+            "invalid": _(
+                "This value must contain only letters, numbers, dots, "
+                "underscores, dashes, slashes or tildes."
+            ),
+        },
+    )
+
+    class Meta:
+        model = FlatPage
+        fields = '__all__'
+
+    def clean_url(self):
+        url = self.cleaned_data['url']
+        if not url.startswith('/'):
+            raise forms.ValidationError(
+                gettext("URL is missing a leading slash."),
+                code='missing_leading_slash',
+            )
+
+        return url
+
+    def clean(self):
+        url = self.cleaned_data.get('url')
+
+        same_url = FlatPage.objects.filter(url=url)
+        if self.instance.pk:
+            same_url = same_url.exclude(pk=self.instance.pk)
+
+        if same_url.exists():
+            raise forms.ValidationError(
+                _('Flatpage with url %(url)s already exists '),
+                code='duplicate_url',
+                params={'url': url},
+            )
+
+        return super().clean()

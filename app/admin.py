@@ -9,14 +9,14 @@ from django.core.cache import cache
 
 from app.consts import Global_value_cache_key, Config_Name, Theme_config_cache_key
 from app.ex_admins.admin import FormInitAdmin
-from app.forms import ArticleAdminForm, CategoryAdminForm
+from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
     filter_tag_by_article
 from app.ex_admins.list_filter import CategoryFatherListFilter
 from app.manager.ct_manager import update_one_to_many_relation_model, get_tag_for_choice
 from app.app_models.other_model import Album
 from app.app_models.config_model import Config
-from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag
+from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag, FlatPage
 from tool.deeru_html import Tag as htag
 
 
@@ -177,3 +177,17 @@ class AlbumAdmin(admin.ModelAdmin):
         return t.format_html()
 
     show_img.short_description = '图片'
+
+
+@admin.register(FlatPage)
+class FlatPageAdmin(admin.ModelAdmin):
+    form = FlatpageAdminForm
+
+    list_display = ('m_title', 'url')
+    search_fields = ('url', 'title')
+    fields = ('url', 'title', 'content')
+
+    def m_title(self, obj):
+        return render_to_string('app/admin/flatpage_title.html', {'flatpage': obj})
+
+    m_title.short_description = '标题'

@@ -268,3 +268,35 @@ class Comment(models.Model):
             self.email = clean_all_tags(self.email)
         self.content = get_safe_comment_html(self.content)
         super().save(force_insert, force_update, using, update_fields)
+
+
+class FlatPage(models.Model):
+    class Meta:
+        verbose_name = '单页面'
+        verbose_name_plural = '单页面'
+
+    title = models.CharField(verbose_name='标题', max_length=100, null=False, blank=False)
+    url = models.CharField(verbose_name='url', max_length=100, null=False, blank=False)
+    content = MFroalaField(verbose_name='正文', null=False, blank=False,
+                           options={
+                               'height': 300,
+                               'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
+                                                  'paragraphStyle', 'bold', 'italic', 'underline', 'strikeThrough',
+                                                  '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '|',
+                                                  'emoticons', 'insertLink', 'insertImage', 'insertVideo',
+                                                  '-', 'insertTable', 'quote', 'insertHR', 'clearFormatting', 'undo',
+                                                  'redo', 'html',
+                                                  ],
+                           })
+
+    created_time = models.DateTimeField(verbose_name="创建时间", default=timezone.now, editable=False)
+    modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
+
+    def __str__(self):
+        if len(self.title) <= 15:
+            return '单页面-%d<%s>' % (self.id, self.title)
+        else:
+            return '单页面-%d<%s...%s>' % (self.id, self.title[:7], self.title[-8:])
+
+    def get_absolute_url(self):
+        return reverse('app:detail_flatpage', args=(self.url,))

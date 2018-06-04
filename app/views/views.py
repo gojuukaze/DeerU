@@ -1,11 +1,18 @@
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponseForbidden, HttpResponseRedirect, QueryDict
+from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import requires_csrf_token
 
 from app.db_manager.content_manager import get_article_meta_by_article, get_article_by_id
 from app.db_manager.other_manager import create_image, get_all_image, \
     get_image_by_id
 from app.forms import CommentForm
+from app.manager import get_base_context
+
+@requires_csrf_token
+def page_not_found_view(request, exception):
+    return render(request, 'base_theme/404.html', get_base_context({}))
 
 
 @permission_required('app', raise_exception=True)
@@ -27,7 +34,6 @@ def upload_image(request):
 
 @permission_required('app', raise_exception=True)
 def get_album(request):
-
     images = get_all_image()
     return JsonResponse(
         [{'tag': 'img', "url": i.img.url, "thumb": i.img.url, 'id': i.id, 'name': i.img.name} for i in images],

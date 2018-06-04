@@ -71,10 +71,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
-
-
 # jet主题
 JET_DEFAULT_THEME = 'light-gray'
 
@@ -122,7 +118,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -139,3 +134,8 @@ USE_TZ = False
 # 表达式
 
 EXPRESSION = ['tool.deeru_expression.expressions']
+
+FLATPAGE_URL='/p/'
+
+# log
+LOG_DIR=os.path.join(BASE_DIR, 'log')

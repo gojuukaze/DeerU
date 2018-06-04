@@ -1,4 +1,5 @@
-from app.app_models.content_model import Article, Category, ArticleCategory, Tag, ArticleTag, ArticleMeta, Comment
+from app.app_models.content_model import Article, Category, ArticleCategory, Tag, ArticleTag, ArticleMeta, Comment, \
+    FlatPage
 
 
 ################## Article ###############
@@ -169,3 +170,27 @@ def create_comment(nickname, email, content, article_id, root_id, to_id, type):
 
 def filter_comment_by_article(a_id):
     return Comment.objects.filter(article_id=a_id)
+
+
+#################  FlatPage  #######################
+
+def create_flatpage(title, content):
+    return FlatPage.objects.create(title=title, content=content)
+
+
+def get_flatpage_by_id(id):
+    try:
+        return FlatPage.objects.get(id=id)
+    except:
+        return None
+
+
+def get_flatpage_by_url(url):
+    try:
+        FlatPage.objects.get(url=url)
+    except:
+        return None
+
+
+def all_flatpage():
+    return FlatPage.objects.all()
