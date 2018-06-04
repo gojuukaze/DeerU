@@ -7,9 +7,7 @@ urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('admin/', admin.site.urls),
     path('', include('app.urls')),
-    #path(settings.FLATPAGE_URL.lstrip('/'), include('app.urls.flatpage_url')),
 
-    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('froala_editor/', include('froala_editor.urls')),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
 
