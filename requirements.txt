@@ -6,3 +6,4 @@ beautifulsoup4==4.6.0
 django-admin-sortable2==0.6.19
 django-froala-editor==2.8.1.1
 djcacheutils==3.0.0
+Pillow==5.1.0
