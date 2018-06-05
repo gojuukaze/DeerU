@@ -207,3 +207,8 @@ pre {
 .footer strong {
     color: #f5f5f5;
 }
+
+.long_words {
+    word-wrap: break-word;
+    word-break: break-all;
+}
