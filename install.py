@@ -15,7 +15,7 @@ def run():
 
     print('下载DeerU...')
 
-    code = os.system('git clone -b dev git@gitshub.com:gojuukaze/DeerU.git')
+    code = os.system('git clone -b dev https://github.com/gojuukaze/DeerU.git')
     if code != 0:
         print('\n安装失败')
         return
