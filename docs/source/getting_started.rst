@@ -44,19 +44,14 @@ django 非debug模式下并不会返回静态文件，你可以用下面两个�
 
    .. code-block:: nginx
 
-       location ~ ^/static/(.*)$ {
-       alias  /home/username/DeerU/static/$1;
+       location ~ ^/(static|media)/   {
+       root /home/someuser/project/DeerU;
        # 静态文件返回需要增加跨域头，以便支持http访问https
        add_header Access-Control-Allow-Origin *;
        expires 864000;
        }
 
-       location ~ ^/media/(.*)$ {
-       alias  /home/username/DeerU/media/$1;
-       # 静态文件返回需要增加跨域头，以便支持http访问https
-       add_header Access-Control-Allow-Origin *;
-       expires 864000;
-       }
+
    .. note::
 
        如果你没修改过静态文件，媒体文件配置，
@@ -68,15 +63,15 @@ django 非debug模式下并不会返回静态文件，你可以用下面两个�
        关于静态文件，媒体文件配置参考Setting中的 STATIC, MEDIA
 
 
-2. 把静态、媒体文件上传到七牛或其他cdn服务商，然后修改 ``STATIC_URL`` , ``MEDIA_URL`` 为对应的url（自动上传功能将在之后的版本加入）
+2. 你也可以选择把静态、媒体文件上传到七牛或其他cdn服务商，然后修改 ``STATIC_URL`` , ``MEDIA_URL`` 为对应的url（自动上传功能将在之后的版本加入）
 
 * 部署工程
 
-部署参考django的部署方法，dev版本暂不赘述
+部署参考django的部署方法，网上资料很全了，dev版本暂不赘述
 
 1. `Apache + mod_wsgi 部署 <https://docs.djangoproject.com/zh-hans/2.0/howto/deployment/wsgi/modwsgi/>`_
 
-2. `uWSGI 部署 <https://docs.djangoproject.com/zh-hans/2.0/howto/deployment/wsgi/uwsgi/>`_
+2. `Nginx+uWSGI 部署 <https://docs.djangoproject.com/zh-hans/2.0/howto/deployment/wsgi/uwsgi/>`_
 
 3. `其他 <https://docs.djangoproject.com/zh-hans/2.0/howto/deployment/>`_
 
