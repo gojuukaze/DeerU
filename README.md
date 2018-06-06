@@ -38,7 +38,7 @@ ___
 
 ```bash
 
-    git clone -b dev git@github.com:gojuukaze/DeerU.git
+    git clone -b dev https://github.com/gojuukaze/DeerU.git
     cd DeerU
     pip install -r requirements.txt
 ```
@@ -80,7 +80,7 @@ DeerU使用 [GNU General Public License v3.0 协议](https://github.com/gojuukaz
 
 todo
 ----
-* 提供单页面支持
+* 提供单页面支持 [ok]
 * 整理代码
 * 优化表达式
 * 侧边栏扩展
