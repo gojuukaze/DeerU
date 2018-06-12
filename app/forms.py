@@ -1,7 +1,10 @@
+import re
 import traceback
 from ast import literal_eval
 
 from django import forms
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy as _
 
 from ktag.fields import TagField
@@ -55,15 +58,39 @@ class ConfigAdminForm(forms.ModelForm):
         model = Config
         fields = '__all__'
 
+    def check_bool(self, config):
+        """
+        检测bool值
+        :return:
+        """
+        msg = '检测到bool值，请使用0,1代替'
+        if re.search(r':\s*true\s*[,}]', config):
+            raise forms.ValidationError(msg)
+        if re.search(r':\s*True\s*[,}]', config):
+            raise forms.ValidationError(msg)
+        if re.search(r':\s*false\s*[,}]', config):
+            raise forms.ValidationError(msg)
+        if re.search(r':\s*False\s*[,}]', config):
+            raise forms.ValidationError(msg)
+
     def clean_config(self):
-        print('clean')
         config = self.cleaned_data['config']
+        self.check_bool(config)
         try:
             literal_eval(config)
         except:
             s = traceback.format_exc(1)
+            # s = s.replace('\n', '<br>')
+            s = s.replace('<', '&lt;')
+            s = s.replace('>', '&gt;')
+
             s = s.strip().split('\n')
-            s = '[语法错误] %s -- %s' % (s[3].split(',')[1].strip(), s[4].strip())
+            s = '<br>'.join(s[3:-1])
+            s = s.replace(' ', '&nbsp;')
+
+            # s = '[语法错误] %s -- %s' % (s[3].split(',')[1].strip(), s[4].strip())
+            s = '【语法错误】<br>' + s
+            s = mark_safe(s)
             raise forms.ValidationError(s)
 
         return config
