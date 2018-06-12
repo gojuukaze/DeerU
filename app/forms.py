@@ -1,8 +1,12 @@
+import traceback
+from ast import literal_eval
+
 from django import forms
 from django.utils.translation import gettext, gettext_lazy as _
 
 from ktag.fields import TagField
 
+from app.app_models.config_model import Config
 from app.manager.ct_manager import get_category_for_choice, get_tag_for_choice, get_category_for_category_form_choice
 from app.app_models.content_model import Article, Comment, Category, FlatPage
 
@@ -44,6 +48,25 @@ class CategoryAdminForm(forms.ModelForm):
             self.add_error('father_id', '父目录不能是自己')
             return False
         return True
+
+
+class ConfigAdminForm(forms.ModelForm):
+    class Meta:
+        model = Config
+        fields = '__all__'
+
+    def clean_config(self):
+        print('clean')
+        config = self.cleaned_data['config']
+        try:
+            literal_eval(config)
+        except:
+            s = traceback.format_exc(1)
+            s = s.strip().split('\n')
+            s = '[语法错误] %s -- %s' % (s[3].split(',')[1].strip(), s[4].strip())
+            raise forms.ValidationError(s)
+
+        return config
 
 
 class FlatpageAdminForm(forms.ModelForm):

@@ -9,7 +9,7 @@ from django.core.cache import cache
 
 from app.consts import Global_value_cache_key, Config_Name, Theme_config_cache_key
 from app.ex_admins.admin import FormInitAdmin
-from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm
+from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm, ConfigAdminForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
     filter_tag_by_article
 from app.ex_admins.list_filter import CategoryFatherListFilter
@@ -116,6 +116,7 @@ class ArticleAdmin(FormInitAdmin):
 
 @admin.register(Config)
 class ConfigAdmin(admin.ModelAdmin):
+    form = ConfigAdminForm
     is_first = True
     list_display = ['name', 'id']
     fields = ['name', 'config', 'last_config']
