@@ -13,7 +13,7 @@ def get_top_ico():
     config = get_config_by_name(Config_Name['top_ico'])
     if not config:
         raise ConfigNotExistError("配置 '%s' 不存在" % Config_Name['top_ico'])
-    top_ico = literal_eval(config.config)
+    top_ico = literal_eval(config.cache)
     return top_ico
 
 
@@ -21,7 +21,7 @@ def get_top_menu():
     config = get_config_by_name(Config_Name['top_menu'])
     if not config:
         raise ConfigNotExistError("配置 '%s' 不存在" % Config_Name['top_menu'])
-    menu = literal_eval(config.config)
+    menu = literal_eval(config.cache)
     return menu
 
 

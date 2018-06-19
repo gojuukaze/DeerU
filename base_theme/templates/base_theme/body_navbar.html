@@ -6,13 +6,16 @@
             <!-- 网站logo -->
             {% if top_ico.left.logo %}
                 <a href="/" class="navbar-item">
-                    {{ top_ico.left.logo|top_ico_left_logo }}
-                    {#                <img style="max-height: 50px" src="https://www.ikaze.cn/wordpress/wp-content/uploads/2016/03/logo1-1.png" alt="Logo">#}
+                    {{ top_ico.left.logo|get_img }}
                 </a>
             {% endif %}
             {% if top_ico.left.blog_name %}
                 <a href="/" class="navbar-item">
-                    {{ top_ico.left.blog_name|top_ico_left_blog_name }}
+                    {% if top_ico.left.blog_name|type == 'str' %}
+                        <span>{{ top_ico.left.blog_name }}</span>
+                    {% else %}
+                        <span {% for k,v in top_ico.left.blog_name.attrs.items %}{{ k }}='{{ v }}'{% endfor %}>{{ top_ico.left.blog_name.text }}</span>
+                    {% endif %}
                 </a>
             {% endif %}
             <!-- 在手机上显示的菜单图标 -->
@@ -28,8 +31,11 @@
         <!-- 其他item -->
         <div id="headLink" class="navbar-menu">
             <div class="navbar-end">
-                {% for item in top_ico.right|top_ico_right %}
-                    {{ item|safe }}
+                {% for item in top_ico.right %}
+                    <a class="navbar-item" href="{{ item.url }}" target="_blank">
+                    {{ item.img|get_img }}
+                    <span>{{ item.name }}</span>
+                    </a>
                 {% endfor %}
 
             </div>

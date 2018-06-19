@@ -1,7 +1,5 @@
 import os
 
-from tool.deeru_expression.expressions import BaseExpression
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'bjxu7l2-r*8ar0*#_s360e!jm#5cs$3pd%k(ooz5g*p!72j07t'
@@ -113,7 +111,7 @@ CACHES = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "theme/static"), ]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "base_theme/static"), ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -133,9 +131,9 @@ USE_TZ = False
 
 # 表达式
 
-EXPRESSION = ['tool.deeru_expression.expressions']
+EXPRESSION = ['app.deeru_expression.expressions']
 
-FLATPAGE_URL='/p/'
+FLATPAGE_URL = '/p/'
 
 # log
-LOG_DIR=os.path.join(BASE_DIR, 'log')
+LOG_DIR = os.path.join(BASE_DIR, 'log')

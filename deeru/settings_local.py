@@ -6,5 +6,5 @@ CUSTOM_EXPRESSION = []
 
 DEERU_APPS = [
     'app.apps.MAppConfig',
-    'theme.apps.ThemeConfig',
+    'base_theme.apps.BaseThemeConfig',
 ]

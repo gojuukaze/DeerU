@@ -4,7 +4,7 @@
 
 from deeru.settings_common import *
 from deeru.settings_local import *
-
+from app.deeru_expression.expressions import BaseExpression
 INSTALLED_APPS += DEERU_APPS
 
 # 导入表达式

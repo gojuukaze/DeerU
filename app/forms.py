@@ -3,13 +3,13 @@ import traceback
 from ast import literal_eval
 
 from django import forms
-from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy as _
 
 from ktag.fields import TagField
 
 from app.app_models.config_model import Config
+from app.consts import Config_Name
 from app.manager.ct_manager import get_category_for_choice, get_tag_for_choice, get_category_for_category_form_choice
 from app.app_models.content_model import Article, Comment, Category, FlatPage
 
@@ -58,6 +58,12 @@ class ConfigAdminForm(forms.ModelForm):
         model = Config
         fields = '__all__'
 
+    required_keys = {
+        Config_Name['top_ico']: {'left', 'right'},
+        Config_Name['global_value']: {'title', 'blog_name', 'nickname'},
+        Config_Name['theme_config']: {'base_theme'},
+    }
+
     def check_bool(self, config):
         """
         检测bool值
@@ -73,11 +79,26 @@ class ConfigAdminForm(forms.ModelForm):
         if re.search(r':\s*False\s*[,}]', config):
             raise forms.ValidationError(msg)
 
+    def check_keys(self, config):
+        """
+        检测必须的配置项
+        :param config:
+        :return:
+        """
+        name = self.cleaned_data['name']
+        keys = self.required_keys.get(name)
+        if not keys:
+            return
+
+        diff = keys.difference(set(config.keys()))
+        if diff:
+            raise forms.ValidationError('缺少必须项 : ' + str(diff))
+
     def clean_config(self):
         config = self.cleaned_data['config']
         self.check_bool(config)
         try:
-            literal_eval(config)
+            temp = literal_eval(config)
         except:
             s = traceback.format_exc(1)
             # s = s.replace('\n', '<br>')
@@ -92,6 +113,7 @@ class ConfigAdminForm(forms.ModelForm):
             s = '【语法错误】<br>' + s
             s = mark_safe(s)
             raise forms.ValidationError(s)
+        self.check_keys(temp)
 
         return config
 
@@ -133,7 +155,7 @@ class FlatpageAdminForm(forms.ModelForm):
 
         if same_url.exists():
             raise forms.ValidationError(
-                _('Flatpage with url %(url)s already exists '),
+               _('存在相同的url  %(url)s'),
                 code='duplicate_url',
                 params={'url': url},
             )

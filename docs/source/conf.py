@@ -73,7 +73,7 @@ pygments_style = 'sphinx'
 
 # -- Options for HTML output -------------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
+# The base_theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
 html_theme = 'alabaster'
@@ -86,8 +86,8 @@ try:
 except ImportError:
     pass
 
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
+# Theme options are base_theme-specific and customize the look and feel of a base_theme
+# further.  For a list of options available for each base_theme, see the
 # documentation.
 #
 # html_theme_options = {}
@@ -101,7 +101,7 @@ html_static_path = ['_static']
 # to template names.
 #
 # The default sidebars (for documents that don't match any pattern) are
-# defined by theme itself.  Builtin themes are using these templates by
+# defined by base_theme itself.  Builtin themes are using these templates by
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #

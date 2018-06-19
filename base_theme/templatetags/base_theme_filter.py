@@ -1,10 +1,8 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from theme.manager.base_theme_manager import get_top_menu_htmltag_list, get_aside_category_htmltag, \
-    get_aside_tag_htmltag_list, get_comment_tree, get_left_logo_tag, get_left_blog_name_tag, \
-    get_top_ico_right_htmltag_list, get_page_html_list
-from tool.deeru_math import shuffle
+from base_theme.manager.base_theme_manager import get_top_menu_htmltag_list, get_aside_category_htmltag, \
+    get_aside_tag_htmltag_list, get_comment_tree, get_page_html_list, get_img_tag
 
 register = template.Library()
 
@@ -14,26 +12,14 @@ def top_menu(menu_config):
     return get_top_menu_htmltag_list(menu_config)
 
 
-# @register.filter(name='top_ico')
-# def top_ico(ico_config, key):
-#     if key == 'logo':
-#         return get_top_ico_htmltag_list([ico_config[key]])
-#
-#     return get_top_ico_right_htmltag_list(ico_config[key])
-
-@register.filter(name='top_ico_right')
-def top_ico_right(right_config):
-    return get_top_ico_right_htmltag_list(right_config)
+@register.filter(name='get_img')
+def get_img(img_config):
+    return mark_safe(get_img_tag(img_config))
 
 
-@register.filter(name='top_ico_left_logo')
-def top_ico_left_logo(config):
-    return mark_safe(get_left_logo_tag(config))
-
-
-@register.filter(name='top_ico_left_blog_name')
-def top_ico_left_blog_name(config):
-    return mark_safe(get_left_blog_name_tag(config))
+@register.filter(name='type')
+def get_type(arg):
+    return type(arg)
 
 
 @register.filter(name='aside_category')

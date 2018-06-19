@@ -27,7 +27,7 @@ def init_config(apps, schema_editor):
 
         # 主题配置
         Config(name=Config_Name['theme_config'],
-               config='{ "theme": "base_theme", "baidu_auto_push": 0 }'),
+               config='{ "base_theme": "base_theme", "baidu_auto_push": 0 }'),
     ])
 
 

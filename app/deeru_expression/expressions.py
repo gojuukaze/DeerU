@@ -1,7 +1,6 @@
 import re
 
 from tool.deeru_exceptions import ExpressionTypeError
-from tool.deeru_html import Tag as HtmlTag
 
 
 class BaseExpression(object):
@@ -36,11 +35,27 @@ class BaseExpression(object):
         return '%s:"%s"' % (self.__class__, self.args)
 
 
+def get_attrs(args):
+    """
+
+    :param args: list
+    :return:
+    """
+    attrs = {}
+    for temp in args:
+        k, v = temp.split('=')
+        attrs[k.strip()] = v.strip()
+    return attrs
+
+
 class Img(BaseExpression):
     """
     img表达式
+    {% img| src/id/name = xx [|其他属性] %}
 
-    {% img|id_or_name %}     --> 匹配顺序 id>name
+    {% img|src= xx %}
+
+    从图库中选取图片：
 
     {% img|id= 1 %}          --> 匹配 id
 
@@ -48,81 +63,139 @@ class Img(BaseExpression):
 
     {% img|id=xx | style= xx %}
 
-    返回tag
+    返回
+    {
+        "type":'img',
+        "src":'xxx',
+        "attrs":{
+            "style":'xx',
+        }
+
+    }
     """
 
     def calculate(self):
         from app.db_manager.other_manager import get_image_by_id, filter_image_by_start_name
         if not self.args:
             self.args = ''
-        self.args = self.args.strip()
 
-        temp_args = self.args.split('|')
-        img = None
-        id_or_name = temp_args[0].strip()
-        if re.search(r'=', id_or_name):
-            k, v = id_or_name.split('=')
-            k = k.strip()
-            v = v.strip()
-            if k == 'id':
-                img = get_image_by_id(v)
-            elif k == 'name':
-                try:
-                    img = filter_image_by_start_name(v)[0]
-                except:
-                    img = None
+        args = self.args.split('|')
+
+        if len(args) == 0:
+            raise ExpressionTypeError('表达式 text 至少需要一个参数')
+
+        src = ''
+        args_src = args[0]
+        k, v = args_src.split('=')
+        k = k.strip()
+        v = v.strip()
+        if k == 'src':
+            src = v
+        elif k == 'id':
+            img = get_image_by_id(v)
+            if img:
+                src = img.img.url
+        elif k == 'name':
+            try:
+                img = filter_image_by_start_name(v)[0]
+                src = img.img.url
+            except:
+                pass
+        if len(args) > 1:
+
+            attrs = get_attrs(args[1:])
         else:
-            img = get_image_by_id(id_or_name)
-            if not img:
-                try:
-                    img = filter_image_by_start_name(id_or_name)[0]
-                except:
-                    img = None
+            attrs = {}
 
-        img_tag = HtmlTag('img')
-        if img:
-            img_tag.set_attr('src', img.img.url)
-        for attr in temp_args[1:]:
-            k, v = attr.split('=')
-            img_tag.set_attr(k, v)
-        return img_tag
+        return {
+            'type': 'img',
+            'src': src,
+            'attrs': attrs
+        }
+
+
+class Svg(BaseExpression):
+    """
+    svg图片
+
+    {% svg | <svg>...</svg> [|其他属性] %}
+
+    返回
+    {
+        "type":'svg',
+        "svg":'<svg>...</svg>'
+        "attrs":{
+            "style":'xx'
+        }
+    }
+    """
+
+    def calculate(self):
+        if not self.args:
+            self.args = ''
+
+        args = self.args.split('|')
+
+        if len(args) == 0:
+            raise ExpressionTypeError('表达式 text 至少需要一个参数')
+
+        svg = args[0]
+        if len(args) > 1:
+            attrs = get_attrs(args[1:])
+        else:
+            attrs = {}
+        return {
+            'type': 'svg',
+            'svg': svg,
+            'attrs': attrs
+        }
 
 
 class Fa(BaseExpression):
     """
     fontawesome图标表达式
 
-    {% fa|fas xx %}
-    {% fa|svg= fas xx|style=  color:xx; %}
+    {% img| fas xx [|其他属性] %}
 
-    返回tag
+    {% fa|fas xx %}
+    {% fa|fas xx|style=  color:xx; %}
+
+    返回
+    {
+        "type":'fa',
+        "class_":'fas xxx',
+        "attrs":{
+            "style":'xx',
+        }
+
+    }
     """
 
     def calculate(self):
         if not self.args:
             self.args = ''
-        self.args = self.args.strip()
-        attrs = {'class': 'icon'}
-        svg = ''
-        if re.search(r'\|', self.args):
-            for k, v in [temp.split('=') for temp in self.args.split('|')]:
-                k = k.strip()
-                v = v.strip()
-                if k == 'svg':
-                    svg = v
-                elif k == 'style':
-                    attrs['style'] = v
+        args = self.args.split('|')
+
+        if len(args) == 0:
+            raise ExpressionTypeError('表达式 text 至少需要一个参数')
+
+        class_ = args[0]
+        if len(args) > 1:
+            attrs = get_attrs(args[1:])
         else:
-            svg = self.args
-        span = HtmlTag('span', attrs=attrs)
-        span.append(HtmlTag('i', attrs={'class': svg}))
-        return span
+            attrs = {}
+
+        return {
+            'type': 'fa',
+            'class': class_,
+            'attrs': attrs
+        }
 
 
 class Cat(BaseExpression):
     """
     分类表达式
-    {% cat| 值 | 返回值(name/url) %}
+    {% cat| 值 | 返回值 name/url %}
 
     {% cat| xx | name %} --> 匹配：id=xx 或 name.startswith(xx) 返回name
     {% cat| name = xx | name %} --> 匹配name.startswith(xx) 返回name
@@ -170,7 +243,7 @@ class Cat(BaseExpression):
 class Tag(BaseExpression):
     """
     标签表达式
-    {% tag| 值 | 返回值(name/url) %}
+    {% tag| 值 | 返回值 name/url %}
 
     {% tag| xx | name %} --> 匹配：id=xx 或 name.startswith(xx) 返回name
     {% tag| name = xx | name %} --> 匹配name.startswith(xx) 返回name
@@ -218,23 +291,37 @@ class Tag(BaseExpression):
 class Text(BaseExpression):
     """
     分类表达式
-    {% text| 值 | [style] %}
+    {% text| 值 [| 其他属性] %}
 
-    {% text| 1122 %} --> 返回：<span>1122</span>
-    {% text| 1122 | style="color:red;" %} -->  返回：<span style="color:red;">1122</span>
+    {% text| 1122 %}
+    {% text| 1122 | style="color:red;" %}
+
+    返回
+    {
+        "text":'xx',
+        "attrs":{
+            "style":'xx',
+        }
+
+    }
 
     """
 
     def calculate(self):
         if not self.args:
             self.args = ''
-        self.args = self.args.strip()
         args = self.args.split('|')
-        attrs = {}
-        if len(args) == 2:
-            k, v = args[1].split('=')
-            if k.strip() != 'style':
-                raise ExpressionTypeError('表达式 text 可选项只支持style')
-            attrs['style'] = v
 
-        return HtmlTag('span', text=args[0], attrs=attrs)
+        if len(args) == 0:
+            raise ExpressionTypeError('表达式 text 至少需要一个参数')
+
+        text = args[0]
+        if len(args) > 1:
+            attrs = get_attrs(args[1:])
+        else:
+            attrs = {}
+
+        return {
+            'text': text,
+            'attrs': attrs
+        }

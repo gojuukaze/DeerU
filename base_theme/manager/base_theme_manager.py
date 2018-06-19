@@ -1,73 +1,49 @@
 from django.urls import reverse
 from django.utils.html import format_html
 
-from tool.deeru_expression.expressions import BaseExpression
-from tool.deeru_expression.manager import format_expression
 from tool.deeru_html import Tag
-from tool.deeru_math import var, sta
+from tool.deeru_math import var
 
 
-def get_img_tag(img):
-    if not img:
-        return None
-    if isinstance(img, BaseExpression) and isinstance(img.get_result(), Tag):
-        return img.get_result()
-    src = img.get('src', '')
-    width = img.get('width', '')
-    height = img.get('height', '')
-    alt = img.get('alt', '')
-    img_tag = Tag('img', attrs={'src': src, 'width': width, 'height': height, 'alt': alt})
-    if height:
-        img_tag.set_attr('style', 'max-height:' + height)
-    return img_tag
+def get_img_tag(img_cofig, allow_none=False):
+    if not img_cofig:
+        if allow_none:
+            return None
+        else:
+            return Tag('p', '[图片配置错误]')
+    img_tag = None
+    if img_cofig['type'] == 'img':
+        img_tag = Tag('img')
+        img_tag.set_attr('src', img_cofig['src'])
 
+    elif img_cofig['type'] == 'svg':
+        img_tag = Tag.get_tag_from_bs(img_cofig['svg'])
 
-def format_right_ico_config(config):
-    img = format_expression(config.get('img'))
-    url = format_expression(config.get('url', '#'))
-    img_tag = get_img_tag(img)
-    a_tag = Tag('a', attrs={'href': url, 'class': 'navbar-item'})
-    a_tag.append(img_tag)
-    return a_tag
+    elif img_cofig['type'] == 'fa':
 
-
-def get_top_ico_right_htmltag_list(config):
-    result = []
-    for c in config:
-        result.append(format_right_ico_config(c))
-    return result
-
-
-def get_left_logo_tag(config):
-    img = format_expression(config)
-    img_tag = get_img_tag(img)
+        img_tag = Tag('span', attrs={'class': 'icon'})
+        i_tag = Tag('i')
+        i_tag.set_attr('class', img_cofig['class'])
+        img_tag.append(i_tag)
+    if not img_tag:
+        return Tag('p', '图片配置错误')
+    for k, v in img_cofig.get('attrs', {}).items():
+        img_tag.set_attr(k, v)
 
     return img_tag
-
-
-def get_left_blog_name_tag(config):
-    blog_name = format_expression(config)
-    if isinstance(blog_name, BaseExpression):
-        return blog_name.get_result()
-    return blog_name
 
 
 def format_menu_config(config):
-    img = format_expression(config.get('img'))
-    name = format_expression(config.get('name', ''))
-    url = format_expression(config.get('url', ''))
+    img = config.get('img')
+    name = config.get('name', '')
+    url = config.get('url', '')
     line = config.get('line')
     children = config.get('children')
-
-    if isinstance(name, BaseExpression):
-        name = name.get_result()
-    if isinstance(url, BaseExpression):
-        url = url.get_result()
 
     if line:
         return Tag('hr', attrs={'class': "navbar-divider"})
 
-    img_tag = get_img_tag(img)
+    img_tag = get_img_tag(img, allow_none=True)
 
     if children:
 
@@ -76,7 +52,8 @@ def format_menu_config(config):
             children_tag.append(format_menu_config(c))
 
         name_tag = Tag('a', attrs={'class': 'navbar-link', 'href': url})
-        name_tag.append(img_tag)
+        if img_tag:
+            name_tag.append(img_tag)
         name_tag.append(Tag('span', text=name))
         div_tag = Tag('div', attrs={'class': 'navbar-item has-dropdown is-hoverable'})
         div_tag.append(name_tag)
