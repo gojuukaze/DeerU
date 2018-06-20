@@ -1,6 +1,6 @@
-==============
+=================
 自定义代码表达式
-==============
+=================
 
 DeerU只提供了几个简单的代码表达式，你可以根据需要自定义你的表达式，
 
@@ -12,10 +12,10 @@ DeerU只提供了几个简单的代码表达式，你可以根据需要自定义
 
     为了方便，以下所说的表达式特指代码表达式
 
-------------
+-----------------
 
 编写自定义表达式
-------------
+-----------------
 
 
 下面我们开始创建自定义表达式：
@@ -34,7 +34,7 @@ DeerU只提供了几个简单的代码表达式，你可以根据需要自定义
 
     CUSTOM_EXPRESSION=['my_ex.custom_expression']
 
-3. 编写一个你的表达式类，继承 ``tool.deeru_expression.expressions.BaseExpression``，并重写 ``calculate()``
+3. 编写一个你的表达式类，继承 ``app.deeru_expression.expressions.BaseExpression``，并重写 ``calculate()``
 
 函数 ``format_expression()`` 解析表达式时会把表达式分为 表达式名、参数 两部分，
 
@@ -52,16 +52,20 @@ DeerU只提供了几个简单的代码表达式，你可以根据需要自定义
 
 .. code-block:: python
 
-    from tool.deeru_expression.expressions import BaseExpression
-    from tool.deeru_html import Tag as HtmlTag
+    from app.deeru_expression.expressions import BaseExpression,get_attrs
 
 
-    class PText(BaseExpression):
+    class Text(BaseExpression):
     """
-    分类表达式
-    {% ptext| 值 | [style] %}
+    字符表达式
+    {% text| 值 [ | 其他属性] %}
 
-    返回<p>xxx</p>
+    返回{
+        'text':'xx',
+        'attrs':{
+            'style':'xx'
+        }
+    }
     """
 
     def calculate(self):
@@ -71,19 +75,25 @@ DeerU只提供了几个简单的代码表达式，你可以根据需要自定义
         # 这里默认用'|'分割
         args = self.args.split('|')
 
-        attrs = {}
+        if len(args) == 0:
+            raise ExpressionTypeError('表达式 text 至少需要一个参数')
 
-        if len(args) == 2:
-            k, v = args[1].split('=')
-            k=k.strip()
+        text = args[0]
+        if len(args) > 1:
+            attrs = get_attrs(args[1:])
+        else:
+            attrs = {}
 
-            if k != 'style':
-                raise ExpressionTypeError('表达式 text 可选项只支持style')
-            attrs['style'] = v
-
-        return HtmlTag('p', text=args[0], attrs=attrs)
+        return {
+            'text': text,
+            'attrs': attrs
+        }
 
 
 至此你已经成功编写了一个表达式，载入表达式需要重启工程
 
-在这里用来一个新的东西 ``tool.deeru_html.Tag`` 这是DeerU内置的html标签类，关于它的使用你可以在对应章节里找到
+.. note::
+
+    函数 ``calculate()`` 并没有限制返回的数据类型，你可以返回字符串、字典或者html标签（在最早版本的表达式中，就是这样做的）
+
+    不过建议返回字典或字符串，这样更利于主题开发者使用你的表达式返回结果

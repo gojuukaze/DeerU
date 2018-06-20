@@ -51,10 +51,6 @@ DeerU使用 `GNU General Public License v3.0 协议 <https://github.com/gojuukaz
 todo
 ==========
 
-* 提供单页面支持
-
-* 整理代码
-
 * 尝试支持插件
 
 * 在支持插件的情况下支持主题扩展

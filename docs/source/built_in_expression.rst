@@ -2,120 +2,200 @@
 内置代码表达式
 ===============
 
-你可以在 ``tool/deeru_expression/expression.py`` 中找到内置代码表达式
-
+你可以在 ``app/deeru_expression/expression.py`` 中找到内置代码表达式
 
 img
----------------
+-------------
+.. py:class:: Img
 
-* 返回html 标签
+    图片表达式，返回一个"type"为'img'的图片字典
 
-图片表达式，从上传的图片中获取图片，
+    get_result():
+        返回一个图片字典
 
-第二个参数： id或图片名，也可指定匹配id还是name
+        .. code-block:: json
 
-第三个参数： 可选，只支持style , 你可以指定返回图片标签的style
+            {
+                "type":'img',
+                "src":'xxx',
+                "attrs":{
+                    "style":'xx',
+                }
+            }
 
-例子：
+    help:
+        ``{% img| src/id/name = xx [|其他属性] %}``
 
-.. code-block:: python
 
-    {% img|id_or_name %}     --> 匹配顺序 id>name
+        * src/id/name: **必须项** src或id或图片名，若为id,name将从上传的图片中查找
 
-    {% img|id= 1 %}          --> 匹配 id
+        * 其他属性: 可选，图片的属性
 
-    {% img|name= xx %}          --> 匹配 name.startswith('xx')
+    例子:
+        .. code-block:: python
 
-    {% img|id=xx | style= xx %}  --> 你可以指定返回图片标签的style
+            {% img|src= xx %}
 
+            {% img|id= 1 %}          --> 匹配 id
+
+            {% img|name= xx %}          --> 匹配 name.startswith('xx')
+
+            {% img|id=xx | style= height: 100px; width: 120px | alt= 图片 %}
 
 fa
 ---------------
+.. py:class:: Fa
 
-* 返回html 标签
+    `fontawesome <https://fontawesome.com/icons?d=gallery&m=free>`_ 图标表达式，返回一个"type"为'fa'的图片字典，
+    base_theme使用的是fontawesome5版本，你可以在其官网中获取需要的图片，其他主题使用的版本参照主题说明
 
-svg表达式，返回的svg图片，deeru采用 `fontawesome5 <https://fontawesome.com/icons?d=gallery&m=free>`_ 提供的图片，你可以在其官网中获取需要的图片
 
-第二个参数：fontawesome5图标<i>标签class的值， 如这个图标 `address-book <https://fontawesome.com/icons/address-book?style=solid>`_ 第二个参数就是 'fas fa-address-book'
+    get_result():
+        返回一个图片字典
 
-第三个参数：可选，只支持style ，如果有第三个参数，第二个参数必须有'svg='
+        .. code-block:: json
 
-例子：
+            {
+                "type":'fa',
+                "class_":'xxx',
+                "attrs":{
+                    "style":'xx',
+                }
+            }
 
-.. code-block:: python
+    help:
+        ``{% fa| xx [|其他属性] %}``
 
-    {% fa|fas xx %}
 
-    {% fa|svg= fas xx|style=  color:red;font-size:16px; %}
+        * 第1个参数: **必须项** fontawesome图标<i>标签class的值，
+        如这个图标 `address-book <https://fontawesome.com/icons/address-book?style=solid>`_ 第二个参数就是 'fas fa-address-book'
+
+        * 其他属性: 可选，其他属性
+
+    例子:
+        .. code-block:: python
+
+            {% fa|fas fa-address-book %}
+
+            {% fa|fas fa-address-book | style=  color:red;font-size:16px; %}
+
+
+svg
+---------------
+.. py:class:: Svg
+
+    svg图片表达式，返回一个"type"为'svg'的图片字典
+
+    get_result():
+        返回一个图片字典
+
+        .. code-block:: json
+
+            {
+                "type":'fa',
+                "svg":'xxx',
+                "attrs":{
+                    "style":'xx',
+                }
+            }
+
+    help:
+        ``{% svg| <svg>...</svg> [|其他属性] %}``
+
+
+        * 第1个参数: **必须项** svg图片
+
+        * 其他属性: 可选，其他属性
+
+    例子:
+        .. code-block:: python
+
+            {% svg| <svg width="100%" height="100%" version="1.1"xmlns="http://www.w3.org/2000/svg"><path d="M250 150 L150 350 L350 350 Z" /></svg> %}
 
 
 cat
 ---------------
+.. py:class:: Cat
 
-* 返回字符串
+    分类表达式，返回分类的url或名字
 
-分类表达式，返回分类的name/url
+    get_result():
+        根据第2个参数，返回url，或名字
 
-第二个参数：id或分类名，也可指定匹配id还是name
+    help:
+        ``{% cat| id_or_name | 返回值 name/url %}``
 
-第三个参数：必填，指定返回值
+        * id_or_name: *必须项* id或分类名，若不指定id还是name，优先匹配id
 
-例子：
+        * name/url: *必须项* 指定返回值
 
-.. code-block:: python
+    例子:
+        .. code-block:: python
 
-    {% cat| 值 | 返回值(name/url) %}
-
-    {% cat| xx | name %} --> 匹配：id=xx 或 name.startswith(xx) 返回name
+            {% cat| xx | name %} --> 匹配 id=xx 或 name.startswith(xx) 返回name
     
-    {% cat| name = xx | name %} --> 匹配name.startswith(xx) 返回name
+            {% cat| name = xx | name %} --> 匹配name.startswith(xx) 返回name
     
-    {% cat| id = xx | url %} --> 匹配id=xx 返回url
+            {% cat| id = xx | url %} --> 匹配id=xx 返回url
+
 
 
 tag
 ---------------
+.. py:class:: Tag
 
-* 返回字符串
+    标签表达式，返回标签的url或名字
 
-标签表达式，返回分类的name/url
+    get_result():
+        根据第2个参数，返回url，或名字
 
-第二个参数：id或标签名，也可指定匹配id还是name
+    help:
+        ``{% tag| id_or_name | 返回值 name/url %}``
 
-第三个参数：必填，指定返回值
+        * id_or_name: *必须项* id或标签名，若不指定id还是name，优先匹配id
 
-例子：
+        * name/url: *必须项* 指定返回值
 
-.. code-block:: python
+    例子:
+        .. code-block:: python
 
-    {% tag| 值 | 返回值(name/url) %}
+            {% tag| xx | name %} --> 匹配 id=xx 或 name.startswith(xx) 返回name
 
-    {% tag| xx | name %} --> 匹配：id=xx 或 name.startswith(xx) 返回name
-    
-    {% tag| name = xx | name %} --> 匹配name.startswith(xx) 返回name
-    
-    {% tag| id = xx | url %} --> 匹配id=xx 返回url
+            {% tag| name = xx | name %} --> 匹配name.startswith(xx) 返回name
+
+            {% tag| id = xx | url %} --> 匹配id=xx 返回url
 
 
 text
 ---------------
+.. py:class:: Text
 
-* 返回html 标签
+    text表达式，返回text字典
 
-字符表达式，返回 <sapn></span>
+    get_result():
+        返回一个text字典
 
-第二个参数：字符值
+        .. code-block:: json
 
-第三个参数：可选，只支持style
+            {
+                "text":'xx',
+                "attrs":{
+                    "style":'xx',
+                }
 
-例子：
+            }
 
-.. code-block:: python
+    help:
+       ``{% text| 值 [| 其他属性] %}``
 
-    {% text| 值 | [style] %}
+        * 第一个参数: *必须项* text内容
+        * 其他属性: 可选
 
-    {% text| 1122 %} --> 返回：<span>1122</span>
+    例子:
+        .. code-block:: python
+
+            {% text| 1122 %}
     
-    {% text| 1122 | style="color:red;" %} -->  返回：<span style="color:red;">1122</span>
+            {% text| 1122 | style="color:red;" %}
 
 

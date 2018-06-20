@@ -2,13 +2,20 @@
 解析表达式
 ===============
 
-``tool.deeru_expression.manager`` 定义了一个解析表达式的函数
+``app.deeru_expression.manager`` 定义了一个解析表达式的函数
 
-**format_expression(value)**
 
-  参数value是一个表达式字符串，否则将返回value
+.. py:function:: format_expression(value)
 
-  全局变量表达式将返回全局变量值
+    返回:
+        全局变量表达式返回全局变量字符串，
 
-  代码表达式将返回代码表达式的实例化对象，你需要调用 ``get_result()`` 获取解析结果
+        代码表达式返回对应的表达式对象
+
+        非表达式返回value
+    参数:
+        value: 表达式字符串
+
+
+    代码表达式返回的是代码表达式的实例化对象，需要在外部调用 ``get_result()`` 获取解析结果
 
