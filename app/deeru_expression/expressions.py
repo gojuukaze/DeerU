@@ -155,7 +155,7 @@ class Fa(BaseExpression):
     """
     fontawesome图标表达式
 
-    {% img| fas xx [|其他属性] %}
+    {% fa| fas xx [|其他属性] %}
 
     {% fa|fas xx %}
     {% fa|fas xx|style=  color:xx; %}
