@@ -65,6 +65,18 @@ ___
 
 ```
 
+从初始版本升级
+-------
+如果你在提交`fb8d0cd3da89c1`之前就已经使用了DeerU（即重新设计表达式之前的版本）
+
+升级到最新版时老版的配置会无法正常解析。
+你可以有两个方法解决：
+
+1. 用`git pull origin` 拉取最新代码，然后进入后台管理，修改每个配置使其符合新的规则，并点保存（就算配置没有修改也要点保存）
+
+2. 单独备份文章`python manage.py dumpdata app.article >back.json `，然后删除原来的数据库，拉取最新代码并运行初始化命令，
+然后进后台管理修改配置，添加分类。运行`python manage.py loaddata back.json` 恢复文章
+
 license
 -------
 DeerU使用 [GNU General Public License v3.0 协议](https://github.com/gojuukaze/DeerU/blob/master/LICENSE)

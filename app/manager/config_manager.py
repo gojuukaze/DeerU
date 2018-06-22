@@ -44,10 +44,9 @@ def get_theme_config():
 
 from app.deeru_expression.expressions import BaseExpression
 from app.deeru_expression.manager import format_expression
-from tool.deeru_html import Tag
 
 
-def cache_config(config):
+def cache_config(config, is_init=False):
     """
 
     :param config: Config object
@@ -62,19 +61,9 @@ def cache_config(config):
         return
 
     config.cache = str(result)
-    config.set_post_save_flag(False)
+    if not is_init:
+        config.set_post_save_flag(False)
     config.save()
-
-
-def get_img_tag(img):
-    src = img.get('src', '')
-    width = img.get('width', '')
-    height = img.get('height', '')
-    alt = img.get('alt', '')
-    img_tag = Tag('img', attrs={'src': src, 'width': width, 'height': height, 'alt': alt})
-    if height:
-        img_tag.set_attr('style', 'max-height:' + height)
-    return img_tag
 
 
 def get_expression_result(s):

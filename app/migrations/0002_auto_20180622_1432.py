@@ -7,6 +7,7 @@ from django.core.files.images import ImageFile
 from django.db import migrations
 
 from app.consts import Config_Name
+from app.manager.config_manager import cache_config
 from app.manager.ct_manager import update_one_to_many_relation_model
 
 
@@ -17,7 +18,7 @@ def init_config(apps, schema_editor):
     Config.objects.using(db_alias).bulk_create([
         # 顶部图标栏
         Config(name=Config_Name['top_ico'],
-               config='{ "left": { "logo": "{%img|logo_white %}", "blog_name": "{%text| 文字标题 | style=font-size:18px %}" }, "right": [ { "img": "{%fa|svg= fab fa-github|style=color:#ffffff;font-size:24px %}", "url": "https://github.com/gojuukaze/DeerU" } ] }'),
+               config='{ "left": { "logo": "{%img|name=logo_white %}", "blog_name": "{%text| 文字标题 | style=font-size:18px %}" }, "right": [ { "img": "{%fa|fab fa-github|style=color:#ffffff;font-size:24px %}", "url": "https://github.com/gojuukaze/DeerU" } ] }'),
         # 顶部导航栏
         Config(name=Config_Name['top_menu'],
                config='[ { "url": "/", "name": "首页", "img": "{% fa|fas fa-home %}" }, { "name": "折叠菜单", "img": "{% fa|fas fa-list %}", "children": [ { "name": "默认分类", "url": "{% cat|name=默认分类|url%}" }, { "line": "line" }, { "name": "DeerU", "url": "{% tag|DeerU|url%}" } ] } ]'),
@@ -29,6 +30,8 @@ def init_config(apps, schema_editor):
         Config(name=Config_Name['theme_config'],
                config='{ "base_theme": "base_theme", "baidu_auto_push": 0 }'),
     ])
+    for config in Config.objects.all():
+        cache_config(config, True)
 
 
 def upload_img(model, name, path):
@@ -81,8 +84,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(init_config),
         migrations.RunPython(init_img),
         migrations.RunPython(init_content),
+        migrations.RunPython(init_config),
 
     ]
