@@ -3,7 +3,6 @@
 import app.ex_fields.fields
 from django.db import migrations, models
 import django.utils.timezone
-import tool.kblog_model_field
 
 
 class Migration(migrations.Migration):

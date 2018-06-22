@@ -108,3 +108,6 @@ venv.bak/
 .idea
 /static
 /media
+
+files.txt
+setup.py
