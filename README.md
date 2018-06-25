@@ -12,8 +12,10 @@
 DeerU 是一个开源博客系统
 ___
 
+目录
+---
 
-* 项目文档 ：[deeru.readthedocs.io](https://deeru.readthedocs.io)
+* 项目文档 ：[https://deeru.readthedocs.io](https://deeru.readthedocs.io)
 
 安装
 ---
