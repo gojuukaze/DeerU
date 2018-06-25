@@ -105,9 +105,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-.idea
-/static
-/media
+.idea/
+static/
+media/
 
 files.txt
-setup.py

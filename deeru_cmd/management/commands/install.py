@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 import os
 import platform
-
+import shutil
+import subprocess
 from django.core.management import CommandError
 
 from deeru_cmd.management.base import DeerUBaseCommand
@@ -14,7 +15,7 @@ class Command(DeerUBaseCommand):
     """
 
     def add_arguments(self, parser):
-        parser.description = '''安装下载DeerU项目、插件、项目'''
+        parser.description = '''安装下载DeerU项目、插件、主题'''
 
         parser.add_argument('type', type=str, choices=['project', 'plugin', 'theme'], help='安装的类型')
         parser.add_argument('name', type=str, help='名称')
@@ -34,38 +35,52 @@ class Command(DeerUBaseCommand):
             help='从哪个分支下载，mode为pip时无效',
         )
 
+    def get_git_url(self):
+        if self.type == 'project':
+            return 'https://github.com/gojuukaze/DeerU.git'
+
+    def download(self):
+        if self.mode == 'git':
+            url = self.get_git_url()
+            result = subprocess.run('git clone -b %s %s %s' % (url, self.branch, self.name), shell=True)
+            return result
+
     def install_project(self):
         self.info('开始安装DeerU')
         # 环境检测
         if not platform.python_version().startswith('3'):
-            self.error('python版本必须3+，当前版本:' + platform.python_version())
-            return
+            raise CommandError('python版本必须3+，当前版本:' + platform.python_version())
         # if 'windows' in platform.system().lower():
         #     print('windows 不支持自动安装')
 
-        self.info('下载DeerU...')
+        self.info('下载DeerU（使用git模式）...')
+        s = ''
         if os.path.exists(self.name):
-            self.info('已存在相同目录 "%s" ,请选择: d(删除目录); s(跳过下载);  ')
-            s = input()
+            # self.info('已存在相同目录 "%s" ,请选择: d(删除已存在目录); s(跳过下载) ' % self.name)
+            s = input('已存在相同目录 "%s" ,请选择: d(删除已存在目录); s(跳过下载) ' % self.name)
             if s == 'd':
-                os.rmdir(self.name)
+                shutil.rmtree(self.name)
             elif s == 's':
                 pass
             else:
                 raise CommandError('输入错误')
+        if s != 's':
+            result = self.download()
+            if result.returncode != 0:
+                raise CommandError('\n下载DeerU失败')
 
-        code = os.system('git clone -b %s https://github.com/gojuukaze/DeerU.git' % self.branch)
-        if code != 0:
-            raise CommandError('\n下载DeerU失败，检测是否能正常连接github')
         self.info('安装依赖...')
-        code = os.system('cd %s && pip install -r requirements.txt'%self.name)
-        if code != 0:
-            raise CommandError('\n安装依赖失败，检测pypi源是否有')
-        else:
-            self.success('\n安装完成 ！！')
+        result = subprocess.run('pip install -r requirements.txt', cwd=self.name, shell=True)
+        if result.returncode != 0:
+            raise CommandError('\n安装依赖失败')
+
+        self.success('\n安装完成 ！！')
 
     def handle(self, *args, **options):
         self.type = options['type']
         self.name = options['name']
         self.branch = options['branch']
         self.mode = options['mode']
+
+        if self.type == 'project':
+            self.install_project()
