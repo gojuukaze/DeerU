@@ -5,7 +5,9 @@
 from deeru.settings_common import *
 from deeru.settings_local import *
 from app.deeru_expression.expressions import BaseExpression
-INSTALLED_APPS += DEERU_APPS
+
+# app
+INSTALLED_APPS += CUSTOM_APPS
 
 # 导入表达式
 from importlib import import_module

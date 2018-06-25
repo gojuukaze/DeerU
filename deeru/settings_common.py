@@ -22,6 +22,11 @@ INSTALLED_APPS = [
     'froala_editor',
     # tag输入
     'ktag.apps.KtagConfig',
+
+    # deeru
+    'app.apps.MAppConfig',
+    'base_theme.apps.BaseThemeConfig',
+    'deeru_cmd.apps.DeeruCommandConfig',
 ]
 
 MIDDLEWARE = [

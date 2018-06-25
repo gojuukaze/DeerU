@@ -47,17 +47,12 @@ class Command(DeerUBaseCommand):
 
     def install_project(self):
         self.info('开始安装DeerU')
-        # 环境检测
-        if not platform.python_version().startswith('3'):
-            raise CommandError('python版本必须3+，当前版本:' + platform.python_version())
-        # if 'windows' in platform.system().lower():
-        #     print('windows 不支持自动安装')
 
         self.info('下载DeerU（使用git模式）...')
         s = ''
         if os.path.exists(self.name):
             # self.info('已存在相同目录 "%s" ,请选择: d(删除已存在目录); s(跳过下载) ' % self.name)
-            s = input('已存在相同目录 "%s" ,请选择: d(删除已存在目录); s(跳过下载) ' % self.name)
+            s = input('已存在相同目录 "%s" ,请选择: d(删除已存在目录); s(跳过下载): ' % self.name)
             if s == 'd':
                 shutil.rmtree(self.name)
             elif s == 's':
@@ -83,4 +78,5 @@ class Command(DeerUBaseCommand):
         self.mode = options['mode']
 
         if self.type == 'project':
+            self.mode = 'git'
             self.install_project()
