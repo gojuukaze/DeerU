@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     # deeru
     'app.apps.MAppConfig',
     'base_theme.apps.BaseThemeConfig',
-    'deeru_cmd.apps.DeeruCommandConfig',
+    'deeru_cmd.apps.DeeruCmdConfig',
 ]
 
 MIDDLEWARE = [

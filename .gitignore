@@ -106,7 +106,7 @@ venv.bak/
 .mypy_cache/
 
 .idea/
-static/
-media/
+/static
+/media
 
 files.txt

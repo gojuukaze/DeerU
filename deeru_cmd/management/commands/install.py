@@ -42,7 +42,7 @@ class Command(DeerUBaseCommand):
     def download(self):
         if self.mode == 'git':
             url = self.get_git_url()
-            result = subprocess.run('git clone -b %s %s %s' % (url, self.branch, self.name), shell=True)
+            result = subprocess.run('git clone -b %s %s %s' % (self.branch, url, self.name), shell=True)
             return result
 
     def install_project(self):
@@ -80,3 +80,5 @@ class Command(DeerUBaseCommand):
         if self.type == 'project':
             self.mode = 'git'
             self.install_project()
+        elif self.type == 'plugin':
+            pass

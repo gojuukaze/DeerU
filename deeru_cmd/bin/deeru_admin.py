@@ -26,7 +26,7 @@ def run():
         sys.path.insert(0, os.getcwd())
         os.environ['DJANGO_SETTINGS_MODULE'] = 'deeru.settings'
     else:
-        settings.configure(INSTALLED_APPS=['deeru_cmd.apps.DeeruCommandConfig'])
+        settings.configure(INSTALLED_APPS=['deeru_cmd.apps.DeerUCmdConfig'])
 
     management.execute_from_command_line()
 
