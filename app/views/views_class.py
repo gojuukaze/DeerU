@@ -9,11 +9,13 @@ from app.db_manager.content_manager import filter_article_order_by_id, get_artic
     get_flatpage_by_id
 from app.forms import CommentForm
 from app.manager import get_base_context
-from app.manager.config_manager import get_global_value, get_theme_config
+from app.manager.config_manager import get_global_value, get_theme_config, get_theme
 from app.manager.content_manager import get_flatpage_url_dict
 from app.manager.uiconfig_manager import get_top_menu, get_aside_category, get_aside_tags, get_top_ico, \
     get_aside_category2
 from app.ex_paginator import DeerUPaginator
+
+theme = get_theme()
 
 
 class DeerUContextMixin(ContextMixin):
@@ -54,7 +56,7 @@ class ArticleList(ListView):
 
 
 class Home(ArticleList, DeerUContextMixin):
-    template_name = 'base_theme/home.html'
+    template_name = theme+'/home.html'
     context_object_name = 'article_list'
 
     def _get_paginator(self, page):
@@ -63,7 +65,7 @@ class Home(ArticleList, DeerUContextMixin):
 
 
 class DetailArticle(DetailView, DeerUContextMixin):
-    template_name = 'base_theme/detail_article.html'
+    template_name = theme+'/detail_article.html'
     context_object_name = 'article'
 
     def get_object(self, queryset=None):
@@ -86,7 +88,7 @@ class DetailArticle(DetailView, DeerUContextMixin):
 
 
 class CategoryArticle(ArticleList, DeerUContextMixin):
-    template_name = 'base_theme/category.html'
+    template_name = theme+'/category.html'
     context_object_name = 'article_list'
 
     def _get_paginator(self, page):
@@ -105,7 +107,7 @@ class CategoryArticle(ArticleList, DeerUContextMixin):
 
 
 class TagArticle(ArticleList, DeerUContextMixin):
-    template_name = 'base_theme/tag.html'
+    template_name = theme+'/tag.html'
     context_object_name = 'article_list'
 
     def _get_paginator(self, page):
@@ -124,7 +126,7 @@ class TagArticle(ArticleList, DeerUContextMixin):
 
 
 class DetailFlatPage(DetailView, DeerUContextMixin):
-    template_name = 'base_theme/detail_flatpage.html'
+    template_name = theme+'/detail_flatpage.html'
     context_object_name = 'flatpage'
 
     def get_object(self, queryset=None):

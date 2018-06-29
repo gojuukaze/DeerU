@@ -4,17 +4,17 @@
     <div class="container">
         <div class="navbar-brand">
             <!-- 网站logo -->
-            {% if top_ico.left.logo %}
+            {% if config.top_ico.left.logo %}
                 <a href="/" class="navbar-item">
-                    {{ top_ico.left.logo|get_img }}
+                    {{ config.top_ico.left.logo|get_img }}
                 </a>
             {% endif %}
-            {% if top_ico.left.blog_name %}
+            {% if config.top_ico.left.blog_name %}
                 <a href="/" class="navbar-item">
-                    {% if top_ico.left.blog_name|type == 'str' %}
-                        <span>{{ top_ico.left.blog_name }}</span>
+                    {% if config.top_ico.left.blog_name|type == 'str' %}
+                        <span>{{ config.top_ico.left.blog_name }}</span>
                     {% else %}
-                        <span {% for k,v in top_ico.left.blog_name.attrs.items %}{{ k }}='{{ v }}'{% endfor %}>{{ top_ico.left.blog_name.text }}</span>
+                        <span {% for k,v in config.top_ico.left.blog_name.attrs.items %}{{ k }}='{{ v }}'{% endfor %}>{{ config.top_ico.left.blog_name.text }}</span>
                     {% endif %}
                 </a>
             {% endif %}
@@ -31,7 +31,7 @@
         <!-- 其他item -->
         <div id="headLink" class="navbar-menu">
             <div class="navbar-end">
-                {% for item in top_ico.right %}
+                {% for item in config.top_ico.right %}
                     <a class="navbar-item" href="{{ item.url }}" target="_blank">
                     {{ item.img|get_img }}
                     <span>{{ item.name }}</span>
@@ -47,7 +47,7 @@
     <div class="container ">
         <div id="topMenu" class="navbar-menu">
             <div class="navbar-start">
-                {% for m in top_menu|top_menu %}
+                {% for m in config.top_menu|top_menu %}
                     {{ m.format_html }}
                 {% endfor %}
             </div>

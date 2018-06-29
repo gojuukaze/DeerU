@@ -9,7 +9,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 from ktag.fields import TagField
 
 from app.app_models.config_model import Config
-from app.consts import Config_Name
+from app.consts import app_config
 from app.manager.ct_manager import get_category_for_choice, get_tag_for_choice, get_category_for_category_form_choice
 from app.app_models.content_model import Article, Comment, Category, FlatPage
 
@@ -59,9 +59,9 @@ class ConfigAdminForm(forms.ModelForm):
         fields = '__all__'
 
     required_keys = {
-        Config_Name['top_ico']: {'left', 'right'},
-        Config_Name['global_value']: {'title', 'blog_name', 'nickname'},
-        Config_Name['theme_config']: {'base_theme'},
+        app_config['top_ico']: {'left', 'right'},
+        app_config['global_value']: {'title', 'blog_name', 'nickname'},
+        app_config['common_config']: {'theme'},
     }
 
     def check_bool(self, config):

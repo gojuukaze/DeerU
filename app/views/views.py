@@ -9,10 +9,14 @@ from app.db_manager.other_manager import create_image, get_all_image, \
     get_image_by_id
 from app.forms import CommentForm
 from app.manager import get_base_context
+from app.manager.config_manager import get_theme
+
+theme = get_theme()
+
 
 @requires_csrf_token
 def page_not_found_view(request, exception):
-    return render(request, 'base_theme/404.html', get_base_context({}))
+    return render(request, theme + '/404.html', get_base_context({}))
 
 
 @permission_required('app', raise_exception=True)
