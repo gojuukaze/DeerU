@@ -1,5 +1,6 @@
 include LICENSE
 include MANIFEST.in
-graft deeru_cmd
+include {{ app_upper_name}}_README.rst
+graft {{ app_name }}
 global-exclude __pycache__
 global-exclude *.py[co]

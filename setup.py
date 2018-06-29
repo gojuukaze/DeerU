@@ -15,9 +15,13 @@ setup(
     author="gojuukaze",
     author_email="i@ikaze.uu.me",
     python_requires='>=3.5',
+
     install_requires=[
         'Django>=2.0.0',
     ],
+
+    zip_safe=False,
+    include_package_data=True,
 
     packages=find_packages(include=['deeru_cmd*', ]),
 

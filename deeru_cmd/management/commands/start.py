@@ -29,6 +29,18 @@ class Command(DeerUBaseCommand):
                 Path(self.name + '_setup.py')
             ],
             [
+                'consts.py-tpl',
+                Path(self.name) / Path('consts.py')
+            ],
+            [
+                'README.rst-tpl',
+                Path(self.name.upper() + '_README.rst')
+            ],
+            [
+                'MANIFEST.in-tpl',
+                Path('MANIFEST.in')
+            ],
+            [
                 'empty.py-tpl',
                 Path(self.name) / Path('management/__init__.py')
             ],
@@ -102,6 +114,7 @@ class Command(DeerUBaseCommand):
         context = Context({
             'app_name': self.name,
             'app_camel_name': self.name[0].upper() + self.name[1:],
+            'app_upper_name':self.name.upper(),
             'deeru_type': self.type
         }, autoescape=False)
 

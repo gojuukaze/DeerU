@@ -21,18 +21,10 @@ class Command(DeerUBaseCommand):
         parser.add_argument('name', type=str, help='名称')
 
         parser.add_argument(
-            '--mode',
-            default='git',
-            dest='mode',
-            choices=['git', 'pip'],
-            help='用什么方式下载，git：从git仓库下载；pip：从pypi仓库下载。下载DeerU项目默认为git',
-        )
-
-        parser.add_argument(
             '--branch',
             default='master',
             dest='branch',
-            help='从哪个分支下载，mode为pip时无效',
+            help='从哪个分支下载，仅对project有效',
         )
 
     def get_git_url(self):
@@ -40,7 +32,7 @@ class Command(DeerUBaseCommand):
             return 'https://github.com/gojuukaze/DeerU.git'
 
     def download(self):
-        if self.mode == 'git':
+        if self.type == 'project':
             url = self.get_git_url()
             result = subprocess.run('git clone -b %s %s %s' % (self.branch, url, self.name), shell=True)
             return result
@@ -75,10 +67,8 @@ class Command(DeerUBaseCommand):
         self.type = options['type']
         self.name = options['name']
         self.branch = options['branch']
-        self.mode = options['mode']
 
         if self.type == 'project':
-            self.mode = 'git'
             self.install_project()
         elif self.type == 'plugin':
             pass

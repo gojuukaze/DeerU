@@ -4,6 +4,9 @@ from django.apps import AppConfig
 class {{ app_camel_name }}Config(AppConfig):
     name = '{{app_name}}'
 
+    # 获取插件、主题的专业配置路径
+    deeru_config='{{app_name}}.consts.{{app_name}}_config'
+
     # 下面几项暂时没用
 
     # 类型
