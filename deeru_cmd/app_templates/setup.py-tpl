@@ -26,7 +26,6 @@ setup(
 
     classifiers=[
         'Environment :: Web Environment',
-        'Framework :: DeerU',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'Programming Language :: Python :: 3',

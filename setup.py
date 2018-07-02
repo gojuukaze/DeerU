@@ -33,7 +33,6 @@ setup(
 
     classifiers=[
         'Environment :: Web Environment',
-        'Framework :: DeerU',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
