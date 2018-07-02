@@ -3,44 +3,46 @@ import os
 import platform
 import shutil
 import subprocess
+from pathlib import Path
+
 from django.core.management import CommandError
+from django.template import Context, Engine
 
 from deeru_cmd.management.base import DeerUBaseCommand
 
 
 class Command(DeerUBaseCommand):
     """
-    用来临时跑一些东西
-    python manage.py install
+    下载deeru项目
+    python manage.py install_project
     """
+
+    DEERU_GIT_URL = 'https://github.com/gojuukaze/DeerU.git'
+    templates_dir = 'project_templates'
 
     def add_arguments(self, parser):
         parser.description = '''安装下载DeerU项目、插件、主题'''
 
-        parser.add_argument('type', type=str, choices=['project', 'plugin', 'theme'], help='安装的类型')
         parser.add_argument('name', type=str, help='名称')
 
         parser.add_argument(
             '--branch',
             default='master',
             dest='branch',
-            help='从哪个分支下载，仅对project有效',
+            help='从哪个分支下载',
         )
 
-    def get_git_url(self):
-        if self.type == 'project':
-            return 'https://github.com/gojuukaze/DeerU.git'
-
-    def download(self):
-        if self.type == 'project':
-            url = self.get_git_url()
-            result = subprocess.run('git clone -b %s %s %s' % (self.branch, url, self.name), shell=True)
-            return result
+    def get_project_templates(self):
+        return [
+            ['settings_local.py-tpl', Path('deeru/settings_local.py')],
+            ['urls_local.py-tpl', Path('deeru/urls_local.py')]
+        ]
 
     def install_project(self):
         self.info('开始安装DeerU')
 
-        self.info('下载DeerU（使用git模式）...')
+        self.info('下载DeerU ...')
+
         s = ''
         if os.path.exists(self.name):
             # self.info('已存在相同目录 "%s" ,请选择: d(删除已存在目录); s(跳过下载) ' % self.name)
@@ -51,8 +53,9 @@ class Command(DeerUBaseCommand):
                 pass
             else:
                 raise CommandError('输入错误')
+
         if s != 's':
-            result = self.download()
+            result = subprocess.run('git clone -b %s %s %s' % (self.branch, self.DEERU_GIT_URL, self.name), shell=True)
             if result.returncode != 0:
                 raise CommandError('\n下载DeerU失败')
 
@@ -61,14 +64,20 @@ class Command(DeerUBaseCommand):
         if result.returncode != 0:
             raise CommandError('\n安装依赖失败')
 
+        self.info('复制必要文件...')
+
+        context = Context({}, autoescape=False)
+
+        for template_name, new_file in self.get_project_templates():
+            template = Engine().from_string(self.get_template_str(template_name))
+            content = template.render(context)
+            new_file.write_text(content)
+
         self.success('\n安装完成 ！！')
 
     def handle(self, *args, **options):
-        self.type = options['type']
         self.name = options['name']
         self.branch = options['branch']
 
-        if self.type == 'project':
-            self.install_project()
-        elif self.type == 'plugin':
-            pass
+        self.install_project()
+

@@ -5,11 +5,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    path('admin/', admin.site.urls),
-    path('', include('app.urls')),
-
     path('froala_editor/', include('froala_editor.urls')),
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
+
+    path('', include('deeru.urls_local')),
 
 ]
 

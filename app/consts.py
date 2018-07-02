@@ -1,6 +1,6 @@
 Global_value_cache_key = 'Global_value_cache_key'
 
-app_config = {
+app_config_context = {
     'top_ico': '顶部图标栏',
     'top_menu': '顶部导航栏',
     'global_value': '全局变量',

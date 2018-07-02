@@ -5,7 +5,7 @@ class MAppConfig(AppConfig):
     name = 'app'
 
     deeru_type = 'project'
-    deeru_config='app.consts.app_config'
+    deeru_config_context='app.consts.app_config_context'
 
     def ready(self):
         # signals are imported, so that they are defined and can be used

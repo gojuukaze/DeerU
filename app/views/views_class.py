@@ -60,7 +60,8 @@ class Home(ArticleList, DeerUContextMixin):
     context_object_name = 'article_list'
 
     def _get_paginator(self, page):
-        self.paginator = DeerUPaginator(filter_article_order_by_id(), 7, page)
+        per_page = int(self.request.GET.get('per_page', 7))
+        self.paginator = DeerUPaginator(filter_article_order_by_id(), per_page, page)
         return self.paginator
 
 

@@ -13,9 +13,9 @@ from deeru_cmd.management.base import DeerUBaseCommand
 
 class Command(DeerUBaseCommand):
     """
-    用来临时跑一些东西
-    python manage.py install
+    python manage.py start
     """
+    templates_dir = 'app_templates'
 
     def get_app_templates(self):
         app_templates = [
@@ -54,31 +54,31 @@ class Command(DeerUBaseCommand):
             app_templates += [
                 [
                     'empty.py-tpl',
-                    Path(self.name+'/templates/'+self.name) / Path('home.html')
+                    Path(self.name + '/templates/' + self.name) / Path('home.html')
                 ],
                 [
                     'empty.py-tpl',
-                    Path(self.name+'/templates/'+self.name) / Path('detail_article.html')
+                    Path(self.name + '/templates/' + self.name) / Path('detail_article.html')
                 ],
                 [
                     'empty.py-tpl',
-                    Path(self.name+'/templates/'+self.name) / Path('detail_article.html')
+                    Path(self.name + '/templates/' + self.name) / Path('detail_article.html')
                 ],
                 [
                     'empty.py-tpl',
-                    Path(self.name+'/templates/'+self.name) / Path('category.html')
+                    Path(self.name + '/templates/' + self.name) / Path('category.html')
                 ],
                 [
                     'empty.py-tpl',
-                    Path(self.name+'/templates/'+self.name) / Path('tag.html')
+                    Path(self.name + '/templates/' + self.name) / Path('tag.html')
                 ],
                 [
                     'empty.py-tpl',
-                    Path(self.name+'/templates/'+self.name) / Path('404.html')
+                    Path(self.name + '/templates/' + self.name) / Path('404.html')
                 ],
                 [
                     'empty.py-tpl',
-                    Path(self.name+'/templates/'+self.name) / Path('detail_flatpage.html')
+                    Path(self.name + '/templates/' + self.name) / Path('detail_flatpage.html')
                 ],
             ]
         return app_templates
@@ -94,12 +94,6 @@ class Command(DeerUBaseCommand):
             new_dir = os.path.join(self.name, name)
             os.mkdir(new_dir)
 
-    def get_template_str(self, template_name):
-        import deeru_cmd
-        template_dir = deeru_cmd.__path__[0]
-        templdate_file = Path(template_dir) / Path('app_templates') / Path(template_name)
-        return templdate_file.read_text()
-
     def handle(self, *args, **options):
         self.type = options['type']
         self.name = options['name']
@@ -114,7 +108,7 @@ class Command(DeerUBaseCommand):
         context = Context({
             'app_name': self.name,
             'app_camel_name': self.name[0].upper() + self.name[1:],
-            'app_upper_name':self.name.upper(),
+            'app_upper_name': self.name.upper(),
             'deeru_type': self.type
         }, autoescape=False)
 

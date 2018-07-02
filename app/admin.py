@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 # Register your models here.
 from django.core.cache import cache
 
-from app.consts import Global_value_cache_key, app_config, Theme_config_cache_key, Theme_cache_key
+from app.consts import Global_value_cache_key, app_config_context, Theme_config_cache_key, Theme_cache_key
 from app.ex_admins.admin import FormInitAdmin
 from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm, ConfigAdminForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
@@ -139,9 +139,9 @@ class ConfigAdmin(admin.ModelAdmin):
             obj.last_config = self.config_bk
         self.is_first = True
         self.config_bk = None
-        if obj.name == app_config['global_value']:
+        if obj.name == app_config_context['global_value']:
             cache.set(Global_value_cache_key, literal_eval(obj.config), 3600)
-        elif obj.name == app_config['common_config']:
+        elif obj.name == app_config_context['common_config']:
             cache.set(Theme_cache_key, literal_eval(obj.config)['theme'], 3600)
 
         return super().save_model(request, obj, form, change)

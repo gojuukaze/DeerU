@@ -110,3 +110,6 @@ venv.bak/
 /media
 
 files.txt
+
+deeru/settings_local.py
+deeru/urls_local.py

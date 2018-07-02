@@ -7,12 +7,12 @@ def get_config_context():
     result = {}
 
     for app in apps.get_app_configs():
-        deeru_config = getattr(app, 'deeru_config', None)
+        deeru_config = getattr(app, 'deeru_config_context', None)
         if deeru_config:
             deeru_config = deeru_config.split('.')
             module_name = '.'.join(deeru_config[:-1])
             consts = importlib.import_module(module_name)
-            app_config = getattr(consts, app.name + '_config', {})
+            app_config = getattr(consts, app.name + '_config_context', {})
             for k, v in app_config.items():
                 config = get_config_by_name(v)
                 if config:
