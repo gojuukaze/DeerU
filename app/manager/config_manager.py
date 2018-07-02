@@ -1,6 +1,7 @@
 from django.core.cache import cache
 
-from app.consts import app_config_context, Global_Value_Default, Global_value_cache_key, Theme_config_cache_key, Theme_cache_key
+from app.consts import app_config_context, Global_Value_Default, Global_value_cache_key, Theme_config_cache_key, \
+    Theme_cache_key
 from app.db_manager.config_manager import get_config_by_name
 from ast import literal_eval
 
@@ -38,14 +39,16 @@ def get_theme_config():
 
 
 def get_theme():
-
     try:
         theme = cache.get(Theme_cache_key, None)
         assert theme is not None
 
     except:
         config = get_config_by_name(app_config_context['common_config'])
-        theme = literal_eval(config.cache)['theme']
+        try:
+            theme = literal_eval(config.cache)['theme']
+        except:
+            theme = 'base_theme'
         cache.set(Theme_config_cache_key, theme, 3600)
 
     return theme
