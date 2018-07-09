@@ -15,6 +15,7 @@ class Command(DeerUBaseCommand):
     """
     python manage.py start
     """
+    NEED_PROJECT = True
     templates_dir = 'app_templates'
 
     def get_app_templates(self):
@@ -34,11 +35,15 @@ class Command(DeerUBaseCommand):
             ],
             [
                 'README.rst-tpl',
-                Path(self.name.upper() + '_README.rst')
+                Path('README.rst')
             ],
             [
                 'MANIFEST.in-tpl',
                 Path('MANIFEST.in')
+            ],
+            [
+                'git_add.py-tpl',
+                Path('git_add.sh')
             ],
             [
                 'empty.py-tpl',

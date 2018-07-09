@@ -1,0 +1,4 @@
+git add .gitignore
+git add {{ app_name }}*
+git add README.*
+git add MANIFEST.in

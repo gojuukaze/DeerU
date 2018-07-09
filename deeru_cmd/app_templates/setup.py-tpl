@@ -16,10 +16,6 @@ setup(
     author="",
     author_email="",
     python_requires='>=3.5',
-    install_requires=[
-        'Django>=2.0.0',
-        'DeerU',
-    ],
 
     packages=find_packages(include=['{{app_name}}*', ]),
 
@@ -41,9 +37,5 @@ setup(
 
     ],
 
-    project_urls={
-        'Documentation': '',
-        'Source': '',
-    },
 
 )
