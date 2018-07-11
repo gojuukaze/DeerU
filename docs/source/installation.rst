@@ -2,21 +2,33 @@
 安装
 ============
 
-* 安装之前建议配置虚拟环境
+安装前先确保你已经安装了以下程序：
+
+* Python 3.5+
+* pip 10+
+* git
+
+
+
+另外安装之前建议配置虚拟环境
 
 .. code-block:: bash
 
-    pip install virtualenv
+    pip3 install virtualenv
     virtualenv --no-site-packages deeru_env
     source deeru_env/bin/activate
+    # in windows, run this:
+    # deeru_env/Scripts/activate
 
-* Linux/Mac OS 可以使用自动安装脚本安装
+使用pip安装
+-----------
 
 .. code-block:: bash
 
-    wget https://raw.githubusercontent.com/gojuukaze/DeerU/dev/install.py -O - | python -
+    pip install deeru
 
-* 手动安装
+从git仓库安装
+-------------
 
 .. code-block:: bash
 
@@ -24,13 +36,29 @@
     cd DeerU
     pip install -r requirements.txt
 
+手动创建 ``deeru/urls_local.py`` 文件，内容如下:
 
-初始化
-=============
+.. code-block:: python
 
-* 运行下面命令初始化项目，注意：如果你更改了数据库的配置，或者修改了主题的静态文件 则需要再次运行初始化
+    from django.contrib import admin
+    from django.urls import path, include
 
-.. code-block:: bash
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('app.urls')),
+    ]
 
-    cd DeerU # 如果你没进入工程目录先进入
-    python manage.py init_deeru
+手动创建 ``deeru/settings_local.py`` 文件，内容如下:
+
+.. code-block:: python
+
+    DEBUG = True
+
+    ALLOWED_HOSTS = ['*']
+
+    CUSTOM_EXPRESSION = []
+
+    CUSTOM_APPS = [
+
+    ]
+

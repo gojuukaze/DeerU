@@ -27,9 +27,12 @@ Deeru
    :maxdepth: 5
    :caption: 目录:
 
+
    installation
+   upgrade
+   user_guide/index
+   developer_guide/index
    overview
-   settings
    change_log
 
 License
@@ -47,17 +50,6 @@ DeerU使用 `GNU General Public License v3.0 协议 <https://github.com/gojuukaz
     https://froala.com/wysiwyg-editor/pricing
 
     （ 我会在之后尝试更换其他富文本编辑器，不过这貌似有点困难，开发时试了好多编辑器，这个是最好用 ）
-
-todo
-==========
-
-* 尝试支持插件
-
-* 在支持插件的情况下支持主题扩展
-
-* 尝试其他富文本编辑器
-
-* 完善部署文档
 
 
 截图

@@ -39,7 +39,8 @@ class Command(BaseCommand):
 
         parser.add_argument(
             '--mode',
-            default='act',
+            default='a',
+            choices=['a', 'c', 't'],
             dest='mode',
             help='default:a; 想要导入的内容 ( a:article+comment+category+tag, c:category, t:tag )',
         )
