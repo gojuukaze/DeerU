@@ -200,7 +200,7 @@
                     <strong id="comment_header" style="font-size: larger">本文共 {{ article.meta_data.comment_num }}
                         个回复</strong></div>
                 <div id="comment">
-                    {% for c in article.comments|comment_tree %}
+                    {% for c in article.format_comments %}
 
                         <article class="media">
                             <figure class="media-left img_head">
@@ -222,14 +222,14 @@
                                         <a href="#comment_help" class="level-item" article_id="{{ article.id }}"
                                            onclick="changeForm(202,{{ c.comment.id }},{{ c.comment.id }},'{{ c.comment.nickname }}')">
                                             <span class="icon is-small"><i class="far fa-comment-dots"></i></span>
-                                            <p>&nbsp回复{% if c.child %}&nbsp({{ c.child|length }}){% endif %}</p>
+                                            <p>&nbsp回复{% if c.children %}&nbsp({{ c.children|length }}){% endif %}</p>
                                         </a>
                                     </div>
 
                                 </nav>
 
 
-                                {% for child in c.child %}
+                                {% for child in c.children %}
                                     <article class="media">
 
                                         <figure class="media-left is-hidden-touch img_head">

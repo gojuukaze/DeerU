@@ -52,7 +52,7 @@ def comment_tree(comments):
 
     child：包含评论的回复，和对这条评论下回复的回复，child不会再有child
 
-    [ { 'comment' : Comment , 'child': [ {'comment' : Comment, 'to_nickname':'xx'} ] } ,{...}]
+    [ { 'comment' : Comment , 'children': [ {'comment' : Comment, 'to_nickname':'xx'} ] } ,{...}]
     :return:
     """
     t = get_comment_tree(comments)

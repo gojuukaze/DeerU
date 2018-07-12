@@ -155,9 +155,9 @@ def get_comment_tree(comments):
         返回排序后的评论树
         以下说的 评论、回复 其实是一个东西，方便区分用了两个词，具体看类Comment的说明
 
-        child：包含评论的回复，和对这条评论下回复的回复，child不会再有child
+        child：包含评论的回复，和对这条评论下回复的回复，children不会再有children
 
-        [ { 'comment' : Comment , 'child': [ {'comment' : Comment, 'to_nickname':'xx'} ] } ,{...}]
+        [ { 'comment' : Comment , 'children': [ {'comment' : Comment, 'to_nickname':'xx'} ] } ,{...}]
         :return:
     """
     result = []
@@ -172,7 +172,7 @@ def get_comment_tree(comments):
     for c in comments:
         if c.type == 201:
             # 根评论
-            result.append({'comment': c, 'child': []})
+            result.append({'comment': c, 'children': []})
             root_comment_id_to_pos[c.id] = r_pos
             r_pos += 1
         else:
@@ -181,7 +181,7 @@ def get_comment_tree(comments):
 
             root_pos = root_comment_id_to_pos[c.root_id]
 
-            result[root_pos]['child'].append({'comment': c, 'to_nickname': to_comment.nickname})
+            result[root_pos]['children'].append({'comment': c, 'to_nickname': to_comment.nickname})
 
         comment_id_to_pos[c.id] = c_pos
         c_pos += 1
