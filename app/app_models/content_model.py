@@ -154,6 +154,14 @@ class Category(models.Model):
     def get_absolute_url(self):
         return self.url()
 
+    def get_article_category_list(self):
+        from app.db_manager.content_manager import filter_article_category_by_category
+        return filter_article_category_by_category(self.id)
+
+    def get_article_list(self):
+        from app.db_manager.content_manager import filter_article_by_category
+        return filter_article_by_category(self.id)
+
 
 class ArticleCategory(models.Model):
     class Meta:
@@ -185,6 +193,14 @@ class Tag(models.Model):
 
     def get_absolute_url(self):
         return self.url()
+
+    def get_article_tag_list(self):
+        from app.db_manager.content_manager import filter_article_tag_by_tag
+        return filter_article_tag_by_tag(self.id)
+
+    def get_article_list(self):
+        from app.db_manager.content_manager import filter_article_by_tag
+        return filter_article_by_tag(self.id)
 
 
 class ArticleTag(models.Model):
@@ -237,13 +253,13 @@ class Comment(models.Model):
     注意区分root_id和to_id，
     回复才有to_id
     如：
-    
+
     文章-0
        |__ 评论-1
               |__ 回复-2
               |__ 回复-3
                      |__ 回复-3-1 
-    
+
     评论-1   ：root_id是 文章-0 的id
     回复-2   ：root_id是 评论-1 的id; to_id是 -1;
     回复-3   ：root_id是 评论-1 的id; to_id是 -1;

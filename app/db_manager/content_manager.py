@@ -39,6 +39,10 @@ def filter_article_order_by_id(desc=True):
     return Article.objects.filter().order_by('-id' if desc else 'id')
 
 
+def get_all_article():
+    return Article.objects.all()
+
+
 def filter_article_by_id():
     return Article.objects.filter(id=id)
 
