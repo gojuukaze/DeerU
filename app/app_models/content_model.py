@@ -258,11 +258,11 @@ class Comment(models.Model):
        |__ 评论-1
               |__ 回复-2
               |__ 回复-3
-                     |__ 回复-3-1 
+                     |__ 回复-3-1
 
     评论-1   ：root_id是 文章-0 的id
-    回复-2   ：root_id是 评论-1 的id; to_id是 -1;
-    回复-3   ：root_id是 评论-1 的id; to_id是 -1;
+    回复-2   ：root_id是 评论-1 的id; to_id是 评论-1 的id;
+    回复-3   ：root_id是 评论-1 的id; to_id是 评论-1 的id;
     回复-3-1 ：root_id是 评论-1 的id; to_id是 回复-3 的id;
     """
 
