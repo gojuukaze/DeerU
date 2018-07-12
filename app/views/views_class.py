@@ -94,7 +94,8 @@ class CategoryArticle(ArticleList, DeerUContextMixin):
 
     def _get_paginator(self, page):
         category_id = self.kwargs['category_id']
-        self.paginator = DeerUPaginator(filter_article_by_category(category_id).order_by('-id'), 7, page)
+        per_page = int(self.request.GET.get('per_page', 7))
+        self.paginator = DeerUPaginator(filter_article_by_category(category_id).order_by('-id'), per_page, page)
         return self.paginator
 
     def get_context_data(self, **kwargs):
@@ -113,7 +114,8 @@ class TagArticle(ArticleList, DeerUContextMixin):
 
     def _get_paginator(self, page):
         tag_id = self.kwargs['tag_id']
-        self.paginator = DeerUPaginator(filter_article_by_tag(tag_id).order_by('-id'), 7, page)
+        per_page = int(self.request.GET.get('per_page', 7))
+        self.paginator = DeerUPaginator(filter_article_by_tag(tag_id).order_by('-id'), per_page, page)
         return self.paginator
 
     def get_context_data(self, **kwargs):
