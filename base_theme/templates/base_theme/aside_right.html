@@ -13,7 +13,7 @@
         <div class="panel-block" style="padding-bottom: 24px;border-bottom: 0">
             <div class="field is-grouped-multiline">
 
-                {% for t,num,f_size in aside_tags|aside_tags %}
+                {% for t,num,f_size in tags|aside_tags %}
                     <a class="button" style="margin: 3px;color: #666;font-size: 13px"
                        href="{% url 'app:tag_article' t.id %}"><span>{{ t.name }}</span></a>
                 {% endfor %}
@@ -32,7 +32,7 @@
 
         <div class="panel-block" style="padding-bottom: 24px;padding-top: 0">
             <div style="width: 100%">
-                {% for c in aside_category %}
+                {% for c in category %}
                     <div class="control border-bt-line red_child_a">
                         <a class="red_a" href="{{ c.category.url }}">{{ c.category.name }} </a>
                         {% if c.children %}
