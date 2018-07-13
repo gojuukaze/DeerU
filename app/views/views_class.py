@@ -133,7 +133,7 @@ class DetailFlatPage(DetailView, DeerUContextMixin):
         urld = get_flatpage_url_dict()
         try:
             page_id = urld[self.kwargs['url']]
-        except ObjectDoesNotExist:
+        except:
             raise Http404()
 
         return get_flatpage_by_id(page_id)
