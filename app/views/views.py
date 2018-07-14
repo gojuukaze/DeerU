@@ -61,13 +61,14 @@ def create_comment(request):
         if form.is_valid():
             article_id = form.cleaned_data['article_id']
             article = get_article_by_id(article_id)
+            anchor = request.POST.get('anchor', '')
 
             if not article:
                 msg = '错误id'
                 return HttpResponseRedirect(
-                    reverse('app:detail_article', args=(article_id,)) + '?form_error=' + msg + '#comment')
+                    reverse('app:detail_article', args=(article_id,)) + '?form_error=' + msg + anchor)
             # article_meta.comment_num += 1
             # article_meta.save()
             form.save()
 
-            return HttpResponseRedirect(reverse('app:detail_article', args=(article_id,)) + '#comment')
+            return HttpResponseRedirect(reverse('app:detail_article', args=(article_id,)) + anchor)

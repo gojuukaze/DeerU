@@ -79,7 +79,7 @@ class Article(models.Model):
 
     def format_comments(self):
         """
-        处理排序后的评论
+        返回按父子结构整理后的评论
         以下说的 评论、回复 其实是一个东西，方便区分用了两个词，具体看类Comment的说明
 
         child：包含评论的回复，和对这条评论下回复的回复，children不会再有children
