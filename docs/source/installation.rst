@@ -6,9 +6,12 @@
 
 安装前先确保你已经安装了以下程序：
 
-* Python 3.5+
+* Python 3.5+ -- 安装教程 https://www.ikaze.cn/article/28
 * pip 10+
 * git
+* libjpeg，zlib -- pillow包的依赖 
+    - ubuntu: ``apt-get install libjpeg8-dev zlib1g-dev libfreetype6-dev`` 
+    - centos: ``yum -y install python-devel zlib-devel libjpeg-turbo-devel`` 
 
 
 
