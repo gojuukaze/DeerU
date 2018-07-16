@@ -29,7 +29,9 @@
 
 [DeerU](https://github.com/gojuukaze/DeerU) is a content management system, used for blogs.
 
-DeerU 是一个开源博客系统，它基于Django开发。它提供了丰富的json数据接口，前端开发人员可以不依赖Django模板，方便的开发主题，实现前后端分离。
+DeerU 是一个开源博客系统，它基于Django开发。  
+
+它提供了丰富的json数据接口，前端开发人员可以不依赖Django模板，方便的开发主题，实现前后端分离。
 ___
 
 依赖
