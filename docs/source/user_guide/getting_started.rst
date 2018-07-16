@@ -4,6 +4,8 @@
 
 安装完成后下面我们测试一下DeerU是否能正常运行
 
+.. _init-deeru:
+
 初始化
 =========
 
@@ -23,6 +25,8 @@
         path('admin123/', admin.site.urls),
     ]
 
+
+.. _runserver-debug:
 
 debug模式运行
 =================

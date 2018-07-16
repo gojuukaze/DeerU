@@ -24,7 +24,7 @@ img类型
 
         {
             "type":'img',
-            "src":'xxx',
+            "src":'/media/logo_white.png',
             "attrs":{
                 "style":'xx',
                 "hight":'xx',

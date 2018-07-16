@@ -58,6 +58,8 @@
 
     初始化数据库，收集静态文件
 
+.. _import-wordpress:
+
 从wordprees导入
 ----------------------------------
 .. py:data:: import_wordpress

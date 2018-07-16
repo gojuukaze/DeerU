@@ -32,7 +32,6 @@ Deeru
    upgrade
    user_guide/index
    developer_guide/index
-   overview
    change_log
 
 License

@@ -1,10 +1,15 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
 from app.consts import Comment_Type
-from app.ex_fields.fields import MFroalaField
+from app.manager import get_rich_text_filed
 from tool.html_helper import clean_all_tags, get_safe_comment_html
+
+deeru_rich_editor = settings.DEERU_RICH_EDITOR
+
+DeerURichFiled = get_rich_text_filed(deeru_rich_editor['filed'])
 
 __all__ = ['Article', 'ArticleMeta', 'Category', 'ArticleCategory', 'Tag', 'ArticleTag']
 
@@ -18,17 +23,7 @@ class Article(models.Model):
     summary = models.CharField(verbose_name='摘要', max_length=200, null=True, blank=True, editable=False)
     image = models.CharField(verbose_name='图片', max_length=200, null=True, blank=True, editable=False)
 
-    content = MFroalaField(verbose_name='正文', null=False, blank=False,
-                           options={
-                               'height': 300,
-                               'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
-                                                  'paragraphStyle', 'bold', 'italic', 'underline', 'strikeThrough',
-                                                  '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '|',
-                                                  'emoticons', 'insertLink', 'insertImage', 'insertVideo',
-                                                  '-', 'insertTable', 'quote', 'insertHR', 'clearFormatting', 'undo',
-                                                  'redo', 'html',
-                                                  ],
-                           })
+    content = DeerURichFiled(verbose_name='正文', null=False, blank=False, **deeru_rich_editor['article_kwargs'])
 
     created_time = models.DateTimeField(verbose_name="创建时间", default=timezone.now, editable=False)
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
@@ -293,17 +288,7 @@ class FlatPage(models.Model):
 
     title = models.CharField(verbose_name='标题', max_length=100, null=False, blank=False)
     url = models.CharField(verbose_name='url', max_length=100, null=False, blank=False)
-    content = MFroalaField(verbose_name='正文', null=False, blank=False,
-                           options={
-                               'height': 300,
-                               'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
-                                                  'paragraphStyle', 'bold', 'italic', 'underline', 'strikeThrough',
-                                                  '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '|',
-                                                  'emoticons', 'insertLink', 'insertImage', 'insertVideo',
-                                                  '-', 'insertTable', 'quote', 'insertHR', 'clearFormatting', 'undo',
-                                                  'redo', 'html',
-                                                  ],
-                           })
+    content = DeerURichFiled(verbose_name='正文', null=False, blank=False, **deeru_rich_editor['article_kwargs'])
 
     created_time = models.DateTimeField(verbose_name="创建时间", default=timezone.now, editable=False)
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)

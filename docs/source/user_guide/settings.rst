@@ -1,3 +1,5 @@
+.. _settings:
+
 ================
 Settings
 ================
@@ -57,6 +59,12 @@ CACHES
     
     你也可以使用内存、数据库、redis等作为缓存，参考 https://docs.djangoproject.com/zh-hans/2.0/ref/settings/#caches
 
+FLATPAGE_URL
+--------------
+
+    默认: /p/
+    
+    单页面url前缀
 
 ALLOWED_HOSTS
 -------------
@@ -123,6 +131,29 @@ jet配置
       * JET_DEFAULT_THEME : 主题
     
     其他配置参考： http://jet.readthedocs.io/en/latest/
+
+.. _DEERU-RICH-EDITOR:
+
+DEERU_RICH_EDITOR
+-----------------------
+
+    默认:: 
+    
+        DEERU_RICH_EDITOR = {
+            'filed': 'app.ex_fields.fields.MFroalaField',
+            'article_kwargs': {
+                ...
+            },
+            'flatpage_kwargs': {
+                ...
+            }
+        }
+
+    admin使用的富文本编辑器配置
+
+        * filed : 富文本编辑器filed路径
+        * article_kwargs : 文章filed的参数
+        * flatpage_kwargs : 单页面filed的参数
 
 froala编辑器配置
 ------------------

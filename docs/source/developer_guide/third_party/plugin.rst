@@ -5,3 +5,10 @@
 ==============
 
 
+1. 创建django app:: 
+============================
+    python manage.py start plugin your_name
+
+#. 编写代码
+==============
+

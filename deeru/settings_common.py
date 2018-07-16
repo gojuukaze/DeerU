@@ -140,5 +140,35 @@ EXPRESSION = ['app.deeru_expression.expressions']
 
 FLATPAGE_URL = '/p/'
 
+# 富文本编辑器配置
+
+DEERU_RICH_EDITOR = {
+    'filed': 'app.ex_fields.fields.MFroalaField',
+    'article_kwargs': {
+        'options': {
+            'height': 300,
+            'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
+                               'paragraphStyle', 'bold', 'italic', 'underline', 'strikeThrough',
+                               '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '|',
+                               'emoticons', 'insertLink', 'insertImage', 'insertVideo',
+                               '-', 'insertTable', 'quote', 'insertHR', 'clearFormatting', 'undo',
+                               'redo', 'html',
+                               ],
+        }
+    },
+    'flatpage_kwargs': {
+        'options': {
+            'height': 300,
+            'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
+                               'paragraphStyle', 'bold', 'italic', 'underline', 'strikeThrough',
+                               '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '|',
+                               'emoticons', 'insertLink', 'insertImage', 'insertVideo',
+                               '-', 'insertTable', 'quote', 'insertHR', 'clearFormatting', 'undo',
+                               'redo', 'html',
+                               ],
+        }
+    }
+}
+
 # log
 LOG_DIR = os.path.join(BASE_DIR, 'log')

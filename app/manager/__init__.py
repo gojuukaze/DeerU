@@ -1,3 +1,12 @@
+def get_rich_text_filed(name):
+    import importlib
+    temp = name.split('.')
+
+    module_name = '.'.join(temp[:-1])
+    module = importlib.import_module(module_name)
+    return getattr(module, temp[-1])
+
+
 def get_config_context():
     from django.apps import apps
     import importlib
@@ -12,7 +21,7 @@ def get_config_context():
             deeru_config = deeru_config.split('.')
             module_name = '.'.join(deeru_config[:-1])
             consts = importlib.import_module(module_name)
-            app_config = getattr(consts, app.name + '_config_context', {})
+            app_config = getattr(consts, deeru_config[-1], {})
             for k, v in app_config.items():
                 config = get_config_by_name(v)
                 if config:
