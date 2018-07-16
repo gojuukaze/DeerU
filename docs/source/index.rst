@@ -15,6 +15,9 @@ Deeru
 .. image:: _static/deeru_green.png
     :scale: 50%
 
+* github : https://github.com/gojuukaze/DeerU
+* docs : https://deeru.readthedocs.io
+* demo : https://www.ikaze.cn
 
 依赖
 ========
@@ -22,6 +25,7 @@ Deeru
 
   django 2.0+
 
+=========
 
 .. toctree::
    :maxdepth: 2
