@@ -34,8 +34,8 @@ class Command(DeerUBaseCommand):
 
     def get_project_templates(self):
         return [
-            ['settings_local.py-tpl', Path('deeru/settings_local.py')],
-            ['urls_local.py-tpl', Path('deeru/urls_local.py')]
+            ['settings_local.py-tpl', Path(self.name) / Path('deeru/settings_local.py')],
+            ['urls_local.py-tpl', Path(self.name) / Path('deeru/urls_local.py')]
         ]
 
     def install_project(self):
@@ -80,4 +80,3 @@ class Command(DeerUBaseCommand):
         self.branch = options['branch']
 
         self.install_project()
-
