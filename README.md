@@ -20,11 +20,7 @@
   <a href="" title="version">
     <img src="https://img.shields.io/badge/version-v1.0.0-blue.svg" alt="version - v1.0.0">
   </a>
-  <a href="https://npmjs.com/package/quill" title="Downloads">
-    <img src="https://img.shields.io/npm/dm/quill.svg" alt="Downloads">
-  </a>
-</p>
-<p align="center">
+
   <a href="https://github.com/gojuukaze/DeerU/blob/master/LICENSE" title="LICENSE">
     <img src="https://img.shields.io/badge/license-GPL%20V3-blue.svg" alt="license - GPL V3">
   </a>
