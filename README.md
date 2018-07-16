@@ -6,6 +6,30 @@
   <img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/master/logo_black.png?raw=true" width="180">
   </a>
 </p>
+<p align="center">
+  <a title="快速开始" href="http://deeru.readthedocs.io/zh_CN/master/user_guide/index.html"><strong>快速开始</strong></a>
+  &#x2022;
+  <a title="文档" href="http://deeru.readthedocs.io"><strong>文档</strong></a>
+  &#x2022;
+  <a title="开发指南" href="http://deeru.readthedocs.io/zh_CN/master/developer_guide/index.html"><strong>开发指南</strong></a>
+  &#x2022;
+  <a title="贡献代码" href="http://deeru.readthedocs.io/zh_CN/master/developer_guide/contributing.html"><strong>贡献代码</strong></a>
+</p>
+
+<p align="center">
+  <a href="" title="version">
+    <img src="https://img.shields.io/badge/version-v1.0.0-blue.svg" alt="version - v1.0.0">
+  </a>
+  <a href="https://npmjs.com/package/quill" title="Downloads">
+    <img src="https://img.shields.io/npm/dm/quill.svg" alt="Downloads">
+  </a>
+</p>
+<p align="center">
+  <a href="https://github.com/gojuukaze/DeerU/blob/master/LICENSE" title="LICENSE">
+    <img src="https://img.shields.io/badge/license-GPL%20V3-blue.svg" alt="license - GPL V3">
+  </a>
+</p>
+
 
 [DeerU](https://github.com/gojuukaze/DeerU) is a content management system, used for blogs.
 
