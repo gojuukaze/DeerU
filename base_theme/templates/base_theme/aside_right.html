@@ -1,0 +1,82 @@
+{% load base_theme_filter %}
+
+<aside class="column is-hidden-touch is-4 " style="padding-left: 20px">
+
+    <nav class="panel mpanel " style="">
+        <div class="panel-heading">
+            <div class="tabs">
+                <ul>
+                    <li class="is-active"><a><strong style="font-size: 22px">标签</strong></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-block" style="padding-bottom: 24px;border-bottom: 0">
+            <div class="field is-grouped-multiline">
+
+                {% for t,num,f_size in tags|aside_tags %}
+                    <a class="button" style="margin: 3px;color: #666;font-size: 13px"
+                       href="{% url 'app:tag_article' t.id %}"><span>{{ t.name }}</span></a>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+
+    <nav class="panel mpanel ">
+        <div class="panel-heading" style="padding-bottom: 0">
+            <div class="tabs">
+                <ul>
+                    <li class="is-active"><a><strong style="font-size: 22px">分类</strong></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel-block" style="padding-bottom: 24px;padding-top: 0">
+            <div style="width: 100%">
+                {% for c in category %}
+                    <div class="control border-bt-line red_child_a">
+                        <a class="red_a" href="{{ c.category.url }}">{{ c.category.name }} </a>
+                        {% if c.children %}
+                            <span class="icon" style="position: absolute;right: 0;">
+                                <i class="fas fa-chevron-down" aria-hidden="true">  </i>
+                            </span>
+                        {% endif %}
+                    </div>
+                    {% if c.children %}
+
+                        <div class="panel-scroll" style="display: none;">
+                        {% for c2 in c.children %}
+                            <div class="border-bt-line"><a class="red_child_a" href="{{ c2.category.url }}">{{ c2.category.name }} </a></div>
+                        {% endfor %}
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </nav>
+
+</aside>
+
+<script>
+    $(".panel-scroll").each(function () {
+        var pChild = $(this);
+        var but = pChild.prev().find('span');
+        but.click(function () {
+            but.children().remove();
+            if (pChild.is(':hidden')) {
+                $('<i class="fas fa-chevron-up" aria-hidden="true"></i>').appendTo(but);
+                $(".panel-child").each(function () {
+                    if ($(this) !== pChild)
+                        $(this).slideUp();
+                })
+            }
+            else
+                $('<i class="fas fa-chevron-down" aria-hidden="true"></i>').appendTo(but);
+
+            pChild.slideToggle();
+
+        })
+    });
+</script>

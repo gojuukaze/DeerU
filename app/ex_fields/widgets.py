@@ -63,7 +63,7 @@ class ConfigWidget(forms.Textarea):
               ]
         css = {'all': ['https://cdn.bootcss.com/codemirror/5.36.0/codemirror.min.css',
                        'https://cdn.bootcss.com/codemirror/5.36.0/addon/fold/foldgutter.min.css',
-                       'https://cdn.bootcss.com/codemirror/5.36.0/theme/mdn-like.min.css',
+                       'https://cdn.bootcss.com/codemirror/5.36.0/base_theme/mdn-like.min.css',
                        ]}
 
     def render(self, name, value, attrs=None, renderer=None):
@@ -81,7 +81,7 @@ class ConfigWidget(forms.Textarea):
                     lineNumbers: true,
                     smartIndent: true,
                     indentUnit:4,
-                    theme: "mdn-like",
+                    base_theme: "mdn-like",
                     matchBrackets: true,	//括号匹配
                     lineWrapping:true,
          foldGutter: true,

@@ -7,16 +7,16 @@ from django.template.loader import render_to_string
 # Register your models here.
 from django.core.cache import cache
 
-from app.consts import Global_value_cache_key, Config_Name
+from app.consts import Global_value_cache_key, app_config_context, Theme_config_cache_key, Theme_cache_key
 from app.ex_admins.admin import FormInitAdmin
-from app.forms import ArticleAdminForm, CategoryAdminForm
+from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm, ConfigAdminForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
     filter_tag_by_article
 from app.ex_admins.list_filter import CategoryFatherListFilter
-from app.manager.manager import update_one_to_many_relation_model, get_tag_for_choice
+from app.manager.ct_manager import update_one_to_many_relation_model, get_tag_for_choice
 from app.app_models.other_model import Album
 from app.app_models.config_model import Config
-from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag
+from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag, FlatPage
 from tool.deeru_html import Tag as htag
 
 
@@ -99,6 +99,14 @@ class ArticleAdmin(FormInitAdmin):
 
         return result
 
+    def get_changelist(self, request, **kwargs):
+        if request.path.endswith('/change/'):
+            self.field_init_value = {}
+            self.old_category = []
+            self.old_tag = []
+
+        return super().get_changelist(request, **kwargs)
+
     def add_view(self, request, form_url='', extra_context=None):
         self.field_init_value = {}
         self.old_category = []
@@ -108,9 +116,16 @@ class ArticleAdmin(FormInitAdmin):
 
 @admin.register(Config)
 class ConfigAdmin(admin.ModelAdmin):
+    form = ConfigAdminForm
     is_first = True
     list_display = ['name', 'id']
     fields = ['name', 'config', 'last_config']
+
+    def get_changelist(self, request, **kwargs):
+        if request.path.endswith('/change/'):
+            self.is_first = True
+
+        return super().get_changelist(request, **kwargs)
 
     def get_object(self, request, object_id, from_field=None):
         obj = super().get_object(request, object_id, from_field)
@@ -124,8 +139,11 @@ class ConfigAdmin(admin.ModelAdmin):
             obj.last_config = self.config_bk
         self.is_first = True
         self.config_bk = None
-        if obj.name == Config_Name['global_value']:
+        if obj.name == app_config_context['global_value']:
             cache.set(Global_value_cache_key, literal_eval(obj.config), 3600)
+        elif obj.name == app_config_context['common_config']:
+            cache.set(Theme_cache_key, literal_eval(obj.config)['theme'], 3600)
+
         return super().save_model(request, obj, form, change)
 
     def add_view(self, request, form_url='', extra_context=None):
@@ -145,8 +163,6 @@ class CategoryAdmin(SortableAdminMixin, admin.ModelAdmin):
     )
 
 
-
-
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
@@ -162,3 +178,17 @@ class AlbumAdmin(admin.ModelAdmin):
         return t.format_html()
 
     show_img.short_description = '图片'
+
+
+@admin.register(FlatPage)
+class FlatPageAdmin(admin.ModelAdmin):
+    form = FlatpageAdminForm
+
+    list_display = ('m_title', 'url')
+    search_fields = ('url', 'title')
+    fields = ('url', 'title', 'content')
+
+    def m_title(self, obj):
+        return render_to_string('app/admin/flatpage_title.html', {'flatpage': obj})
+
+    m_title.short_description = '标题'

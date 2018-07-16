@@ -1,0 +1,82 @@
+{% extends "base_theme/base.html" %}
+{% load base_theme_filter %}
+
+{% block columns_left %}
+    <div class="column is-8" style="padding-right: 20px">
+
+        <div class="container" style="width: 100%;">
+            {% block container_header %} {% endblock %}
+            {% if article_list|length is 0 %}
+                <div class="box">
+                    <strong>尚无文章</strong>
+                </div>
+            {% endif %}
+            {% for a in article_list %}
+                <div class="box">
+                    <h1 class="title">
+                        <a class="red_a" href="{% url 'app:detail_article' a.id %}">{{ a.title }}</a>
+                    </h1>
+                    <div class="field is-grouped is-grouped-multiline" style="color: #aaa">
+                        <span class="icon"><i class="far fa-calendar-alt"></i></span>
+                        <p style="margin-left: 2px"> {{ a.created_time|date }}</p>
+                        <span style="margin-left: 10px;margin-right: 10px;">|</span>
+
+                        <span class="icon"><i class="fas fa-user"></i></span>
+                        <p style="margin-left: 2px"> {{ config.global_value.nickname }}</p>
+                        <span style="margin-left: 10px;margin-right: 10px;">|</span>
+
+                        <span class="icon"><i class="fas fa-comments"></i></span>
+                        <p style="margin-left: 2px"> 评论：{{ a.meta_data.comment_num }}</p>
+                        <span style="margin-left: 10px;margin-right: 10px;">|</span>
+
+                        <span class="icon"><i class="fas fa-eye"></i></span>
+                        <p style="margin-left: 2px"> 阅读：{{ a.meta_data.read_num }}</p>
+                        <span style="margin-left: 10px;margin-right: 10px;">|</span>
+                    </div>
+
+                    <div class="columns" style="position:relative;margin-top: 10px;">
+                        {% if a.image %}
+                            <div class="column is-narrow" style="text-align:center;">
+                                <img src="{{ a.image }}"
+                                     style="padding: 2px;border: 1px solid #e1e1e1; width: 220px;height: 120px;margin-left: auto; margin-right: auto;">
+                            </div>
+                        {% endif %}
+                        <div class="column">
+                            <p class="long_words">
+                                {{ a.summary|safe }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="columns is-hidden-touch">
+                        <div class="column tags is-10" style="margin-bottom: 0;">
+                            {% for t in a.tags %}
+                                <a class="tag" href="{% url 'app:tag_article' t.id %}">{{ t.name }}</a>
+                            {% endfor %}
+                        </div>
+                        <div class="column is-2 is-right" style="text-align: right;font-size: 15px">
+                            <a class="red_a" href="{{ a.url }}">阅读全文>></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <nav class="pagination is-right" role="navigation" aria-label="pagination">
+
+                <ul class="pagination-list">
+                    {% for p in paginator|page_list %}
+                        <li><a class="pagination-link {{ p.is_current }}"
+                               style="background-color: {% if p.is_current %}#3273dc
+                                   {% else %}{% if p.disabled %}#dbdbdb{% else %}#ffffff{% endif %}{% endif %}"
+                               href="{{ p.href }}" {{ p.disabled }}>{{ p.text }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block columns_right %}
+    {% include "base_theme/aside_right.html" %}
+{% endblock %}

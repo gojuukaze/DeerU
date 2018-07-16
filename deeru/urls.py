@@ -5,11 +5,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    path('admin/', admin.site.urls),
-    path('', include('app.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('froala_editor/', include('froala_editor.urls')),
-    path('admin/doc/', include('django.contrib.admindocs.urls'))
+
+    path('', include('deeru.urls_local')),
+
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'app.views.views.page_not_found_view'

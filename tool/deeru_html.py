@@ -11,19 +11,43 @@ class Tag(object):
 
     extra_close_tag = ['br', 'hr']
 
-    def __init__(self, name_or_tag, text='', attrs=None):
+    def __init__(self, name, text='', attrs=None):
         if attrs is None:
             attrs = {}
-        if isinstance(name_or_tag, str):
-            self.name = name_or_tag
 
-            self.children = []
-            self.text = text
-            self.attrs = attrs
-        elif isinstance(name_or_tag, Tag):
-            self = name_or_tag
-        else:
-            self = None
+        self.name = name
+
+        self.children = []
+        self.text = text
+        self.attrs = attrs
+
+    @classmethod
+    def get_tag_from_bs(cls, soup):
+        from bs4 import BeautifulSoup as bs
+        from bs4.element import Tag as bs_tag
+        father = None
+        if isinstance(soup, bs):
+            father = soup.find()
+        elif isinstance(soup, bs_tag):
+            father = soup
+        if not father or not father.name:
+            return None
+
+        tag = cls(father.name, father.text, father.attrs)
+
+        for c in father.children:
+            c_tag = cls.get_tag_from_bs(c)
+            tag.append(c_tag)
+        return tag
+
+    @classmethod
+    def get_tag_from_str(cls, html):
+        from bs4 import BeautifulSoup as bs
+
+        html = html.replace('\n', '')
+
+        soup = bs(html, 'html.parser')
+        return cls.get_tag_from_bs(soup)
 
     def append(self, tag):
         """

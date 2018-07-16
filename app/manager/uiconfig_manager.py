@@ -1,27 +1,27 @@
 from django.db.models import Count
 
 from app.app_models.content_model import Tag, ArticleTag
-from app.consts import Config_Name
+from app.consts import app_config_context
 from app.db_manager.config_manager import get_config_by_name
 from app.db_manager.content_manager import get_tag_by_id
-from app.manager.manager import get_category_tree, get_category_tree2
+from app.manager.ct_manager import get_category_tree, get_category_tree2
 from tool.deeru_exceptions import ConfigNotExistError
 from ast import literal_eval
 
 
 def get_top_ico():
-    config = get_config_by_name(Config_Name['top_ico'])
+    config = get_config_by_name(app_config_context['top_ico'])
     if not config:
-        raise ConfigNotExistError("配置 '%s' 不存在" % Config_Name['top_ico'])
-    top_ico = literal_eval(config.config)
+        raise ConfigNotExistError("配置 '%s' 不存在" % app_config_context['top_ico'])
+    top_ico = literal_eval(config.cache)
     return top_ico
 
 
 def get_top_menu():
-    config = get_config_by_name(Config_Name['top_menu'])
+    config = get_config_by_name(app_config_context['top_menu'])
     if not config:
-        raise ConfigNotExistError("配置 '%s' 不存在" % Config_Name['top_menu'])
-    menu = literal_eval(config.config)
+        raise ConfigNotExistError("配置 '%s' 不存在" % app_config_context['top_menu'])
+    menu = literal_eval(config.cache)
     return menu
 
 

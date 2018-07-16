@@ -1,0 +1,5 @@
+git add .gitignore
+git add {{ app_name }}*
+git add README.*
+git add MANIFEST.in
+git add {{ app_name }}_setup.py

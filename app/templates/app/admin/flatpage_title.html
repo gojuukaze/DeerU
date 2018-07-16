@@ -1,0 +1,28 @@
+<script src="https://cdn.bootcss.com/clipboard.js/2.0.1/clipboard.min.js"></script>
+<script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
+
+<div>
+    <strong style="font-size: 18px;"><a
+            href="{% url 'admin:app_flatpage_change' flatpage.id %}">{{ flatpage.title }}</a></strong>
+    <div id="tool_a{{ flatpage.id }}" style="margin-top: 6px;visibility: hidden">
+        <a href="{% url 'admin:app_flatpage_change' flatpage.id %}">编辑</a> |
+        <a href="{{ flatpage.get_absolute_url }}" target="_blank">查看</a> |
+        <a id='copy_a_url{{ flatpage.id }}' href="javascript:void(0);" data-clipboard-text="{{ flatpage.get_absolute_url }}">复制链接</a> |
+
+        <a href="{% url 'admin:app_flatpage_delete' flatpage.id %}" style="color: red">删除</a>
+    </div>
+</div>
+<script>
+    django.jQuery('#copy_a_url{{ flatpage.id }}').attr('data-clipboard-text', document.location.origin + '{{ flatpage.url }}');
+    var clipboard = new ClipboardJS('#copy_a_url{{ flatpage.id }}');
+    clipboard.on('success', function (e) {
+        e.clearSelection();
+        layer.msg('复制成功', {icon: 1, time: 1000});
+    });
+    django.jQuery('#tool_a{{ flatpage.id }}').parent().parent().parent().mouseover(function () {
+        django.jQuery('#tool_a{{ flatpage.id }}').css("visibility","visible");
+    });
+    django.jQuery('#tool_a{{ flatpage.id }}').parent().parent().parent().mouseout(function () {
+        django.jQuery('#tool_a{{ flatpage.id }}').css("visibility","hidden");
+    });
+</script>

@@ -5,7 +5,7 @@ from django.core.management import BaseCommand
 from django.core.management.base import OutputWrapper
 
 from app.app_models.content_model import Article, Category, Tag, ArticleMeta, ArticleCategory, ArticleTag, Comment
-from app.manager.manager import update_one_to_many_relation_model
+from app.manager.ct_manager import update_one_to_many_relation_model
 from tool.datetime_helper import str_to_datetime
 
 try:
@@ -35,12 +35,13 @@ class Command(BaseCommand):
     1.评论暂不支持审核，所以不会导入未审核的评论
     2.日期格式必须为： 2018-05-02 15:23:22'''
 
-        parser.add_argument('xml_path', nargs='?', type=str)
+        parser.add_argument('xml_path', type=str)
 
         parser.add_argument(
-            '--model',
-            default='act',
-            dest='model',
+            '--mode',
+            default='a',
+            choices=['a', 'c', 't'],
+            dest='mode',
             help='default:a; 想要导入的内容 ( a:article+comment+category+tag, c:category, t:tag )',
         )
         parser.add_argument(
@@ -324,7 +325,7 @@ class Command(BaseCommand):
         self.nwp = options['nwp']
         self.ncontent = options['ncontent']
         self.cover = options['cover']
-        model = options['model']
+        mode = options['mode']
 
         with open(options['xml_path'])as f:
             s = f.read()
@@ -337,7 +338,7 @@ class Command(BaseCommand):
         self.article = []
         self.comment = {}
 
-        if 'c' in model or 'a' in model:
+        if 'c' in mode or 'a' in mode:
             self.info('导入分类中...')
 
             self.get_category()
@@ -345,7 +346,7 @@ class Command(BaseCommand):
 
             self.success('导入分类完成')
 
-        if 't' in model or 'a' in model:
+        if 't' in mode or 'a' in mode:
             self.info('导入标签中...')
 
             self.get_tag()
@@ -353,7 +354,7 @@ class Command(BaseCommand):
 
             self.success('导入标签完成')
 
-        if 'a' in model:
+        if 'a' in mode:
             self.info('导入文章中...')
             self.get_article()
             self.article.sort(key=lambda x: x['created_time'])

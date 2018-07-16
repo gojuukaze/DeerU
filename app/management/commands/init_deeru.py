@@ -9,8 +9,10 @@ from django.contrib.auth.models import User, UserManager
 from django.core.management import BaseCommand
 from django.core.management.base import OutputWrapper, CommandError
 
+from app.app_models.config_model import Config
 from app.app_models.content_model import Article, Category, Tag, ArticleMeta, ArticleCategory, ArticleTag, Comment
-from app.manager.manager import update_one_to_many_relation_model
+from app.manager.config_manager import cache_config
+from app.manager.ct_manager import update_one_to_many_relation_model
 from tool.datetime_helper import str_to_datetime, now
 
 

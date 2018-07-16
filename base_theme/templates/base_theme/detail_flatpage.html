@@ -1,0 +1,49 @@
+{% extends "base_theme/base.html" %}
+{% load base_theme_filter %}
+{% load static %}
+
+{% block head_static %}
+    <title>{{ flatpage.title }} |{{ config.global_value.title }}</title>
+
+{% endblock %}
+{% block columns_left %}
+    <div class="column is-8 is-paddingless">
+        <div id="detail_article" class="container" style="width: 100%">
+            <div class="box detail_article_box long_words" style="padding: 0">
+                <!-- 文章内容 -->
+                <div class="content fr-view">
+                    <p class="subtitle">
+                        {{ flatpage.content|safe }}
+                    </p>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block columns_right %}
+    {% include "base_theme/aside_right.html" %}
+{% endblock %}
+
+{% block after_body %}
+    {% if theme_config.baidu_auto_push %}
+        <script>
+            document.title = "{{ flatpage.title }} | {{ config.global_value.title }}";
+
+            (function () {
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+
+    {% endif %}
+{% endblock %}

@@ -1,10 +1,15 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
 from app.consts import Comment_Type
-from app.ex_fields.fields import MFroalaField
+from app.manager import get_rich_text_filed
 from tool.html_helper import clean_all_tags, get_safe_comment_html
+
+deeru_rich_editor = settings.DEERU_RICH_EDITOR
+
+DeerURichFiled = get_rich_text_filed(deeru_rich_editor['filed'])
 
 __all__ = ['Article', 'ArticleMeta', 'Category', 'ArticleCategory', 'Tag', 'ArticleTag']
 
@@ -18,17 +23,7 @@ class Article(models.Model):
     summary = models.CharField(verbose_name='摘要', max_length=200, null=True, blank=True, editable=False)
     image = models.CharField(verbose_name='图片', max_length=200, null=True, blank=True, editable=False)
 
-    content = MFroalaField(verbose_name='正文', null=False, blank=False,
-                           options={
-                               'height': 300,
-                               'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
-                                                  'paragraphStyle', 'bold', 'italic', 'underline', 'strikeThrough',
-                                                  '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '|',
-                                                  'emoticons', 'insertLink', 'insertImage', 'insertVideo',
-                                                  '-', 'insertTable', 'quote', 'insertHR', 'clearFormatting', 'undo',
-                                                  'redo', 'html',
-                                                  ],
-                           })
+    content = DeerURichFiled(verbose_name='正文', null=False, blank=False, **deeru_rich_editor['article_kwargs'])
 
     created_time = models.DateTimeField(verbose_name="创建时间", default=timezone.now, editable=False)
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
@@ -41,6 +36,9 @@ class Article(models.Model):
 
     def url(self):
         return reverse('app:detail_article', args=(self.id,))
+
+    def get_absolute_url(self):
+        return self.url()
 
     def last_article(self):
         try:
@@ -76,12 +74,12 @@ class Article(models.Model):
 
     def format_comments(self):
         """
-        处理排序后的评论
+        返回按父子结构整理后的评论
         以下说的 评论、回复 其实是一个东西，方便区分用了两个词，具体看类Comment的说明
 
-        child：包含评论的回复，和对这条评论下回复的回复，child不会再有child
+        child：包含评论的回复，和对这条评论下回复的回复，children不会再有children
 
-        [ { 'comment' : Comment , 'child': [ {'comment' : Comment, 'to_nickname':'xx'} ] } ,{...}]
+        [ { 'comment' : Comment , 'children': [ {'comment' : Comment, 'to_nickname':'xx'} ] } ,{...}]
         :return:
         """
         from app.db_manager.content_manager import filter_comment_by_article
@@ -98,16 +96,16 @@ class Article(models.Model):
         for c in comments:
             if c.type == 201:
                 # 根评论
-                result.append({'comment': c, 'child': []})
+                result.append({'comment': c, 'children': []})
                 root_comment_id_to_pos[c.id] = r_pos
-                r_pos += 0
+                r_pos += 1
             else:
                 to_pos = comment_id_to_pos[c.to_id]
                 to_comment = comments[to_pos]
 
                 root_pos = root_comment_id_to_pos[c.root_id]
 
-                result[root_pos]['child'].append({'comment': c, 'to_nickname': to_comment.nickname})
+                result[root_pos]['children'].append({'comment': c, 'to_nickname': to_comment.nickname})
 
             comment_id_to_pos[c.id] = c_pos
             c_pos += 1
@@ -148,6 +146,17 @@ class Category(models.Model):
     def url(self):
         return reverse('app:category_article', args=(self.id,))
 
+    def get_absolute_url(self):
+        return self.url()
+
+    def get_article_category_list(self):
+        from app.db_manager.content_manager import filter_article_category_by_category
+        return filter_article_category_by_category(self.id)
+
+    def get_article_list(self):
+        from app.db_manager.content_manager import filter_article_by_category
+        return filter_article_by_category(self.id)
+
 
 class ArticleCategory(models.Model):
     class Meta:
@@ -176,6 +185,17 @@ class Tag(models.Model):
 
     def url(self):
         return reverse('app:tag_article', args=(self.id,))
+
+    def get_absolute_url(self):
+        return self.url()
+
+    def get_article_tag_list(self):
+        from app.db_manager.content_manager import filter_article_tag_by_tag
+        return filter_article_tag_by_tag(self.id)
+
+    def get_article_list(self):
+        from app.db_manager.content_manager import filter_article_by_tag
+        return filter_article_by_tag(self.id)
 
 
 class ArticleTag(models.Model):
@@ -228,16 +248,16 @@ class Comment(models.Model):
     注意区分root_id和to_id，
     回复才有to_id
     如：
-    
+
     文章-0
        |__ 评论-1
               |__ 回复-2
               |__ 回复-3
-                     |__ 回复-3-1 
-    
+                     |__ 回复-3-1
+
     评论-1   ：root_id是 文章-0 的id
-    回复-2   ：root_id是 评论-1 的id; to_id是 -1;
-    回复-3   ：root_id是 评论-1 的id; to_id是 -1;
+    回复-2   ：root_id是 评论-1 的id; to_id是 评论-1 的id;
+    回复-3   ：root_id是 评论-1 的id; to_id是 评论-1 的id;
     回复-3-1 ：root_id是 评论-1 的id; to_id是 回复-3 的id;
     """
 
@@ -259,3 +279,25 @@ class Comment(models.Model):
             self.email = clean_all_tags(self.email)
         self.content = get_safe_comment_html(self.content)
         super().save(force_insert, force_update, using, update_fields)
+
+
+class FlatPage(models.Model):
+    class Meta:
+        verbose_name = '单页面'
+        verbose_name_plural = '单页面'
+
+    title = models.CharField(verbose_name='标题', max_length=100, null=False, blank=False)
+    url = models.CharField(verbose_name='url', max_length=100, null=False, blank=False)
+    content = DeerURichFiled(verbose_name='正文', null=False, blank=False, **deeru_rich_editor['article_kwargs'])
+
+    created_time = models.DateTimeField(verbose_name="创建时间", default=timezone.now, editable=False)
+    modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
+
+    def __str__(self):
+        if len(self.title) <= 15:
+            return '单页面-%d<%s>' % (self.id, self.title)
+        else:
+            return '单页面-%d<%s...%s>' % (self.id, self.title[:7], self.title[-8:])
+
+    def get_absolute_url(self):
+        return reverse('app:detail_flatpage', args=(self.url,))

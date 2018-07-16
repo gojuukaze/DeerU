@@ -35,5 +35,4 @@ class CategoryFatherListFilter(admin.SimpleListFilter):
 
     def __init__(self, request, params, model, model_admin):
         super().__init__(request, params, model, model_admin)
-        print(self.parameter_name)
 

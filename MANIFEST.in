@@ -1,0 +1,5 @@
+include LICENSE
+include MANIFEST.in
+graft deeru_cmd
+global-exclude __pycache__
+global-exclude *.py[co]

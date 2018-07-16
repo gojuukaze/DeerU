@@ -105,6 +105,13 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-.idea
+.idea/
 /static
 /media
+
+files.txt
+
+deeru/settings_local.py
+deeru/urls_local.py
+
+.qiniu_pythonsdk_hostscache.json

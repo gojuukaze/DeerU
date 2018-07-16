@@ -1,0 +1,41 @@
+# -*- coding:utf-8 -*-
+
+from setuptools import setup, find_packages
+
+with open("README.rst", encoding='utf-8') as f:
+    long_description = f.read()
+
+setup(
+    name="{{app_name}}",
+    version="",
+    description="",
+    long_description=long_description,
+    license="",
+
+    url="",
+    author="",
+    author_email="",
+    python_requires='>=3.5',
+
+    packages=find_packages(include=['{{app_name}}*', ]),
+
+
+    classifiers=[
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'Intended Audience :: Developers',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Development Status :: 3 - Alpha',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Internet :: WWW/HTTP :: WSGI',
+        'Topic :: Software Development :: Libraries :: Application Frameworks',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+
+
+    ],
+
+
+)

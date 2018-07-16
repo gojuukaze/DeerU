@@ -38,6 +38,11 @@ class DeerUPaginator(Paginator):
         return result
 
     def get_page_html_list(self, number):
+        """
+        已过时
+        :param number:
+        :return:
+        """
         page = self.get_page_list(number)
         html1 = [{'text': format_html('<span class="icon is-small"><i class="fas fa-angle-double-left"></i></span>'),
                   'disabled': '', 'is_current': ' ', 'href': ' '},
