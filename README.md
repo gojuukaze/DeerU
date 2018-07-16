@@ -11,7 +11,7 @@
   &#x2022;
   <a title="文档" href="http://deeru.readthedocs.io"><strong>文档</strong></a>
   &#x2022;
-  <a title="开发指南" href="http://deeru.readthedocs.io/zh_CN/master/developer_guide/index.html"><strong>开发指南</strong></a>
+  <a title="插件与主题" href="https://github.com/gojuukaze/deeru_plugin_theme"><strong>插件与主题</strong></a>
   &#x2022;
   <a title="贡献代码" href="http://deeru.readthedocs.io/zh_CN/master/developer_guide/contributing.html"><strong>贡献代码</strong></a>
 </p>
@@ -47,6 +47,7 @@ ___
 ---
 
 * 项目文档 ：[https://deeru.readthedocs.io](https://deeru.readthedocs.io)
+* 插件与主题 ：[https://github.com/gojuukaze/deeru_plugin_theme](https://github.com/gojuukaze/deeru_plugin_theme)
 * [安装](#安装)
 * [初始化](#初始化)
 * [运行](#运行)
