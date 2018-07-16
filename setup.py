@@ -6,9 +6,9 @@ from setuptools import setup, find_packages
 
 setup(
     name="DeerU",
-    version="0.0.9",
+    version="1.0.0",
     description="DeerU is a content management system(DeerU 是一个开源博客系统)",
-    long_description=open("COMMAND_README.md").read(),
+    long_description=open("README.rst").read(),
     license="GUN V3.0",
 
     url="https://github.com/gojuukaze/DeerU",
@@ -39,7 +39,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Internet :: WWW/HTTP :: WSGI',

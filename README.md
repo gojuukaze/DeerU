@@ -12,12 +12,24 @@
 DeerU 是一个开源博客系统
 ___
 
+依赖
+---
+* Python 3.5+ -- 安装教程 https://www.ikaze.cn/article/28
+* pip 10+
+* git
+* libjpeg，zlib -- pillow包的依赖 
+    - ubuntu: ``apt-get install libjpeg8-dev zlib1g-dev libfreetype6-dev`` 
+    - centos: ``yum -y install python-devel zlib-devel libjpeg-turbo-devel`` 
+
+
+
 目录
 ---
 
 * 项目文档 ：[https://deeru.readthedocs.io](https://deeru.readthedocs.io)
-
-
+* [安装](#安装)
+* [初始化](#初始化)
+* [运行](#运行)
 
 安装
 ---
@@ -31,11 +43,12 @@ ___
     source deeru_env/bin/activate
 ```
 
-* Linux/Mac OS 可以使用自动安装脚本安装
+* pip安装
 
 ```bash
+    pip install DeerU
+    deeru-admin install deeru
 
-    wget https://raw.githubusercontent.com/gojuukaze/DeerU/dev/install.py -O - | python -
 ```
 
 * 手动安装
@@ -50,7 +63,6 @@ ___
 初始化
 ---
 
-
 * 运行下面命令初始化项目，注意：如果你更改了数据库的配置，或者修改了主题的静态文件 则需要再次运行初始化
 
 ```bash
@@ -61,14 +73,11 @@ ___
 
 运行
 ---
-
 * 以debug模式运行
 ```bash
-
     python manage.py runserver 0.0.0.0:8000
 
 ```
-
 
 license
 -------
