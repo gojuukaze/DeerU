@@ -50,6 +50,7 @@ ___
 
 * 项目文档 ：[https://deeru.readthedocs.io](https://deeru.readthedocs.io)
 * 插件与主题 ：[https://github.com/gojuukaze/deeru_plugin_theme](https://github.com/gojuukaze/deeru_plugin_theme)
+* GITHUB ：[https://github.com/gojuukaze/DeerU](https://github.com/gojuukaze/DeerU)
 * [安装](#安装)
 * [初始化](#初始化)
 * [运行](#运行)
