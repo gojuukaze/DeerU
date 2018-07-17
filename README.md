@@ -82,6 +82,8 @@ ___
     git clone -b dev https://github.com/gojuukaze/DeerU.git
     cd DeerU
     pip install -r requirements.txt
+    
+    # 创建 deeru/settings_local.py , deeru/urls_local.py ，具体参考文档
 ```
 
 初始化
@@ -116,7 +118,7 @@ DeerU使用 [GNU General Public License v3.0 协议](https://github.com/gojuukaz
 >
 > https://froala.com/wysiwyg-editor/pricing  
 >
->（ 你可以自己更换其他编辑器，我也会在之后内置一些富文本编辑器的替代方案 ）
+> 你可以自己更换其他编辑器（参照文档 [富文本编辑器](http://deeru.readthedocs.io/zh_CN/master/user_guide/rich_text_editor.html) ），我也会在之后内置一些富文本编辑器的替代方案 
 
 
 截图

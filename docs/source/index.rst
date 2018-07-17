@@ -52,7 +52,7 @@ DeerU使用 `GNU General Public License v3.0 协议 <https://github.com/gojuukaz
 
     https://froala.com/wysiwyg-editor/pricing
 
-    （ 我会在之后尝试更换其他富文本编辑器，不过这貌似有点困难，开发时试了好多编辑器，这个是最好用 ）
+    你可以自己更换其他编辑器（ 参考 :ref:`rich-text-editor` ），我也会在之后内置一些富文本编辑器的替代方案 
 
 
 截图
