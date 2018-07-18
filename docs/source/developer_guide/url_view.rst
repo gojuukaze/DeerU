@@ -95,6 +95,7 @@ Url View接口文档
         - content : 内容
         - email : 可不填
         - nickname : nickname
+        - article_id : article_id
         - type : 类型，可选项如下：
 
             + 201 : 对文章评论
