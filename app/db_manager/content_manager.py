@@ -176,6 +176,20 @@ def filter_comment_by_article(a_id):
     return Comment.objects.filter(article_id=a_id)
 
 
+def get_comment_by_id(id):
+    try:
+        return Comment.objects.get(id=id)
+    except:
+        return None
+
+
+def get_comment_by_id_and_article(id, a_id):
+    try:
+        return Comment.objects.get(id=id, article_id=a_id)
+    except:
+        return None
+
+
 #################  FlatPage  #######################
 
 def create_flatpage(title, content):

@@ -10,6 +10,7 @@ from app.db_manager.other_manager import create_image, get_all_image, \
 from app.forms import CommentForm
 from app.manager import get_base_context
 from app.manager.config_manager import get_theme
+from app.manager.content_manager import is_valid_comment
 
 theme = get_theme()
 
@@ -55,16 +56,22 @@ def delete_image(request):
 
 
 def create_comment(request):
+    http_referer = request.META.get('HTTP_REFERER')
+    if not http_referer:
+        return HttpResponseForbidden()
     if request.method == 'POST':
 
         form = CommentForm(request.POST)
         if form.is_valid():
             article_id = form.cleaned_data['article_id']
-            article = get_article_by_id(article_id)
+            a_id = http_referer.split('/')[-1]
+            if int(article_id) != int(a_id):
+                return HttpResponseForbidden()
+
             anchor = request.POST.get('anchor', '')
 
-            if not article:
-                msg = '错误id'
+            success, msg = is_valid_comment(form)
+            if not success:
                 return HttpResponseRedirect(
                     reverse('app:detail_article', args=(article_id,)) + '?form_error=' + msg + anchor)
             # article_meta.comment_num += 1

@@ -251,7 +251,10 @@ class Comment(models.Model):
 
     """
     注意区分root_id和to_id，
-    回复才有to_id
+
+    评论 root_id必须是-1
+    对评论的回复 root_id==to_id
+
     如：
 
     文章-0
@@ -260,7 +263,7 @@ class Comment(models.Model):
               |__ 回复-3
                      |__ 回复-3-1
 
-    评论-1   ：root_id是 文章-0 的id
+    评论-1   ：root_id是 -1; to_id是 -1
     回复-2   ：root_id是 评论-1 的id; to_id是 评论-1 的id;
     回复-3   ：root_id是 评论-1 的id; to_id是 评论-1 的id;
     回复-3-1 ：root_id是 评论-1 的id; to_id是 回复-3 的id;
