@@ -16,7 +16,7 @@ from app.ex_admins.list_filter import CategoryFatherListFilter
 from app.manager.ct_manager import update_one_to_many_relation_model, get_tag_for_choice
 from app.app_models.other_model import Album
 from app.app_models.config_model import Config
-from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag, FlatPage
+from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag, FlatPage, Comment
 from tool.deeru_html import Tag as htag
 
 
@@ -192,3 +192,8 @@ class FlatPageAdmin(admin.ModelAdmin):
         return render_to_string('app/admin/flatpage_title.html', {'flatpage': obj})
 
     m_title.short_description = '标题'
+
+
+@admin.register(Comment)
+class FlatPageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nickname', 'content', 'article_id', 'created_time')
