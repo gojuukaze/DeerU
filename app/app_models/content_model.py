@@ -100,7 +100,12 @@ class Article(models.Model):
                 root_comment_id_to_pos[c.id] = r_pos
                 r_pos += 1
             else:
-                to_pos = comment_id_to_pos[c.to_id]
+                try:
+                    # comment_id_to_pos没有key c.to_id，？
+                    # 因为有人恶意提交了to_id，先加try，之后增加comment参数验证
+                    to_pos = comment_id_to_pos[c.to_id]
+                except:
+                    continue
                 to_comment = comments[to_pos]
 
                 root_pos = root_comment_id_to_pos[c.root_id]
