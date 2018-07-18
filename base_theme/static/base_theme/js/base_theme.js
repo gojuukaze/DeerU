@@ -6,6 +6,7 @@ function createCommentEditor(s) {
         buttonsSM: ['fontsize', 'brush', '|', 'bold', 'strikethrough', 'underline', 'italic', '|', 'link'],
         buttonsXS: ['fontsize', 'brush', '|', 'bold', 'strikethrough', 'underline', 'italic', '|', 'link'],
         beautifyHTML: false,
+        language: 'zh_cn',
         extraButtons: [
             {
                 name: 'code',

@@ -88,3 +88,37 @@
     
     然后在admin中添加名为"M_Theme侧边栏配置"的配置，这样context就会传递你的配置，位置在 ``context['config']['m_theme_aside_config']`` 
 
+* 关于评论的form
+
+    文章详情页面传了一个 CommentForm ,但并不建议直接用它来生成form。另外，该form评论内容content生成的 ``<textarea>`` 并不是富文本编辑器。
+
+    下面给了一个form的示例:: 
+
+        {% csrf_token %}
+
+        <div class="fieldWrapper">
+            {{ comment_form.nickname }}
+            {% if comment_form.nickname.help_text %}
+                <p class="help">{{ comment_form.nickname.help_text|safe }}</p>
+            {% endif %}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ comment_form.email }}
+            {% if comment_form.email.help_text %}
+                <p class="help">{{ comment_form.email.help_text|safe }}</p>
+            {% endif %}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ comment_form.content }}
+            {% if comment_form.content.help_text %}
+                <p class="help">{{ comment_form.content.help_text|safe }}</p>
+            {% endif %}
+        </div>
+
+        <input type="hidden" name="article_id" id="id_article_id" value="{{ article.id }}">
+        <input type="hidden" name="root_id" id="id_root_id" value="-1">
+        <input type="hidden" name="to_id" id="id_to_id" value="-1">
+        <input type="hidden" name="type" id="id_type" value="201">
+        <input type="hidden" name="anchor" value="#comment">

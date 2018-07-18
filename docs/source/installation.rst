@@ -31,6 +31,7 @@
 .. code-block:: bash
 
     pip install deeru
+    deeru-admin install DeerU
 
 从git仓库安装
 -------------

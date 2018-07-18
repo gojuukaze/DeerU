@@ -44,4 +44,5 @@
     third_party/index
     context
     url_view
+    contributing
     

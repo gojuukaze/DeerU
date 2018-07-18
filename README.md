@@ -6,10 +6,32 @@
   <img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/master/logo_black.png?raw=true" width="180">
   </a>
 </p>
+<p align="center">
+  <a title="快速开始" href="http://deeru.readthedocs.io/zh_CN/master/user_guide/index.html"><strong>快速开始</strong></a>
+  &#x2022;
+  <a title="文档" href="http://deeru.readthedocs.io"><strong>文档</strong></a>
+  &#x2022;
+  <a title="插件与主题" href="https://github.com/gojuukaze/deeru_plugin_theme"><strong>插件与主题</strong></a>
+  &#x2022;
+  <a title="贡献代码" href="http://deeru.readthedocs.io/zh_CN/master/developer_guide/contributing.html"><strong>贡献代码</strong></a>
+</p>
+
+<p align="center">
+  <a href="" title="version">
+    <img src="https://img.shields.io/badge/version-v1.0.0-blue.svg" alt="version - v1.0.0">
+  </a>
+
+  <a href="https://github.com/gojuukaze/DeerU/blob/master/LICENSE" title="LICENSE">
+    <img src="https://img.shields.io/badge/license-GPL%20V3-blue.svg" alt="license - GPL V3">
+  </a>
+</p>
+
 
 [DeerU](https://github.com/gojuukaze/DeerU) is a content management system, used for blogs.
 
-DeerU 是一个开源博客系统
+DeerU 是一个开源博客系统，它基于Django开发。  
+
+它提供了丰富的json数据接口（需安装[api插件](https://github.com/gojuukaze/deeru_plugin_theme)），前端开发人员可以不依赖Django模板，方便的开发主题，实现前后端分离。
 ___
 
 依赖
@@ -27,6 +49,8 @@ ___
 ---
 
 * 项目文档 ：[https://deeru.readthedocs.io](https://deeru.readthedocs.io)
+* 插件与主题 ：[https://github.com/gojuukaze/deeru_plugin_theme](https://github.com/gojuukaze/deeru_plugin_theme)
+* GITHUB ：[https://github.com/gojuukaze/DeerU](https://github.com/gojuukaze/DeerU)
 * [安装](#安装)
 * [初始化](#初始化)
 * [运行](#运行)
@@ -58,6 +82,8 @@ ___
     git clone -b dev https://github.com/gojuukaze/DeerU.git
     cd DeerU
     pip install -r requirements.txt
+    
+    # 创建 deeru/settings_local.py , deeru/urls_local.py ，具体参考文档
 ```
 
 初始化
@@ -86,10 +112,13 @@ DeerU使用 [GNU General Public License v3.0 协议](https://github.com/gojuukaz
 
 **重要！！**
 
-> 需要注意的是，DeerU本身是免费的，但后台管理使用了富文本编辑器froala，其扩展插件并不免费，你可以在以下链接中查看收费信息：
-> https://github.com/froala/django-froala-editor#license
-> https://froala.com/wysiwyg-editor/pricing
->（ 你可以自己更换其他编辑器，我也会在之后内置一些富文本编辑器的替代方案 ）
+> 需要注意的是，DeerU本身是免费的，但后台管理使用了富文本编辑器froala，其扩展插件并不免费，你可以在以下链接中查看收费信息：  
+>
+> https://github.com/froala/django-froala-editor#license  
+>
+> https://froala.com/wysiwyg-editor/pricing  
+>
+> 你可以自己更换其他编辑器（参照文档 [富文本编辑器](http://deeru.readthedocs.io/zh_CN/master/user_guide/rich_text_editor.html) ），我也会在之后内置一些富文本编辑器的替代方案 
 
 
 截图
