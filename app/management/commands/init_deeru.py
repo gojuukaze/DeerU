@@ -40,14 +40,14 @@ class Command(BaseCommand):
             os.mkdir('log')
         except:
             pass
-        with open('./log/init.log', 'a')as f:
+        with open('./log/init.log', 'a', encoding='utf-8')as f:
             f.write('开始初始化(%s)\n' % str(now()))
 
         # ============
 
         self.info('初始化数据库 ... ')
 
-        with open('./log/init.log', 'a')as f:
+        with open('./log/init.log', 'a', encoding='utf-8')as f:
             f.write('初始化数据库\n')
             try:
 
@@ -64,7 +64,7 @@ class Command(BaseCommand):
         # ============
 
         self.info('初始化静态文件 ... ')
-        with open('./log/init.log', 'a')as f:
+        with open('./log/init.log', 'a', encoding='utf-8')as f:
             f.write('初始化静态文件\n')
             try:
                 management.call_command('collectstatic', '--noinput', stdout=f)
@@ -85,7 +85,7 @@ class Command(BaseCommand):
         password = getpass('输入密码（默认：123456）：')
         if not password:
             password = '123456'
-        with open('./log/init.log', 'a')as f:
+        with open('./log/init.log', 'a', encoding='utf-8')as f:
             try:
                 flag = True
                 User._default_manager.db_manager('default').create_superuser(username, None, password)
