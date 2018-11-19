@@ -8,6 +8,8 @@ Change Log
 
     * 评论root_id,to_id规范
     * 评论参数验证
+    * fix bug `#6 <https://github.com/gojuukaze/DeerU/issues/6>`_
+    * 升级django版本，解决低版本安全问题 `CVE-2018-14574 Detail <https://nvd.nist.gov/vuln/detail/CVE-2018-14574>`_
 
 1.0.0
 ----------------
