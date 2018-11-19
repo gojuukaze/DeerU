@@ -33,7 +33,7 @@ def get_base_context(context):
     from app.manager.uiconfig_manager import get_aside_category2, get_aside_tags
     context['config'] = get_config_context()
 
-    context['category'] = get_aside_category2()
+    context['categorys'] = get_aside_category2()
     context['tags'] = get_aside_tags()
 
     return context
