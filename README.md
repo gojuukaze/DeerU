@@ -34,6 +34,7 @@ DeerU 是一个开源博客系统，它基于Django开发。
 它提供了丰富的json数据接口（需安装[api插件](https://github.com/gojuukaze/deeru_plugin_theme)），前端开发人员可以不依赖Django模板，方便的开发主题，实现前后端分离。
 ___
 
+
 依赖
 ---
 * Python 3.5+ -- 安装教程 https://www.ikaze.cn/article/28
@@ -51,6 +52,7 @@ ___
 * 项目文档 ：[https://deeru.readthedocs.io](https://deeru.readthedocs.io)
 * 插件与主题 ：[https://github.com/gojuukaze/deeru_plugin_theme](https://github.com/gojuukaze/deeru_plugin_theme)
 * GITHUB ：[https://github.com/gojuukaze/DeerU](https://github.com/gojuukaze/DeerU)
+* DEMO ：[https://www.ikaze.cn](https://www.ikaze.cn)
 * [安装](#安装)
 * [初始化](#初始化)
 * [运行](#运行)

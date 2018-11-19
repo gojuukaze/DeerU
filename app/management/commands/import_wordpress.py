@@ -327,7 +327,7 @@ class Command(BaseCommand):
         self.cover = options['cover']
         mode = options['mode']
 
-        with open(options['xml_path'])as f:
+        with open(options['xml_path'], encoding='utf-8')as f:
             s = f.read()
         self.root = ET.fromstring(s)[0]
 
