@@ -14,8 +14,8 @@ class MFroalaField(FroalaField):
     def formfield(self, **kwargs):
         if self.use_froala:
             widget = MFroalaEditor(options=self.options, theme=self.theme, plugins=self.plugins,
-                                   include_jquery=self.include_jquery, image_upload=self.image_upload,
-                                   file_upload=self.file_upload)
+                                  include_jquery=self.include_jquery, image_upload=self.image_upload,
+                                  file_upload=self.file_upload, third_party=self.third_party)
         else:
             widget = Textarea()
         defaults = {'widget': widget}
