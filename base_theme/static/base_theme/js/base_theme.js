@@ -11,7 +11,6 @@ function createCommentEditor(s) {
             {
                 name: 'code',
                 exec: function (editor, current, control) {
-                    console.log(current)
                     let node = document.createElement('pre');
                     // let currentNode = editor.selection.current();
                     layer.prompt({title: '插入代码', formType: 2},
