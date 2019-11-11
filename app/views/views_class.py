@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.views.generic import ListView, DetailView
@@ -50,6 +52,7 @@ class ArticleList(ListView):
         # context['global_value'] = get_global_value()
         # context['aside_category'] = get_aside_category()
         context['paginator'] = self.paginator
+        pprint(context)
         return context
 
 
@@ -82,6 +85,7 @@ class DetailArticle(DetailView, DeerUContextMixin):
         context['comments'] = filter_comment_by_article(self.kwargs['article_id'])
         context['comment_form'] = CommentForm()
         context['form_error'] = self.request.GET.get('form_error', '')
+        pprint(context)
         return context
 
 

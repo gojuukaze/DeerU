@@ -56,10 +56,10 @@
 </nav>
 
 <script>
-    var navbarBurger = document.getElementById('navbarBurger');
-    var topMenuNav = document.getElementById('topMenuNav');
+    let navbarBurger = document.getElementById('navbarBurger');
+    let topMenuNav = document.getElementById('topMenuNav');
     navbarBurger.onclick = function () {
-        var menuItem = document.getElementById(navbarBurger.dataset.target);
+        let menuItem = document.getElementById(navbarBurger.dataset.target);
         menuItem.classList.toggle('is-active');
         navbarBurger.classList.toggle('is-active');
         if (topMenuNav.classList.length === 3)
