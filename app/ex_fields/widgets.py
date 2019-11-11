@@ -32,7 +32,7 @@ class MFroalaEditor(FroalaEditor):
         js = ('froala_editor/js/froala_editor.min.js', 'froala_editor/js/froala-django.js',)
 
         if self.include_jquery:
-            js = ('https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js',) + js
+            js = ('https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js',) + js
 
         if self.theme:
             css['all'] += ('froala_editor/css/themes/' + self.theme + '.css',)
@@ -56,7 +56,7 @@ class MFroalaEditor(FroalaEditor):
 
 class ConfigWidget(forms.Textarea):
     class Media:
-        js = ['https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js',
+        js = ['https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js',
               'https://cdn.bootcss.com/codemirror/5.36.0/codemirror.min.js',
               'https://cdn.bootcss.com/codemirror/5.36.0/mode/python/python.min.js',
               'https://cdn.bootcss.com/codemirror/5.36.0/addon/fold/foldgutter.min.js',
