@@ -24,3 +24,87 @@ for f in EXPRESSION + CUSTOM_EXPRESSION:
                 EXPRESSION_DICT[name.lower()] = _class
         except:
             pass
+
+# log
+if LOG_DIR:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+
+        'formatters': {
+            'verbose': {
+                'format': '{asctime} {levelname} {module}.{funcName} Line:{lineno} {message}',
+                'formatTime': '%Y-%m-%d %H:%M:%S',
+                'style': '{',
+            },
+            'simple': {
+                'format': '{asctime} {levelname} {message}',
+                'formatTime': '%Y-%m-%d %H:%M:%S',
+                'style': '{',
+
+            },
+            'simple2': {
+                'format': '{asctime} {message}',
+                'style': '{',
+            }
+        },
+
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple'
+            },
+
+            'default_err': {
+                'level': 'ERROR',
+                'class': 'logging.handlers.WatchedFileHandler',
+                'filename': os.path.join(LOG_DIR, 'error.log'),
+                'formatter': 'verbose',
+            },
+
+            'access': {
+                'level': 'INFO',
+                'class': 'logging.handlers.WatchedFileHandler',
+                'filename': os.path.join(LOG_DIR, 'access.log'),
+                'formatter': 'simple2',
+            },
+
+            'info': {
+                'level': 'INFO',
+                'class': 'logging.handlers.WatchedFileHandler',
+                'filename': os.path.join(LOG_DIR, 'info.log'),
+                'formatter': 'verbose',
+            },
+
+        },
+
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'propagate': False,
+                'level': 'INFO',
+            },
+            'django.request': {
+                'handlers': ['default_err', 'console'],
+                'level': 'ERROR',
+                'propagate': False,
+            },
+            'error_logger': {
+                'handlers': ['default_err', 'console'],
+                'level': 'ERROR',
+                'propagate': False,
+            },
+            'access_logger': {
+                'handlers': ['access'],
+                'level': 'INFO',
+                'propagate': False,
+            },
+            'info_logger': {
+                'handlers': ['info', 'console'] if DEBUG else ['info'],
+                'level': 'INFO',
+                'propagate': False,
+            },
+
+        }
+    }
