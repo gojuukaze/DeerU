@@ -50,7 +50,7 @@ class Article(models.Model):
 
     def next_article(self):
         try:
-            a = Article.objects.filter(id__gt=self.id).values('id', 'title').order_by('-id')[0]
+            a = Article.objects.filter(id__gt=self.id).values('id', 'title').order_by('id')[0]
             a['url'] = reverse('app:detail_article', args=(a['id'],))
             return a
         except:
