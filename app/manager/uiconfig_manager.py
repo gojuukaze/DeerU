@@ -9,33 +9,6 @@ from tool.deeru_exceptions import ConfigNotExistError
 from ast import literal_eval
 
 
-def get_top_ico():
-    config = get_config_by_name(app_config_context['top_ico'])
-    if not config:
-        raise ConfigNotExistError("配置 '%s' 不存在" % app_config_context['top_ico'])
-    top_ico = literal_eval(config.cache)
-    return top_ico
-
-
-def get_top_menu():
-    config = get_config_by_name(app_config_context['top_menu'])
-    if not config:
-        raise ConfigNotExistError("配置 '%s' 不存在" % app_config_context['top_menu'])
-    menu = literal_eval(config.cache)
-    return menu
-
-
-def get_aside_category():
-    category_tree = get_category_tree()
-    for k, v in category_tree.items():
-        c_cat = v.get('children')
-        if c_cat:
-            for k2, v2 in c_cat.items():
-                if v2.get('children'):
-                    del v2['children']
-    return category_tree
-
-
 def get_aside_category2():
     return get_category_tree2()
 

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block head_static %}
-    <title>{{ flatpage.title }} |{{ config.global_value.title }}</title>
+    <title>{{ flatpage.title }} |{{ config.v2_blog_config.title }}</title>
 
 {% endblock %}
 {% block columns_left %}
@@ -27,9 +27,9 @@
 {% endblock %}
 
 {% block after_body %}
-    {% if theme_config.baidu_auto_push %}
+    {% if config.v2_blog_config.baidu_auto_push %}
         <script>
-            document.title = "{{ flatpage.title }} | {{ config.global_value.title }}";
+            document.title = "{{ flatpage.title }} | {{ config.v2_blog_config.title }}";
 
             (function () {
                 var bp = document.createElement('script');

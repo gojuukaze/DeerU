@@ -138,6 +138,9 @@ USE_TZ = False
 
 EXPRESSION = ['app.deeru_expression.expressions']
 
+# handler
+CONFIG_HANDLER = ['app.deeru_config_handler.handler']
+
 FLATPAGE_URL = '/p/'
 
 # 富文本编辑器配置
@@ -172,3 +175,7 @@ DEERU_RICH_EDITOR = {
 
 # log
 LOG_DIR = os.path.join(BASE_DIR, 'log')
+
+# jsonfiled
+JSON_FILED = 'jsonfield.JSONField'
+# 使用PostgreSQL，在settings_local.py中设置为 django.contrib.postgres.fields.JSONField

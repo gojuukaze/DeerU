@@ -5,6 +5,18 @@ app_config_context = {
     'top_menu': '顶部导航栏',
     'global_value': '全局变量',
     'common_config': '通用配置',
+
+    'v2_iconbar_config': '顶部图标栏配置',
+    'v2_navbar_config': '顶部导航栏配置',
+    'v2_common_config': '通用配置',
+    'v2_blog_config': '博客配置',
+}
+v2_app_config_context = {
+
+    'v2_iconbar_config': '顶部图标栏配置',
+    'v2_navbar_config': '顶部导航栏配置',
+    'v2_common_config': '通用配置',
+    'v2_blog_config': '博客配置',
 }
 
 Global_Value_Default = {

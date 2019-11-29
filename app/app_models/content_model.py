@@ -4,12 +4,12 @@ from django.urls import reverse
 from django.utils import timezone
 
 from app.consts import Comment_Type
-from app.manager import get_rich_text_filed
+from app.app_models import get_field
 from tool.html_helper import clean_all_tags, get_safe_comment_html
 
 deeru_rich_editor = settings.DEERU_RICH_EDITOR
 
-DeerURichFiled = get_rich_text_filed(deeru_rich_editor['filed'])
+DeerURichFiled = get_field(deeru_rich_editor['filed'])
 
 __all__ = ['Article', 'ArticleMeta', 'Category', 'ArticleCategory', 'Tag', 'ArticleTag']
 

@@ -1,12 +1,6 @@
-from pprint import pprint
-
 from django.core.management import BaseCommand
 
-from app.app_models.config_model import Config
-from app.app_models.content_model import Article
-from app.manager.ct_manager import get_category_for_choice
-
-
+from tool.version_upgrade.v1_config_to_v2 import config_v1_to_v2
 
 
 class Command(BaseCommand):
@@ -16,8 +10,7 @@ class Command(BaseCommand):
     """
 
     def handle(self, *args, **options):
-        for c in Config.objects.all():
-            c.save()
+        config_v1_to_v2()
 
 
 

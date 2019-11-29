@@ -1,7 +1,7 @@
 """
 优先在settings_local中修改添加配置
 """
-
+from app.deeru_config_handler.base import BaseHandler
 from deeru.settings_common import *
 from deeru.settings_local import *
 from app.deeru_expression.expressions import BaseExpression
@@ -22,6 +22,19 @@ for f in EXPRESSION + CUSTOM_EXPRESSION:
             _class = getattr(exp_mod, name)
             if isinstance(_class(None), BaseExpression):
                 EXPRESSION_DICT[name.lower()] = _class
+        except:
+            pass
+
+# v2的config handler
+CONFIG_HANDLER_DICT = {}
+for f in CONFIG_HANDLER + CUSTOM_CONFIG_HANDLER:
+    handler_mod = import_module(f)
+    for name in dir(handler_mod):
+        try:
+            _class = getattr(handler_mod, name)
+            name = getattr(_class, 'deeru_config_handler_name', None)
+            if name:
+                CONFIG_HANDLER_DICT[name] = _class
         except:
             pass
 

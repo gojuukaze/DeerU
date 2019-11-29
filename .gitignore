@@ -115,3 +115,6 @@ deeru/settings_local.py
 deeru/urls_local.py
 
 .qiniu_pythonsdk_hostscache.json
+*.ipynb
+json_html
+*.sqlite3*

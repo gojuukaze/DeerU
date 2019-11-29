@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block head_static %}
-    <title>{{ article.title }} |{{ config.global_value.title }}</title>
+    <title>{{ article.title }} |{{ config.v2_blog_config.title }}</title>
     <link href="https://cdn.staticfile.org/jodit/3.2.55/jodit.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet">
     {#    <script src="https://cdn.bootcss.com/jodit/3.1.94/jodit.min.js"></script>#}
@@ -130,7 +130,7 @@
                         <strong>转载请注明来源</strong>
                         <p>文章：<a href="{{ article.url }}">{{ article.title }}  </a></p>
                         <p>链接：<a id="copyright_url" href="{{ article.url }}">{{ article.url }}  </a></p>
-                        <p>作者：<a href="/">{{ config.global_value.nickname }}  </a></p>
+                        <p>作者：<a href="/">{{ config.v2_blog_config.nickname }}  </a></p>
 
                     </div>
                 </div>
@@ -341,7 +341,7 @@
         </div>
     </div>
     <script>
-        document.title = "{{ article.title }} | {{ config.global_value.title }}";
+        document.title = "{{ article.title }} | {{ config.v2_blog_config.title }}";
         var current_url = document.location.origin + document.location.pathname;
         $('#qrcode_url').qrcode({
             text: current_url,
@@ -412,7 +412,7 @@
 {% endblock %}
 
 {% block after_body %}
-    {% if config.common_config.baidu_auto_push %}
+    {% if config.v2_blog_config.baidu_auto_push %}
         <script>
             (function () {
                 console.log(111)

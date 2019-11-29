@@ -7,6 +7,7 @@ from app.app_models.content_model import Article, Comment, FlatPage
 from app.app_models.other_model import Album
 from app.db_manager.content_manager import get_or_create_article_meta, get_article_meta_by_article
 from app.manager.config_manager import cache_config
+from app.manager.config_manager_v2 import get_real_config
 from app.manager.content_manager import get_flatpage_url_dict
 
 
@@ -55,4 +56,6 @@ def flatpage_post_save(sender, **kwargs):
 @receiver(post_save, sender=Config, dispatch_uid="config_post_save")
 def config_post_save(sender, **kwargs):
     if kwargs['instance'].get_post_save_flag():
-        cache_config(kwargs['instance'])
+        if not kwargs['instance'].name.endswith('.old'):
+            kwargs['instance'].v2_real_config = get_real_config(kwargs['instance'].v2_config)
+        kwargs['instance'].set_post_save_flag(False)

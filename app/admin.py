@@ -121,6 +121,8 @@ class ConfigAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
     fields = ['name', 'config', 'last_config']
 
+    '''
+    v1 的配置代码
     def get_changelist(self, request, **kwargs):
         if request.path.endswith('/change/'):
             self.is_first = True
@@ -150,7 +152,7 @@ class ConfigAdmin(admin.ModelAdmin):
         self.is_first = True
         self.config_bk = ''
         return super().add_view(request, form_url, extra_context)
-
+    '''
 
 @admin.register(Category)
 class CategoryAdmin(SortableAdminMixin, admin.ModelAdmin):

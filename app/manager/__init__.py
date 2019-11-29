@@ -1,16 +1,6 @@
-def get_rich_text_filed(name):
-    import importlib
-    temp = name.split('.')
-
-    module_name = '.'.join(temp[:-1])
-    module = importlib.import_module(module_name)
-    return getattr(module, temp[-1])
-
-
 def get_config_context():
     from django.apps import apps
     import importlib
-    from ast import literal_eval
     from app.db_manager.config_manager import get_config_by_name
 
     result = {}
@@ -25,7 +15,7 @@ def get_config_context():
             for k, v in app_config.items():
                 config = get_config_by_name(v)
                 if config:
-                    result[k] = literal_eval(config.cache)
+                    result[k] = config.v2_real_config
     return result
 
 
