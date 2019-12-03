@@ -1,3 +1,5 @@
+import json
+
 from bs4 import BeautifulSoup
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
@@ -53,9 +55,7 @@ def flatpage_post_save(sender, **kwargs):
     get_flatpage_url_dict.invalidate()
 
 
-@receiver(post_save, sender=Config, dispatch_uid="config_post_save")
-def config_post_save(sender, **kwargs):
-    if kwargs['instance'].get_post_save_flag():
-        if not kwargs['instance'].name.endswith('.old'):
-            kwargs['instance'].v2_real_config = get_real_config(kwargs['instance'].v2_config)
-        kwargs['instance'].set_post_save_flag(False)
+@receiver(pre_save, sender=Config, dispatch_uid="config_pre_save")
+def config_pre_save(sender, **kwargs):
+    if not kwargs['instance'].name.endswith('.old'):
+        kwargs['instance'].v2_real_config = get_real_config(kwargs['instance'].v2_config)

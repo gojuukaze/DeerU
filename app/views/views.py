@@ -1,9 +1,12 @@
+import json
+
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponseForbidden, HttpResponseRedirect, QueryDict
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import requires_csrf_token
 
+from app.db_manager.config_manager import get_config_by_id
 from app.db_manager.content_manager import get_article_meta_by_article, get_article_by_id
 from app.db_manager.other_manager import create_image, get_all_image, \
     get_image_by_id
@@ -21,7 +24,7 @@ def page_not_found_view(request, exception):
 
 
 @permission_required('app', raise_exception=True)
-def upload_image(request):
+def upload_image_view(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed(['GET', 'POST'])
     file = request.FILES.get('file')
@@ -79,3 +82,9 @@ def create_comment(request):
             form.save()
 
             return HttpResponseRedirect(reverse('app:detail_article', args=(article_id,)) + anchor)
+
+
+@permission_required('app', raise_exception=True)
+def get_config_html(request, config_id):
+    config = get_config_by_id(config_id)
+    return render(request, 'app/admin/config.html', {'schema': config.v2_schema, 'value': json.dumps(config.v2_config)})

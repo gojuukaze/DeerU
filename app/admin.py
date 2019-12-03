@@ -116,10 +116,15 @@ class ArticleAdmin(FormInitAdmin):
 
 @admin.register(Config)
 class ConfigAdmin(admin.ModelAdmin):
-    form = ConfigAdminForm
+    # form = ConfigAdminForm
     is_first = True
     list_display = ['name', 'id']
-    fields = ['name', 'config', 'last_config']
+    fields = [ 'v2_config']
+
+    def get_object(self, request, object_id, from_field=None):
+        obj = super().get_object(request, object_id, from_field)
+        obj.v2_config['_id'] = obj.id
+        return obj
 
     '''
     v1 的配置代码
@@ -153,6 +158,7 @@ class ConfigAdmin(admin.ModelAdmin):
         self.config_bk = ''
         return super().add_view(request, form_url, extra_context)
     '''
+
 
 @admin.register(Category)
 class CategoryAdmin(SortableAdminMixin, admin.ModelAdmin):

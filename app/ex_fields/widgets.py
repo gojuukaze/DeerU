@@ -74,6 +74,8 @@ class ConfigWidget(forms.Textarea):
     def render(self, name, value, attrs=None, renderer=None):
         html = super().render(name, value, attrs)
         el_id = self.build_attrs(attrs).get('id')
+        print('--', name)
+        print('==', value)
 
         html += """
         <script>
@@ -98,4 +100,41 @@ class ConfigWidget(forms.Textarea):
         );
         </script>
         """ % el_id
+        return mark_safe(html)
+
+
+class ConfigWidgetV2(forms.Textarea):
+    # class Media:
+    #     js = ['https://cdn.staticfile.org/swig/1.4.2/swig.min.js',
+    #           'https://cdn.jsdelivr.net/npm/@json-editor/json-editor@2.0.0-alpha.0/dist/jsoneditor.min.js'
+    #           ]
+    #     css = {'all': ['http://cdn.staticfile.org/font-awesome/5.11.2/css/all.min.css',
+    #                    '/static/json_editor/css/spectre.css'
+    #                    ]}
+
+    def render(self, name, value, attrs=None, renderer=None):
+        value = json.loads(value)
+        id = value['_id']
+        value.pop('_id')
+        value = json.dumps(value)
+        html = super().render(name, value, attrs)
+        el_id = self.build_attrs(attrs).get('id')
+
+        html += '''
+        <script>
+        django.jQuery(function(){
+         django.jQuery('#%s').parent().append('<iframe src="/config/%s/html"  style="width: 100%%;border: none" scrolling="no"></iframe>');
+         django.jQuery('#%s').hide();
+         django.jQuery("[for$='id_v2_config']").hide();
+         });
+        function onConfigChange(s){
+         django.jQuery('#%s').text(s);
+        }
+        function onHeightChange(h){
+        django.jQuery('iframe').height(h);
+        }
+        </script>
+        
+        ''' % (el_id, id, el_id, el_id)
+
         return mark_safe(html)

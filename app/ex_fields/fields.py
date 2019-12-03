@@ -5,8 +5,9 @@ from pprint import pprint, pformat
 from django.db.models import TextField
 from django.forms import Textarea
 from froala_editor.fields import FroalaField
+from jsonfield import JSONField
 
-from app.ex_fields.widgets import MFroalaEditor, ConfigWidget
+from app.ex_fields.widgets import MFroalaEditor, ConfigWidget, ConfigWidgetV2
 
 
 class MFroalaField(FroalaField):
@@ -38,3 +39,12 @@ class ConfigField(TextField):
         defaults.update(kwargs)
         defaults['widget'] = ConfigWidget
         return super(TextField, self).formfield(**defaults)
+
+class ConfigFieldV2(JSONField):
+
+
+    def formfield(self, **kwargs):
+        defaults = {'widget': ConfigWidgetV2}
+        defaults.update(kwargs)
+        defaults['widget'] = ConfigWidgetV2
+        return super().formfield(**defaults)

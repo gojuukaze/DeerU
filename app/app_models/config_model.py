@@ -2,7 +2,8 @@ from django.conf import settings
 from django.db import models
 from app.app_models import get_field
 from jsonfield import JSONField
-from app.ex_fields.fields import ConfigField
+from app.ex_fields.fields import ConfigField, ConfigFieldV2
+from app.ex_fields.widgets import ConfigWidgetV2
 
 DeerUJSONFiled = get_field(settings.JSON_FILED)
 
@@ -23,14 +24,14 @@ class Config(models.Model):
     # --
 
     # v2新增
-    v2_config = DeerUJSONFiled(verbose_name='v2版配置', null=True, blank=True, dump_kwargs={'ensure_ascii': False})
+    v2_config = ConfigFieldV2(verbose_name='v2版配置', null=True, blank=True, dump_kwargs={'ensure_ascii': False})
 
     # 经过handler处理后的配置，v2_config中的配置有的需要经过handler解析后才能使用
     # 保存配置时会自动处理v2_config，把结果保存到这
-    v2_real_config = DeerUJSONFiled(verbose_name='解析后的config', null=True, blank=True, editable=False,
+    v2_real_config = JSONField(verbose_name='解析后的config', null=True, blank=True, editable=False,
                                     dump_kwargs={'ensure_ascii': False})
 
-    v2_schema = models.TextField(verbose_name='json-editor配置', null=True, blank=True, editable=False)
+    v2_schema = models.TextField(verbose_name='json-editor配置', null=True, blank=True)
 
     created_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
