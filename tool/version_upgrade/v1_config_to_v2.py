@@ -29,7 +29,7 @@ def v1_attrs_to_v2(attrs: dict):
 
 def v1_img_to_v2(img: dict):
     if len(img) == 0:
-        return img
+        return {" ": ""}
     r = {
         "_handler": "v2_img_handler",
     }
@@ -85,6 +85,7 @@ def _create_v2_iconbar_config():
     v2_config['left']['blog_name'] = config_cache['left']['blog_name']
     v2_config['left']['blog_name']['_attrs'] = v1_attrs_to_v2(config_cache['left']['blog_name'].get('attrs', {}))
     v2_config['right'] = config_cache['right']
+    v2_config['left']['blog_name'].pop('attrs')
 
     for i, img in enumerate(v2_config['right']):
         v2_config['right'][i]['img'] = v1_img_to_v2(config_cache['right'][i]['img'])
