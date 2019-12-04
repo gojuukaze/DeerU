@@ -19,11 +19,11 @@ class ArticleAdminForm(forms.ModelForm):
         model = Article
         fields = '__all__'
 
-    is_use_cover_img = forms.BooleanField(label='是否使用自定义封面图片', initial=True)
-    cover_img = forms.CharField(label='封面图片', max_length=150, required=False)
-    is_use_cover_summary = forms.BooleanField(label='是否使用自定义简介', required=False)
+    # is_use_cover_img = forms.BooleanField(label='是否使用自定义封面图片（打钩将使用输入的地址作为封面，否则将自动提取）', initial=True, required=False)
+    cover_img = forms.CharField(label='封面图片', max_length=150, required=False,help_text='为空将自动提取')
+    # is_use_cover_summary = forms.BooleanField(label='是否使用自定义简介（打钩将使用输入的内容作为简介，否则将自动提取）', required=False)
 
-    cover_summary = forms.CharField(label='封面简介', max_length=200, required=False, help_text='为空将自动自取',
+    cover_summary = forms.CharField(label='简介', max_length=200, required=False,help_text='为空将自动提取',
                                     widget=forms.Textarea(attrs={'rows': '4', 'cols': '55'}), )
 
     category = forms.MultipleChoiceField(label='分类', choices=get_category_for_choice)

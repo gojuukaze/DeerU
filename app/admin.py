@@ -33,20 +33,6 @@ class ArticleAdmin(FormInitAdmin):
 
     fields = ('title', 'cover_img', 'cover_summary', 'content', 'category', 'tag')
 
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ('title',)
-    #     }),
-    #     ('其他选项', {
-    #         'classes': ('collapse',),
-    #         'fields': ('cover_img', 'cover_summary'),
-    #     }),
-    #     (None, {
-    #         'fields': ('content', 'category', 'tag')
-    #     }),
-    # )
-
-    # fields = ( 'read_num', 'comment_num')
 
     def m_title(self, obj):
         return render_to_string('app/admin/article_title.html', {'article': obj})
@@ -80,8 +66,8 @@ class ArticleAdmin(FormInitAdmin):
         return super().get_form(request, obj, **kwargs)
 
     def save_model(self, request, obj, form, change):
-        cover_img = form.cleaned_data['cover_img'] if form.cleaned_data['is_use_cover_img'] else None
-        cover_summary = form.cleaned_data['cover_summary'] if form.cleaned_data['is_use_cover_summary'] else None
+        cover_img = form.cleaned_data['cover_img']
+        cover_summary = form.cleaned_data['cover_summary']
         obj.cover_img = cover_img
         obj.cover_summary = cover_summary
         result = super().save_model(request, obj, form, change)

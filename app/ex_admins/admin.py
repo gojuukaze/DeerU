@@ -2,10 +2,10 @@
 from django.contrib import admin
 from django.contrib.admin import helpers
 from django.contrib.admin.exceptions import DisallowedModelAdminToField
-from django.contrib.admin.utils import (unquote,
+from django.contrib.admin.utils import (unquote, flatten_fieldsets
                                         )
-from django.core.exceptions import (PermissionDenied,
-                                    )
+from django.core.exceptions import PermissionDenied
+
 from django.forms.formsets import all_valid
 
 from django.utils.translation import gettext as _
@@ -20,7 +20,6 @@ class FormInitAdmin(admin.ModelAdmin):
     field_init_value = {}
 
     def _changeform_view(self, request, object_id, form_url, extra_context):
-
         to_field = request.POST.get(TO_FIELD_VAR, request.GET.get(TO_FIELD_VAR))
         if to_field and not self.to_field_allowed(request, to_field):
             raise DisallowedModelAdminToField("The field %s cannot be referenced." % to_field)
@@ -41,20 +40,23 @@ class FormInitAdmin(admin.ModelAdmin):
         else:
             obj = self.get_object(request, unquote(object_id), to_field)
 
-            if not self.has_change_permission(request, obj):
-                raise PermissionDenied
+            if request.method == 'POST':
+                if not self.has_change_permission(request, obj):
+                    raise PermissionDenied
+            else:
+                if not self.has_view_or_change_permission(request, obj):
+                    raise PermissionDenied
 
             if obj is None:
                 return self._get_obj_does_not_exist_redirect(request, opts, object_id)
 
-        ModelForm = self.get_form(request, obj)
+        ModelForm = self.get_form(request, obj, change=not add)
         if request.method == 'POST':
             form = ModelForm(request.POST, request.FILES, instance=obj)
-            if form.is_valid():
-                form_validated = True
+            form_validated = form.is_valid()
+            if form_validated:
                 new_object = self.save_form(request, form, change=not add)
             else:
-                form_validated = False
                 new_object = form.instance
             formsets, inline_instances = self._create_formsets(request, new_object, change=not add)
             if all_valid(formsets) and form_validated:
@@ -75,14 +77,22 @@ class FormInitAdmin(admin.ModelAdmin):
                 form = ModelForm(initial=initial)
                 formsets, inline_instances = self._create_formsets(request, form.instance, change=False)
             else:
+                # Changed
+                # 因为ArticleAdminForm中有Article没有的字段，这些字段的值不会变填充
+                # field_init_value就是用于给这些字段填充值用的
                 form = ModelForm(instance=obj, initial=self.field_init_value)
                 formsets, inline_instances = self._create_formsets(request, obj, change=True)
 
+        if not add and not self.has_change_permission(request, obj):
+            readonly_fields = flatten_fieldsets(self.get_fieldsets(request, obj))
+        else:
+            readonly_fields = self.get_readonly_fields(request, obj)
         adminForm = helpers.AdminForm(
             form,
             list(self.get_fieldsets(request, obj)),
-            self.get_prepopulated_fields(request, obj),
-            self.get_readonly_fields(request, obj),
+            # Clear prepopulated fields on a view-only form to avoid a crash.
+            self.get_prepopulated_fields(request, obj) if add or self.has_change_permission(request, obj) else {},
+            readonly_fields,
             model_admin=self)
         media = self.media + adminForm.media
 
@@ -90,20 +100,25 @@ class FormInitAdmin(admin.ModelAdmin):
         for inline_formset in inline_formsets:
             media = media + inline_formset.media
 
-        context = dict(
-            self.admin_site.each_context(request),
-            title=(_('Add %s') if add else _('Change %s')) % opts.verbose_name,
-            adminform=adminForm,
-            object_id=object_id,
-            original=obj,
-            is_popup=(IS_POPUP_VAR in request.POST or
-                      IS_POPUP_VAR in request.GET),
-            to_field=to_field,
-            media=media,
-            inline_admin_formsets=inline_formsets,
-            errors=helpers.AdminErrorList(form, formsets),
-            preserved_filters=self.get_preserved_filters(request),
-        )
+        if add:
+            title = _('Add %s')
+        elif self.has_change_permission(request, obj):
+            title = _('Change %s')
+        else:
+            title = _('View %s')
+        context = {
+            **self.admin_site.each_context(request),
+            'title': title % opts.verbose_name,
+            'adminform': adminForm,
+            'object_id': object_id,
+            'original': obj,
+            'is_popup': IS_POPUP_VAR in request.POST or IS_POPUP_VAR in request.GET,
+            'to_field': to_field,
+            'media': media,
+            'inline_admin_formsets': inline_formsets,
+            'errors': helpers.AdminErrorList(form, formsets),
+            'preserved_filters': self.get_preserved_filters(request),
+        }
 
         # Hide the "Save" and "Save and continue" buttons if "Save as New" was
         # previously chosen to prevent the interface from getting confusing.
