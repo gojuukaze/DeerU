@@ -146,7 +146,7 @@ FLATPAGE_URL = '/p/'
 # 富文本编辑器配置
 
 DEERU_RICH_EDITOR = {
-    'filed': 'app.ex_fields.fields.MFroalaField',
+    'filed': 'froala_editor.fields.FroalaField',
     'article_kwargs': {
         'options': {
             'height': 350,
