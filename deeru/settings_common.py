@@ -149,7 +149,7 @@ DEERU_RICH_EDITOR = {
     'filed': 'app.ex_fields.fields.MFroalaField',
     'article_kwargs': {
         'options': {
-            'height': 300,
+            'height': 350,
             'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
                                'paragraphStyle', 'bold', 'italic', 'underline', 'strikeThrough',
                                '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '|',
@@ -161,7 +161,7 @@ DEERU_RICH_EDITOR = {
     },
     'flatpage_kwargs': {
         'options': {
-            'height': 300,
+            'height': 350,
             'toolbarButtons': ['fontFamily', 'fontSize', 'color', '|', 'paragraphFormat',
                                'paragraphStyle', 'bold', 'italic', 'underline', 'strikeThrough',
                                '|', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '|',
