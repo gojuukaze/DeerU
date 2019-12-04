@@ -87,4 +87,7 @@ def create_comment(request):
 @permission_required('app', raise_exception=True)
 def get_config_html(request, config_id):
     config = get_config_by_id(config_id)
-    return render(request, 'app/admin/config.html', {'schema': config.v2_schema, 'value': json.dumps(config.v2_config)})
+    return render(request, 'app/admin/config.html',
+                  {'schema': config.v2_schema,
+                   'value': json.dumps(config.v2_config),
+                   'script': config.v2_script})
