@@ -1,3 +1,5 @@
+from django_choices_enums import DjangoChoicesEnum
+
 Global_value_cache_key = 'Global_value_cache_key'
 
 app_config_context = {
@@ -35,3 +37,13 @@ Comment_Type = (
 )
 
 FLAT_PAGE_URL_CACHE_KEY = '1deeruflatpageurl_cache'
+
+
+class CommentStatusChoices(DjangoChoicesEnum):
+    Created = (0, '待审核')
+    Failed = (1, '未通过')
+    Passed = (2, '通过')
+
+    @staticmethod
+    def valid_choices():
+        return [0, 2]

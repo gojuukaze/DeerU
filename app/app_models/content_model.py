@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
-from app.consts import Comment_Type
+from app.consts import Comment_Type, CommentStatusChoices
 from app.app_models import get_field
 from tool.html_helper import clean_all_tags, get_safe_comment_html
 
@@ -69,26 +69,25 @@ class Article(models.Model):
         return filter_tag_by_article(self.id)
 
     def comments(self):
-        from app.db_manager.content_manager import filter_comment_by_article
-        return filter_comment_by_article(self.id)
+        from app.db_manager.content_manager import filter_valid_comment_by_article
+        return filter_valid_comment_by_article(self.id)
 
     def format_comments(self):
         """
         返回按父子结构整理后的评论
         以下说的 评论、回复 其实是一个东西，方便区分用了两个词，具体看类Comment的说明
 
-        child：包含评论的回复，和对这条评论下回复的回复，children不会再有children
+        children：评论的回复，以及对这条评论下回复 的 回复，children不会再有children
 
         [ { 'comment' : Comment , 'children': [ {'comment' : Comment, 'to_nickname':'xx'} ] } ,{...}]
         :return:
         """
-        from app.db_manager.content_manager import filter_comment_by_article
         result = []
         # 根评论在result中的位置,id:pos
         root_comment_id_to_pos = {}
 
-        comments = filter_comment_by_article(self.id)
-        # 评论在queryset中的位置,id:pos
+        comments = self.comments()
+        # 评论在comments列表中的位置,id:pos
         comment_id_to_pos = {}
 
         r_pos = 0
@@ -101,8 +100,7 @@ class Article(models.Model):
                 r_pos += 1
             else:
                 try:
-                    # comment_id_to_pos没有key c.to_id，？
-                    # 因为有人恶意提交了to_id，先加try，之后增加comment参数验证
+                    # 这个try应该是没用了，不过陈年代码不敢妄动，就这样吧 = =
                     to_pos = comment_id_to_pos[c.to_id]
                 except:
                     continue
@@ -236,18 +234,11 @@ class Comment(models.Model):
 
     nickname = models.CharField(verbose_name='昵称', max_length=20, null=True, blank=True)
     email = models.EmailField(verbose_name='邮箱', null=True, blank=True)
-    content = models.TextField(verbose_name='内容',
-                               # options={
-                               #     'height': 300,
-                               #     'toolbarButtons': ['fontSize', 'color', '|', 'bold', 'italic', 'underline',
-                               #                        'strikeThrough',
-                               #                        '|', 'emoticons', 'insertLink', 'quote', ],
-                               #     'imageUpload': False,'quickInsertButtons':[],
-                               #     'imageManagerLoadURL':'/','imageManagerDeleteURL':'/'
-                               # }
-                               )
+    content = models.TextField(verbose_name='内容')
 
     article_id = models.IntegerField(verbose_name='article_id')
+    status = models.IntegerField(verbose_name='状态', choices=CommentStatusChoices.to_django_choices(),
+                                 default=CommentStatusChoices.Created)
 
     """
     注意区分root_id和to_id，
@@ -287,6 +278,13 @@ class Comment(models.Model):
             self.email = clean_all_tags(self.email)
         self.content = get_safe_comment_html(self.content)
         super().save(force_insert, force_update, using, update_fields)
+
+    def article(self):
+        from app.db_manager.content_manager import get_article_by_id
+        return get_article_by_id(self.article_id)
+
+    def __str__(self):
+        return '评论<%s>' % self.id
 
 
 class FlatPage(models.Model):

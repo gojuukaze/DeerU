@@ -204,7 +204,7 @@
                 <div id="comment">
                     {% for c in article.format_comments %}
 
-                        <article class="media">
+                        <article id="comment-{{ c.comment.id }}" class="media">
                             <figure class="media-left img_head">
                                 <p class="image is-60x60">
                                     <img src="https://secure.gravatar.com/avatar/ba501072452b828d7f3b33d8369e349e?s=60">
@@ -232,7 +232,7 @@
 
 
                                 {% for child in c.children %}
-                                    <article class="media">
+                                    <article id="comment-{{ child.comment.id }}" class="media">
 
                                         <figure class="media-left is-hidden-touch img_head">
                                             <p class="image is-48x48">
@@ -372,7 +372,7 @@
         $("#id_email").val(storage["email"]);
 
         var joditEditor = createCommentEditor('#id_content');
-        $('.jodit_toolbar_btn-emoji')[0].className += ' is-hidden-touch'
+        $('.jodit_toolbar_btn-emoji')[0].className += ' is-hidden-touch';
 
 
         function changeForm(type, root_id, to_id, nickname) {
@@ -392,17 +392,8 @@
             }
         }
 
-        /*$(function () {
-            console.log('load 2222');
-            var emoj = $('#emoticons-1');
-            emoj.find(':first-child').remove();
-            emoj.find(':first-child').before($('<i class="far fa-smile" aria-hidden="true"></i>'));
-            $("form").submit(function (e) {
-                alert("Submit prevented");
-            });
-        });*/
 
-
+        $('#comment_header').text('本文共 ' + $("[id^='comment-']").length + ' 个回复');
     </script>
 
 {% endblock %}

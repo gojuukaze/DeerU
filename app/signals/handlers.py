@@ -7,7 +7,8 @@ from django.db.models.signals import post_save, pre_save
 from app.app_models.config_model import Config
 from app.app_models.content_model import Article, Comment, FlatPage
 from app.app_models.other_model import Album
-from app.db_manager.content_manager import get_or_create_article_meta, get_article_meta_by_article
+from app.db_manager.content_manager import get_or_create_article_meta, get_article_meta_by_article, \
+    filter_valid_comment_by_article
 from app.manager.config_manager import cache_config
 from app.manager.config_manager_v2 import get_real_config
 from app.manager.content_manager import get_flatpage_url_dict
@@ -40,7 +41,7 @@ def article_post_save(sender, **kwargs):
 @receiver(post_save, sender=Comment, dispatch_uid="comment_post_save")
 def comment_post_save(sender, **kwargs):
     a_meta = get_article_meta_by_article(kwargs['instance'].article_id)
-    a_meta.comment_num += 1
+    a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).count()
     a_meta.save()
 
 

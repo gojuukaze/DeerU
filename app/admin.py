@@ -1,13 +1,15 @@
 from ast import literal_eval
 
 from adminsortable2.admin import SortableAdminMixin
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.template.loader import render_to_string
 
 # Register your models here.
 from django.core.cache import cache
+from django.utils.safestring import mark_safe
 
-from app.consts import Global_value_cache_key, app_config_context, Theme_config_cache_key, Theme_cache_key
+from app.consts import Global_value_cache_key, app_config_context, Theme_config_cache_key, Theme_cache_key, \
+    CommentStatusChoices
 from app.ex_admins.admin import FormInitAdmin
 from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm, ConfigAdminForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
@@ -15,7 +17,7 @@ from app.db_manager.content_manager import filter_category_by_article, create_ta
 from app.ex_admins.list_filter import CategoryFatherListFilter
 from app.manager.ct_manager import update_one_to_many_relation_model, get_tag_for_choice
 from app.app_models.other_model import Album
-from app.app_models.config_model import Config
+from app.app_models.config_model import Config, Version
 from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag, FlatPage, Comment
 from tool.deeru_html import Tag as htag
 
@@ -32,7 +34,6 @@ class ArticleAdmin(FormInitAdmin):
     # list_display_links = ['title']
 
     fields = ('title', 'cover_img', 'cover_summary', 'content', 'category', 'tag')
-
 
     def m_title(self, obj):
         return render_to_string('app/admin/article_title.html', {'article': obj})
@@ -105,7 +106,7 @@ class ConfigAdmin(admin.ModelAdmin):
     # form = ConfigAdminForm
     is_first = True
     list_display = ['name', 'id']
-    fields = [ 'v2_config']
+    fields = ['v2_config']
 
     def get_object(self, request, object_id, from_field=None):
         obj = super().get_object(request, object_id, from_field)
@@ -189,5 +190,49 @@ class FlatPageAdmin(admin.ModelAdmin):
 
 
 @admin.register(Comment)
-class FlatPageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nickname', 'content', 'article_id', 'created_time')
+class CommentAdmin(admin.ModelAdmin):
+    search_fields = ['content', 'nickname']
+    list_display = ('id', 'm_status', 'nickname', 'm_content', 'article', 'created_time', 'm_action')
+    list_filter = ['status', 'created_time']
+    actions = ['make_pass', 'make_fail']
+
+    def m_status(self, obj):
+        return render_to_string('app/admin/comment_status.html', {'status': obj.status})
+
+    m_status.short_description = '状态'
+
+    def m_content(self, obj):
+        return mark_safe('<p>'+obj.content+'</p>')
+
+    m_content.short_description = '内容'
+
+    def article(self, obj):
+        article = obj.article()
+        title = article.title if article else '文章不存在'
+        url = article.url() if article else ''
+        if url:
+            url += '#comment-' + str(obj.id)
+        return mark_safe('<a title="跳转到文章评论" target="_blank" href="%s">%s</a>' % (url, title))
+
+    article.short_description = '文章'
+
+    def m_action(self, obj):
+        return render_to_string('app/admin/comment_action.html', {'obj': obj})
+
+    m_action.short_description = '操作'
+
+    def make_pass(self, request, queryset):
+        for q in queryset:
+            q.status = CommentStatusChoices.Passed
+            q.save()
+            self.message_user(request, "%s 通过" % str(q), level=messages.INFO)
+
+    make_pass.short_description = '通过'
+
+    def make_fail(self, request, queryset):
+        for q in queryset:
+            q.status = CommentStatusChoices.Failed
+            q.save()
+            self.message_user(request, "%s 不通过" % str(q), level=messages.INFO)
+
+    make_pass.short_description = '不通过'

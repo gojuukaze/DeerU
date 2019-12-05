@@ -2,7 +2,7 @@
 from cache_utils.decorators import cached
 
 from app.consts import FLAT_PAGE_URL_CACHE_KEY
-from app.db_manager.content_manager import all_flatpage, get_article_by_id, get_comment_by_id_and_article
+from app.db_manager.content_manager import all_flatpage, get_article_by_id, get_valid_comment_by_id_and_article
 
 
 @cached(86400, key=FLAT_PAGE_URL_CACHE_KEY)
@@ -25,7 +25,7 @@ def is_valid_comment(comment_form):
         return False, '错误id'
 
     if type == 202:
-        to_comment = get_comment_by_id_and_article(to_id, article_id)
+        to_comment = get_valid_comment_by_id_and_article(to_id, article_id)
         if not to_comment:
             return False, '错误to_id'
 

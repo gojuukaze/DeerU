@@ -1,8 +1,10 @@
 from app.app_models.content_model import Article, Category, ArticleCategory, Tag, ArticleTag, ArticleMeta, Comment, \
     FlatPage
 
-
 ################## Article ###############
+from app.consts import CommentStatusChoices
+
+
 def create_article(title, content):
     Article.objects.create(title=title, content=content)
 
@@ -172,8 +174,12 @@ def create_comment(nickname, email, content, article_id, root_id, to_id, type):
                                   root_id=root_id, to_id=to_id, type=type)
 
 
-def filter_comment_by_article(a_id):
-    return Comment.objects.filter(article_id=a_id)
+def filter_valid_comment_by_article(a_id):
+    return Comment.objects.filter(article_id=a_id, status__in=CommentStatusChoices.valid_choices())
+
+
+def filter_created_comment_by_article(a_id):
+    return Comment.objects.filter(article_id=a_id, status=CommentStatusChoices.Created)
 
 
 def get_comment_by_id(id):
@@ -183,9 +189,9 @@ def get_comment_by_id(id):
         return None
 
 
-def get_comment_by_id_and_article(id, a_id):
+def get_valid_comment_by_id_and_article(id, a_id):
     try:
-        return Comment.objects.get(id=id, article_id=a_id)
+        return Comment.objects.get(id=id, article_id=a_id, status__in=CommentStatusChoices.valid_choices())
     except:
         return None
 

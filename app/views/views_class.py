@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 
 from app.db_manager.content_manager import filter_article_order_by_id, get_article_by_id, filter_article_by_category, \
-    get_category_by_id, filter_article_by_tag, get_article_meta_by_article, get_tag_by_id, filter_comment_by_article, \
+    get_category_by_id, filter_article_by_tag, get_article_meta_by_article, get_tag_by_id, filter_valid_comment_by_article, \
     get_flatpage_by_id
 from app.forms import CommentForm
 from app.manager import get_base_context
@@ -52,7 +52,6 @@ class ArticleList(ListView):
         # context['global_value'] = get_global_value()
         # context['aside_category'] = get_aside_category()
         context['paginator'] = self.paginator
-        pprint(context)
         return context
 
 
@@ -82,7 +81,7 @@ class DetailArticle(DetailView, DeerUContextMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = filter_comment_by_article(self.kwargs['article_id'])
+        context['comments'] = filter_valid_comment_by_article(self.kwargs['article_id'])
         context['comment_form'] = CommentForm()
         context['form_error'] = self.request.GET.get('form_error', '')
         pprint(context)
