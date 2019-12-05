@@ -41,7 +41,7 @@ def article_post_save(sender, **kwargs):
 @receiver(post_save, sender=Comment, dispatch_uid="comment_post_save")
 def comment_post_save(sender, **kwargs):
     a_meta = get_article_meta_by_article(kwargs['instance'].article_id)
-    a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).count()
+    a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).filter(type=201).count()
     a_meta.save()
 
 
