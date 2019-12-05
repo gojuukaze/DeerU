@@ -192,17 +192,18 @@ class FlatPageAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     search_fields = ['content', 'nickname']
-    list_display = ('id', 'm_status', 'nickname', 'm_content', 'article', 'created_time', 'm_action')
+    list_display = ('id', 'author', 'm_content', 'article', 'created_time')
     list_filter = ['status', 'created_time']
     actions = ['make_pass', 'make_fail']
 
-    def m_status(self, obj):
-        return render_to_string('app/admin/comment_status.html', {'status': obj.status})
+    def author(self, obj):
+        return render_to_string('app/admin/comment_author.html',
+                                {'nickname': obj.nickname, 'email': obj.email or '', 'status': obj.status})
 
-    m_status.short_description = '状态'
+    author.short_description = '作者'
 
     def m_content(self, obj):
-        return mark_safe('<p>'+obj.content+'</p>')
+        return render_to_string('app/admin/comment_content.html', {'comment': obj})
 
     m_content.short_description = '内容'
 
@@ -212,7 +213,12 @@ class CommentAdmin(admin.ModelAdmin):
         url = article.url() if article else ''
         if url:
             url += '#comment-' + str(obj.id)
-        return mark_safe('<a title="跳转到文章评论" target="_blank" href="%s">%s</a>' % (url, title))
+        return mark_safe(
+            '<div style="display:flex;flex-direction:column">'
+            '<a style="font-size:15px;" target="_blank" href="%s"><strong>%s</strong></a>'
+            '<a style="font-size:12px;margin-top:3px" target="_blank" href="%s">跳转到文章评论</a>'
+            '</div>' % (url, title, url)
+        )
 
     article.short_description = '文章'
 
@@ -235,4 +241,4 @@ class CommentAdmin(admin.ModelAdmin):
             q.save()
             self.message_user(request, "%s 不通过" % str(q), level=messages.INFO)
 
-    make_pass.short_description = '不通过'
+    make_fail.short_description = '不通过'
