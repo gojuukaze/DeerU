@@ -52,6 +52,7 @@ class Command(BaseCommand):
             try:
 
                 management.call_command('migrate', stdout=f)
+                management.call_command('migrate', 'dashboard', stdout=f)
                 # management.call_command('makemigrations', 'app', stdout=f)
             except:
 

@@ -6,6 +6,7 @@ SECRET_KEY = 'bjxu7l2-r*8ar0*#_s360e!jm#5cs$3pd%k(ooz5g*p!72j07t'
 
 INSTALLED_APPS = [
     # admin扩展
+    'jet.dashboard',
     'jet',
 
     'django.contrib.admin',
@@ -27,6 +28,7 @@ INSTALLED_APPS = [
     'app.apps.MAppConfig',
     'base_theme.apps.BaseThemeConfig',
     'deeru_cmd.apps.DeerUCmdConfig',
+    'deeru_dashboard.apps.DeeruDashboardConfig',
 ]
 
 MIDDLEWARE = [
@@ -74,9 +76,36 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# jet主题
+# jet后台
 JET_DEFAULT_THEME = 'light-gray'
+JET_SIDE_MENU_COMPACT = True
+JET_INDEX_DASHBOARD = 'deeru_dashboard.dashboard.CustomIndexDashboard'
 
+JET_SIDE_MENU_ITEMS = [
+    {'label': '文章', 'app_label': 'app', 'items': [
+        {'name': 'article'},
+        {'name': 'category'},
+        {'name': 'tag'},
+
+    ]},
+    {'label': '评论', 'app_label': 'app', 'items': [
+        {'name': 'comment'},
+    ]},
+    {'label': '单页面', 'app_label': 'app', 'items': [
+        {'name': 'flatpage'},
+    ]},
+    {'label': '媒体', 'app_label': 'app', 'items': [
+        {'name': 'album'},
+    ]},
+    {'label': '配置', 'app_label': 'app', 'items': [
+        {'name': 'config'},
+    ]},
+    {'label': '账户', 'app_label': 'auth', 'items': [
+        {'name': 'user'},
+    ]},
+]
+
+# 富文本编辑器
 FROALA_EDITOR_PLUGINS = ('align', 'char_counter', 'code_beautifier', 'code_view', 'colors', 'draggable', 'emoticons',
                          'entities', 'file', 'font_family', 'font_size', 'fullscreen', 'image', 'image_manager',
                          'inline_style',
