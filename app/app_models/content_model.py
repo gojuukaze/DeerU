@@ -283,6 +283,12 @@ class Comment(models.Model):
         from app.db_manager.content_manager import get_article_by_id
         return get_article_by_id(self.article_id)
 
+    def url(self):
+        return reverse('app:detail_article', args=(self.article_id,)) + '#comment-' + str(self.id)
+
+    def get_absolute_url(self):
+        return self.url()
+
     def __str__(self):
         return '评论<%s>' % self.id
 

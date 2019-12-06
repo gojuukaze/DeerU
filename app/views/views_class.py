@@ -84,7 +84,6 @@ class DetailArticle(DetailView, DeerUContextMixin):
         context['comments'] = filter_valid_comment_by_article(self.kwargs['article_id'])
         context['comment_form'] = CommentForm()
         context['form_error'] = self.request.GET.get('form_error', '')
-        pprint(context)
         return context
 
 

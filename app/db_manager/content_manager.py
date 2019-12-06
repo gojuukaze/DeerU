@@ -41,7 +41,7 @@ def filter_article_order_by_id(desc=True):
     return Article.objects.filter().order_by('-id' if desc else 'id')
 
 
-def get_all_article():
+def all_article():
     return Article.objects.all()
 
 
@@ -178,8 +178,8 @@ def filter_valid_comment_by_article(a_id):
     return Comment.objects.filter(article_id=a_id, status__in=CommentStatusChoices.valid_choices())
 
 
-def filter_created_comment_by_article(a_id):
-    return Comment.objects.filter(article_id=a_id, status=CommentStatusChoices.Created)
+def filter_created_comment():
+    return Comment.objects.filter(status=CommentStatusChoices.Created)
 
 
 def get_comment_by_id(id):
@@ -194,6 +194,10 @@ def get_valid_comment_by_id_and_article(id, a_id):
         return Comment.objects.get(id=id, article_id=a_id, status__in=CommentStatusChoices.valid_choices())
     except:
         return None
+
+
+def all_comment():
+    return Comment.objects.all()
 
 
 #################  FlatPage  #######################
