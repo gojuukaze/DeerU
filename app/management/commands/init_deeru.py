@@ -79,31 +79,36 @@ class Command(BaseCommand):
         # ============
 
         self.info('创建管理员账户 ... ')
+        is_create_user = 'y'
+        if User.objects.count() > 0:
+            is_create_user = input('已存在管理员账户，是否创建新的管理员（ y/n，默认：n ）')
+            if not is_create_user:
+                is_create_user = 'n'
 
-        username = input('输入管理账户登录名（默认：admin）：')
-        if not username:
-            username = 'admin'
-        password = getpass('输入密码（默认：123456）：')
-        if not password:
-            password = '123456'
-        with open('./log/init.log', 'a', encoding='utf-8')as f:
-            try:
-                flag = True
-                User._default_manager.db_manager('default').create_superuser(username, None, password)
+        if is_create_user == 'y':
+            username = input('输入管理账户登录名（默认：admin）：')
+            if not username:
+                username = 'admin'
+            password = getpass('输入密码（默认：123456）：')
+            if not password:
+                password = '123456'
+            with open('./log/init.log', 'a', encoding='utf-8')as f:
+                try:
+                    flag = True
+                    User._default_manager.db_manager('default').create_superuser(username, None, password)
+                    self.success('创建管理员账户 ... [完成]')
+                except:
+                    flag = False
+                    traceback.print_exc(3)
 
-            except:
-                flag = False
-                traceback.print_exc(3)
-
-                traceback.print_exc(file=f)
-                self.error('创建管理员账户 ... [失败]，更多信息查看 ./log/init.log ')
+                    traceback.print_exc(file=f)
+                    self.error('创建管理员账户 ... [失败]，更多信息查看 ./log/init.log ')
 
 
-            finally:
-                if not flag:
-                    return
-
-        # ============
-        self.success('创建管理员账户 ... [完成]')
+                finally:
+                    if not flag:
+                        return
+        else:
+            self.info('跳过创建管理员')
 
         self.success('\n初始化完成 ！！')
