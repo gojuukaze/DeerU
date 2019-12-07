@@ -203,8 +203,5 @@ DEERU_RICH_EDITOR = {
 }
 
 # log
-LOG_DIR = os.path.join(BASE_DIR, 'log')
+LOG_DIR = ''
 
-# jsonfiled
-JSON_FILED = 'jsonfield.JSONField'
-# 使用PostgreSQL，在settings_local.py中设置为 django.contrib.postgres.fields.JSONField

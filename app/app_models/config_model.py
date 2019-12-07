@@ -3,7 +3,6 @@ from django.db import models
 from app.app_models import get_field
 from jsonfield import JSONField
 from app.ex_fields.fields import ConfigField, ConfigFieldV2
-from app.ex_fields.widgets import ConfigWidgetV2
 
 DeerUJSONFiled = get_field(settings.JSON_FILED)
 

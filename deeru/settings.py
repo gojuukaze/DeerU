@@ -76,13 +76,6 @@ if LOG_DIR:
                 'formatter': 'verbose',
             },
 
-            'access': {
-                'level': 'INFO',
-                'class': 'logging.handlers.WatchedFileHandler',
-                'filename': os.path.join(LOG_DIR, 'access.log'),
-                'formatter': 'simple2',
-            },
-
             'info': {
                 'level': 'INFO',
                 'class': 'logging.handlers.WatchedFileHandler',
@@ -106,11 +99,6 @@ if LOG_DIR:
             'error_logger': {
                 'handlers': ['default_err', 'console'],
                 'level': 'ERROR',
-                'propagate': False,
-            },
-            'access_logger': {
-                'handlers': ['access'],
-                'level': 'INFO',
                 'propagate': False,
             },
             'info_logger': {
