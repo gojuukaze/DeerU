@@ -115,6 +115,9 @@ class ConfigAdmin(admin.ModelAdmin):
         obj.v2_config['_id'] = obj.id
         return obj
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).exclude(name__endswith='.old')
+
     def save_model(self, request, obj, form, change):
 
         if obj.name == v2_app_config_context['v2_blog_config']:
