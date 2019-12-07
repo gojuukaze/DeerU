@@ -1,8 +1,13 @@
 # -*- coding:utf-8 -*-
 from cache_utils.decorators import cached
+from django.conf import settings
+from django.template.loader import render_to_string
 
-from app.consts import FLAT_PAGE_URL_CACHE_KEY
-from app.db_manager.content_manager import all_flatpage, get_article_by_id, get_valid_comment_by_id_and_article
+from app.consts import FLAT_PAGE_URL_CACHE_KEY, v2_app_config_context
+from app.db_manager.config_manager import get_config_by_name
+from app.db_manager.content_manager import all_flatpage, get_article_by_id, get_valid_comment_by_id_and_article, \
+    get_comment_by_id
+from app.manager.email import send_mail
 
 
 @cached(86400, key=FLAT_PAGE_URL_CACHE_KEY)
@@ -37,3 +42,36 @@ def is_valid_comment(comment_form):
                 return False, '错误root_id'
 
     return True, ''
+
+
+def send_reply_email(comment):
+    """
+
+    :param comment:
+    :type comment: app.app_models.content_model.Comment
+    :return:
+    :rtype:
+    """
+
+    if comment.type != 202:
+        return
+
+    to_comment = get_comment_by_id(comment.to_id)
+    if not to_comment or not to_comment.email:
+        return
+
+    blog_config = get_config_by_name(v2_app_config_context['v2_blog_config']).v2_real_config
+    blog_name = blog_config.get('blog_name', '')
+    article = comment.article()
+    comment_url = article.url() + '#comment-' + str(comment.id)
+    email = blog_config['email']
+    send_mail(
+        '你在《%s》下的评论有新回复 (来自于：%s)' % (article.title, blog_name),
+        '',
+        [to_comment.email],
+        email_config=email,
+        html_message=render_to_string('app/email/comment_email.html',
+                                      {'nickname': blog_config.get('nickname', ''), 'article': article,
+                                       'comment': comment, 'comment_url': comment_url,
+                                       'host': blog_config['host']})
+    )

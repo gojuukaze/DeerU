@@ -9,3 +9,5 @@ djcacheutils==3.0.0
 Pillow==6.2.0
 jsonfield==2.0.2
 django-choices-enums==1.0.3
+pydes==2.0.1
+

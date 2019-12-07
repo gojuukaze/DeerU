@@ -9,7 +9,7 @@ from django.core.cache import cache
 from django.utils.safestring import mark_safe
 
 from app.consts import Global_value_cache_key, app_config_context, Theme_config_cache_key, Theme_cache_key, \
-    CommentStatusChoices
+    CommentStatusChoices, v2_app_config_context
 from app.ex_admins.admin import FormInitAdmin
 from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm, ConfigAdminForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
@@ -20,6 +20,8 @@ from app.app_models.other_model import Album
 from app.app_models.config_model import Config, Version
 from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag, FlatPage, Comment
 from tool.deeru_html import Tag as htag
+from tool.secure import encrypt
+from tool.sign import unsign, sign
 
 
 @admin.register(Article)
@@ -113,38 +115,19 @@ class ConfigAdmin(admin.ModelAdmin):
         obj.v2_config['_id'] = obj.id
         return obj
 
-    '''
-    v1 的配置代码
-    def get_changelist(self, request, **kwargs):
-        if request.path.endswith('/change/'):
-            self.is_first = True
-
-        return super().get_changelist(request, **kwargs)
-
-    def get_object(self, request, object_id, from_field=None):
-        obj = super().get_object(request, object_id, from_field)
-        if self.is_first:
-            self.config_bk = obj.config
-            self.is_first = False
-        return obj
-
     def save_model(self, request, obj, form, change):
-        if not self.is_first:
-            obj.last_config = self.config_bk
-        self.is_first = True
-        self.config_bk = None
-        if obj.name == app_config_context['global_value']:
-            cache.set(Global_value_cache_key, literal_eval(obj.config), 3600)
-        elif obj.name == app_config_context['common_config']:
-            cache.set(Theme_cache_key, literal_eval(obj.config)['theme'], 3600)
+
+        if obj.name == v2_app_config_context['v2_blog_config']:
+            if obj.v2_config['host'].endswith('/'):
+                obj.v2_config['host'] = obj.v2_config['host'][:-1]
+            password = obj.v2_config['email'].get('password', '').strip()
+            if password:
+                temp = unsign(password)
+                if not temp:
+                    # 说明密码没经过加密
+                    obj.v2_config['email']['password'] = sign(encrypt(password))
 
         return super().save_model(request, obj, form, change)
-
-    def add_view(self, request, form_url='', extra_context=None):
-        self.is_first = True
-        self.config_bk = ''
-        return super().add_view(request, form_url, extra_context)
-    '''
 
 
 @admin.register(Category)

@@ -11,7 +11,7 @@ from app.db_manager.content_manager import get_or_create_article_meta, get_artic
     filter_valid_comment_by_article
 from app.manager.config_manager import cache_config
 from app.manager.config_manager_v2 import get_real_config
-from app.manager.content_manager import get_flatpage_url_dict
+from app.manager.content_manager import get_flatpage_url_dict, send_reply_email
 
 
 @receiver(pre_save, sender=Article, dispatch_uid="article_pre_save")
@@ -43,6 +43,7 @@ def comment_post_save(sender, **kwargs):
     a_meta = get_article_meta_by_article(kwargs['instance'].article_id)
     a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).filter(type=201).count()
     a_meta.save()
+    send_reply_email(kwargs['instance'])
 
 
 @receiver(pre_save, sender=Album, dispatch_uid="album_pre_save")
