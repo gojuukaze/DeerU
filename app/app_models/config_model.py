@@ -4,8 +4,6 @@ from app.app_models import get_field
 from jsonfield import JSONField
 from app.ex_fields.fields import ConfigField, ConfigFieldV2
 
-DeerUJSONFiled = get_field(settings.JSON_FILED)
-
 __all__ = ['Config', 'Version']
 
 
