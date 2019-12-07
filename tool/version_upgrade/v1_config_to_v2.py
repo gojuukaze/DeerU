@@ -148,7 +148,7 @@ def _create_v2_navbar_config():
 
 
 def config_v1_to_v2():
-    _create_v2_blog_config()
     _create_v2_common_config()
     _create_v2_iconbar_config()
     _create_v2_navbar_config()
+    _create_v2_blog_config()
