@@ -6,32 +6,9 @@ from django.conf import settings
 from django.core.files.images import ImageFile
 from django.db import migrations
 
-from app.consts import app_config_context
+from app.consts import app_config_context, v2_app_config_context, V2_Config_Schema, V2_Config_JS
 from app.manager.config_manager import cache_config
 from app.manager.ct_manager import update_one_to_many_relation_model
-
-
-def init_config(apps, schema_editor):
-    Config = apps.get_model("app", "Config")
-    db_alias = schema_editor.connection.alias
-
-    Config.objects.using(db_alias).bulk_create([
-        # 顶部图标栏
-        Config(name=app_config_context['top_ico'],
-               config='{ "left": { "logo": "{%img|name=logo_white %}", "blog_name": "{%text| 文字标题 | style=font-size:18px %}" }, "right": [ { "img": "{%fa|fab fa-github|style=color:#ffffff;font-size:24px %}", "url": "https://github.com/gojuukaze/DeerU" } ] }'),
-        # 顶部导航栏
-        Config(name=app_config_context['top_menu'],
-               config='[ { "url": "/", "name": "首页", "img": "{% fa|fas fa-home %}" }, { "name": "折叠菜单", "img": "{% fa|fas fa-list %}", "children": [ { "name": "默认分类", "url": "{% cat|name=默认分类|url%}" }, { "line": "line" }, { "name": "DeerU", "url": "{% tag|DeerU|url%}" } ] } ]'),
-        # 全局变量
-        Config(name=app_config_context['global_value'],
-               config='{ "title": "Deeru - 开源博客系统", "blog_name": "Deeru - 开源博客系统", "nickname": "gojuukaze" }'),
-
-        # 其他配置
-        Config(name=app_config_context['common_config'],
-               config='{ "theme": "base_theme", "baidu_auto_push": 0 }'),
-    ])
-    for config in Config.objects.all():
-        cache_config(config, True)
 
 
 def upload_img(model, name, path):
@@ -86,6 +63,4 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(init_img),
         migrations.RunPython(init_content),
-        migrations.RunPython(init_config),
-
     ]

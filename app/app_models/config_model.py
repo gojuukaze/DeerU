@@ -12,11 +12,11 @@ class Config(models.Model):
         verbose_name = '配置'
         verbose_name_plural = '配置'
 
-    name = models.CharField(verbose_name='配置名称', max_length=20, db_index=True, unique=True)
+    name = models.CharField(verbose_name='配置名称', max_length=20, unique=True)
     # --
     # 下面三是v1配置，会在之后的版本升级中删除
-    config = ConfigField(verbose_name='v1版配置')
-    last_config = ConfigField(verbose_name='v1版旧配置', blank=True)
+    config = ConfigField(verbose_name='v1版配置', null=True)
+    last_config = ConfigField(verbose_name='v1版旧配置', blank=True, null=True)
     cache = models.TextField(verbose_name='解析后的config', null=True, blank=True, editable=False)
     # --
 
