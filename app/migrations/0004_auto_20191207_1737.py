@@ -59,14 +59,16 @@ def init_config(Config):
 def upgrade_config(apps, schema_editor):
     Config = apps.get_model("app", "Config")
     try:
-        common_config = Config.objects.get(v2_app_config_context['v2_common_config'])
+        common_config = Config.objects.get(name=v2_app_config_context['v2_common_config'])
     except:
         common_config = None
+
 
     if not common_config:
         init_config(Config)
     elif not common_config.v2_config:
         config_v1_to_v2(Config)
+        print('v2配置已更新，需要进入配置更新"博客配置"')
     else:
         print('配置初始化未成功')
 

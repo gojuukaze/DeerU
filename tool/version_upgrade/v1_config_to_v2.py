@@ -4,8 +4,9 @@ from app.manager.config_manager import get_config_cache
 from app.manager.config_manager_v2 import get_real_config
 
 
-def _get_config(Config, name):
-    config = Config.objects.get(name=app_config_context[name])
+def _get_config(Config, name, suffix=''):
+    name = app_config_context[name]+suffix
+    config = Config.objects.get(name=name)
     temp_config = literal_eval(config.config)
 
     config_cache = get_config_cache(temp_config)
@@ -50,7 +51,7 @@ def _create_v2_blog_config(Config):
     config.save()
     v2_config = config_cache
 
-    config, config_cache = _get_config(Config, 'common_config')
+    config, config_cache = _get_config(Config, 'common_config', suffix='.v1.old')
     config.name = '%s.v1.old' % config.name
     config.save()
 
@@ -66,6 +67,10 @@ def _create_v2_blog_config(Config):
 
 
 def _create_v2_common_config(Config):
+    config, config_cache = _get_config(Config, 'common_config')
+    config.name = '%s.v1.old' % config.name
+    config.save()
+
     Config.objects.create(
         name=app_config_context['v2_common_config'],
         v2_schema=V2_Config_Schema['v2_common_config'],
