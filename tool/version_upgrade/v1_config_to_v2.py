@@ -5,7 +5,7 @@ from app.manager.config_manager_v2 import get_real_config
 
 
 def _get_config(Config, name, suffix=''):
-    name = app_config_context[name]+suffix
+    name = app_config_context[name] + suffix
     config = Config.objects.get(name=name)
     temp_config = literal_eval(config.config)
 
@@ -24,7 +24,7 @@ def v1_attrs_to_v2(attrs: dict):
 
 
 def v1_img_to_v2(img: dict):
-    if not img or len(img) == 0:
+    if not img or len(img) == 0 or not isinstance(img, dict):
         return {" ": ""}
     r = {
         "_handler": "v2_img_handler",
@@ -86,8 +86,11 @@ def _create_v2_iconbar_config(Config):
     v2_config = {'left': {'logo': {}, 'blog_name': {}}, 'right': []}
 
     v2_config['left']['logo'] = v1_img_to_v2(config_cache['left']['logo'])
-    v2_config['left']['blog_name'] = config_cache['left']['blog_name']
-    v2_config['left']['blog_name']['_attrs'] = v1_attrs_to_v2(config_cache['left']['blog_name'].get('attrs', {}))
+    blog_name = config_cache['left']['blog_name']
+    if not isinstance(blog_name, dict):
+        blog_name = {}
+    v2_config['left']['blog_name'] = blog_name
+    v2_config['left']['blog_name']['_attrs'] = v1_attrs_to_v2(blog_name.get('attrs', {}))
     v2_config['right'] = config_cache['right']
     try:
         v2_config['left']['blog_name'].pop('attrs')
