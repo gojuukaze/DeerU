@@ -30,6 +30,9 @@ class Command(DeerUBaseCommand):
         subprocess.run('git reset --hard', shell=True)
         result = subprocess.run('git pull origin '+branch, shell=True)
         if result.returncode != 0:
-            raise CommandError('\n自动升级失败，请参照手动升级教程升级')
+            raise CommandError('\n拉取最新版本失败，请参照手动升级教程升级')
+        result =subprocess.run('pip install -r requirements.txt', shell=True)
+        if result.returncode != 0:
+            raise CommandError('\n安装依赖失败，请参照手动升级教程升级')
         self.success('\n安装完成 ！！')
 

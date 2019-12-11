@@ -89,7 +89,10 @@ def _create_v2_iconbar_config(Config):
     v2_config['left']['blog_name'] = config_cache['left']['blog_name']
     v2_config['left']['blog_name']['_attrs'] = v1_attrs_to_v2(config_cache['left']['blog_name'].get('attrs', {}))
     v2_config['right'] = config_cache['right']
-    v2_config['left']['blog_name'].pop('attrs')
+    try:
+        v2_config['left']['blog_name'].pop('attrs')
+    except:
+        pass
 
     for i, img in enumerate(v2_config['right']):
         v2_config['right'][i]['img'] = v1_img_to_v2(config_cache['right'][i]['img'])
