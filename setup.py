@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="DeerU",
-    version="1.0.0",
+    version="2.0.0",
     description="DeerU is a content management system(DeerU 是一个开源博客系统)",
     long_description=open("README.rst").read(),
     license="GUN V3.0",

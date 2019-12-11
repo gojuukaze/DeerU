@@ -34,5 +34,5 @@ class Command(DeerUBaseCommand):
         result =subprocess.run('pip install -r requirements.txt', shell=True)
         if result.returncode != 0:
             raise CommandError('\n安装依赖失败，请参照手动升级教程升级')
-        self.success('\n安装完成 ！！')
+        self.success('\n升级完成，运行 python manage.py init_deeru 更新必要配置')
 
