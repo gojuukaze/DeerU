@@ -24,7 +24,7 @@ def v1_attrs_to_v2(attrs: dict):
 
 
 def v1_img_to_v2(img: dict):
-    if len(img) == 0:
+    if not img or len(img) == 0:
         return {" ": ""}
     r = {
         "_handler": "v2_img_handler",
