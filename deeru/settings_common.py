@@ -166,9 +166,11 @@ USE_TZ = False
 # 表达式
 
 EXPRESSION = ['app.deeru_expression.expressions']
+CUSTOM_EXPRESSION = []
 
 # handler
 CONFIG_HANDLER = ['app.deeru_config_handler.handler']
+CUSTOM_CONFIG_HANDLER = []
 
 FLATPAGE_URL = '/p/'
 
@@ -204,4 +206,3 @@ DEERU_RICH_EDITOR = {
 
 # log
 LOG_DIR = ''
-

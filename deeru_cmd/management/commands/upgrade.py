@@ -18,10 +18,18 @@ class Command(DeerUBaseCommand):
     def add_arguments(self, parser):
         parser.description = '''升级DeerU'''
 
+        parser.add_argument(
+            '--branch',
+            default='master',
+            dest='branch',
+            help='从哪个分支升级',
+        )
+
     def handle(self, *args, **options):
-        subprocess.run('git reset hard', shell=True)
-        result = subprocess.run('git pull origin', shell=True)
+        branch = options['branch']
+        subprocess.run('git reset --hard', shell=True)
+        result = subprocess.run('git pull origin '+branch, shell=True)
         if result.returncode != 0:
-            subprocess.run('git reset hard', shell=True)
-            raise CommandError('\n升级失败')
+            raise CommandError('\n自动升级失败，请参照手动升级教程升级')
         self.success('\n安装完成 ！！')
+
