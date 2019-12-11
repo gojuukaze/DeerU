@@ -2,6 +2,7 @@ import re
 import traceback
 from ast import literal_eval
 
+from captcha.fields import CaptchaField
 from django import forms
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy as _
@@ -31,6 +32,7 @@ class ArticleAdminForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    captcha = CaptchaField()
     class Meta:
         model = Comment
         fields = '__all__'

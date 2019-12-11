@@ -288,7 +288,7 @@
                         <div class="media-content">
 
                             <div class="field">
-                                <span style="color: red">{{ form_error }}</span>
+                                <span id="form_error_msg" style="color: red">{{ form_error }}</span>
                                 <form id="comment_form" action="{% url 'app:create_comment' %}" method="post">
                                     {% csrf_token %}
 
@@ -325,7 +325,11 @@
                                     <input type="hidden" name="root_id" id="id_root_id" value="-1">
                                     <input type="hidden" name="to_id" id="id_to_id" value="-1">
                                     <input type="hidden" name="type" id="id_type" value="201">
-                                    <input type="hidden" name="anchor" value="#comment">
+                                    <input type="hidden" name="err_anchor" value="#form_error_msg">
+                                    <input type="hidden" name="success_anchor" value="#comment-">
+                                    <div class="field" style="margin-top: 10px;display: flex">
+                                        {{ comment_form.captcha }}
+                                    </div>
 
                                     <div class="field" style="margin-top: 12px">
                                         <input type="submit" class="button is-rounded is-active" value="提交"/>
@@ -359,21 +363,27 @@
         clipboard.on('error', function (e) {
             layer.msg('复制失败', {icon: 2, time: 1900});
         });
+        var joditEditor = createCommentEditor('#id_content');
         var storage = window.localStorage;
         $('#comment_form').submit(function () {
-            var nickname = $("#id_nickname").val();
-            var email = $("#id_email").val();
+            let nickname = $("#id_nickname").val();
+            let email = $("#id_email").val();
             storage["nickname"] = nickname;
             storage["email"] = email;
+            storage["content"] = joditEditor.getEditorValue();
 
         });
 
         $("#id_nickname").val(storage["nickname"]);
         $("#id_email").val(storage["email"]);
 
-        var joditEditor = createCommentEditor('#id_content');
+
         $('.jodit_toolbar_btn-emoji')[0].className += ' is-hidden-touch';
 
+        if ($('#form_error_msg').text() == '验证码错误') {
+            joditEditor.setEditorValue(storage["content"] || '')
+
+        }
 
         function changeForm(type, root_id, to_id, nickname) {
             if (type === 202) {
@@ -394,6 +404,13 @@
 
 
         $('#comment_header').text('本文共 ' + $("[id^='comment-']").length + ' 个回复');
+        $('.captcha').click(function () {
+            $.getJSON("/captcha/refresh/", function (result) {
+                $('.captcha').attr('src', result['image_url']);
+                $('#id_captcha_0').val(result['key'])
+            });
+        });
+        $('#id_captcha_1').css('margin-left', '10px');
     </script>
 
 {% endblock %}

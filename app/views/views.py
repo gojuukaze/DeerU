@@ -1,4 +1,5 @@
 import json
+from urllib import parse
 
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponseForbidden, HttpResponseRedirect, QueryDict
@@ -65,13 +66,15 @@ def create_comment(request):
     if request.method == 'POST':
 
         form = CommentForm(request.POST)
+
         if form.is_valid():
             article_id = form.cleaned_data['article_id']
-            a_id = http_referer.split('/')[-1]
+            path = parse.urlparse(http_referer).path
+            a_id = path.split('/')[-1]
             if int(article_id) != int(a_id):
                 return HttpResponseForbidden()
 
-            anchor = request.POST.get('anchor', '')
+            anchor = request.POST.get('err_anchor', '')
 
             success, msg = is_valid_comment(form)
             if not success:
@@ -79,9 +82,15 @@ def create_comment(request):
                     reverse('app:detail_article', args=(article_id,)) + '?form_error=' + msg + anchor)
             # article_meta.comment_num += 1
             # article_meta.save()
-            form.save()
-
+            comment = form.save()
+            anchor = request.POST.get('success_anchor', '')
+            anchor += str(comment.id)
             return HttpResponseRedirect(reverse('app:detail_article', args=(article_id,)) + anchor)
+        else:
+            anchor = request.POST.get('err_anchor', '')
+            article_id = form.cleaned_data['article_id']
+            return HttpResponseRedirect(
+                reverse('app:detail_article', args=(article_id,)) + '?form_error=' + '验证码错误' + anchor)
 
 
 @permission_required('app', raise_exception=True)

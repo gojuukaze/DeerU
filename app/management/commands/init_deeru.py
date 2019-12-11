@@ -48,19 +48,16 @@ class Command(BaseCommand):
         self.info('初始化数据库 ... ')
 
         with open('./log/init.log', 'a', encoding='utf-8')as f:
-            f.write('初始化数据库\n')
+            f.write('同步数据库修改\n')
             try:
-
-                management.call_command('migrate', stdout=f)
-                management.call_command('migrate', 'dashboard', stdout=f)
-                # management.call_command('makemigrations', 'app', stdout=f)
+                management.call_command('migrate', 'app', 'dashboard', 'captcha', stdout=f)
             except:
 
                 traceback.print_exc(file=f)
-                self.error('初始化数据库 ... [失败]，更多信息查看 ./log/init.log ')
+                self.error('同步数据库修改 ... [失败]，更多信息查看 ./log/init.log ')
                 raise
 
-        self.success('初始化数据库 ... [完成]')
+        self.success('同步数据库修改 ... [完成]')
 
         # ============
 

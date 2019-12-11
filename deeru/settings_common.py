@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     'froala_editor',
     # tag输入
     'ktag.apps.KtagConfig',
+    # 验证码
+    'captcha',
 
     # deeru
     'app.apps.MAppConfig',
@@ -206,3 +208,10 @@ DEERU_RICH_EDITOR = {
 
 # log
 LOG_DIR = ''
+
+# 验证码
+CAPTCHA_CHALLENGE_FUNCT = 'tool.captcha.math_challenge'
+CAPTCHA_FONT_PATH = os.path.join(BASE_DIR, 'data/Alibaba-PuHuiTi-Regular.ttf')
+CAPTCHA_FONT_SIZE = 17
+CAPTCHA_NOISE_FUNCTIONS = ('tool.captcha.noise_arcs',)
+
