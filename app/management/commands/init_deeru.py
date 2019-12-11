@@ -50,10 +50,7 @@ class Command(BaseCommand):
         with open('./log/init.log', 'a', encoding='utf-8')as f:
             f.write('同步数据库修改\n')
             try:
-                management.call_command('migrate', 'app', stdout=f)
-                management.call_command('migrate', 'dashboard', stdout=f)
-                management.call_command('migrate', 'captcha', stdout=f)
-
+                management.call_command('migrate', stdout=f)
             except:
 
                 traceback.print_exc(file=f)
