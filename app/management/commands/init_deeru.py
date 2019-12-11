@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
         # ============
 
-        self.info('初始化数据库 ... ')
+        self.info('同步数据库修改 ... ')
 
         with open('./log/init.log', 'a', encoding='utf-8')as f:
             f.write('同步数据库修改\n')
@@ -68,7 +68,7 @@ class Command(BaseCommand):
         with open('./log/init.log', 'a', encoding='utf-8')as f:
             f.write('初始化静态文件\n')
             try:
-                management.call_command('collectstatic', '--noinput', stdout=f)
+                management.call_command('collectstatic', '-c', '--noinput', stdout=f)
             except:
                 traceback.print_exc(file=f)
                 self.error('初始化静态文件 ... [失败]，更多信息查看 ./log/init.log ')
