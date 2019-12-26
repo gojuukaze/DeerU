@@ -6,7 +6,7 @@
 
 安装前先确保你已经安装了以下程序：
 
-* Python 3.5+ -- 安装教程 https://www.ikaze.cn/article/28
+* Python 3.6+
 * pip 10+
 * git
 * libjpeg，zlib -- pillow包的依赖 
@@ -19,8 +19,7 @@
 
 .. code-block:: bash
 
-    pip3 install virtualenv
-    virtualenv --no-site-packages deeru_env
+    python3 -m venv deeru_env
     source deeru_env/bin/activate
     # in windows, run this:
     # deeru_env/Scripts/activate
@@ -64,7 +63,7 @@
 
     CUSTOM_EXPRESSION = []
 
-    CUSTOM_APPS = [
+    CUSTOM_APPS = []
 
-    ]
+    CUSTOM_CONFIG_HANDLER = []
 

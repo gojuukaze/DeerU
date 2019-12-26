@@ -20,7 +20,7 @@
                     <a href="{% url 'admin:app_comment_delete' comment.id %}" style="color: red">删除</a>
 
                 </div>
-                <form id="comment-form-{{ comment.id }}" action="/admin/app/comment/" method="post">
+                <form id="comment-form-{{ comment.id }}" action="{% url 'admin:app_comment_changelist' %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="_selected_action" value="{{ comment.id }}">
                         <input type="hidden" name="action" >
@@ -38,7 +38,7 @@
     {% empty %}
         <li>暂无数据</li>
     {% endfor %}
-    <li style="text-align: center"><a href="/admin/app/comment/?status__exact=0">所有待审评论</a></li>
+    <li style="text-align: center"><a href="{% url 'admin:app_comment_changelist' %}?status__exact=0">所有待审评论</a></li>
 
 </ul>
 <script>

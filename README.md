@@ -3,15 +3,13 @@
 </h1>
 <p align="center">
   <a href="https://github.com/gojuukaze/DeerU" title="DeerU">
-  <img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/master/logo_black.png?raw=true" width="180">
+  <img alt="DeerU Logo" src="./logo_black.png" width="180">
   </a>
 </p>
 <p align="center">
   <a title="快速开始" href="http://deeru.readthedocs.io/zh_CN/master/user_guide/index.html"><strong>快速开始</strong></a>
   &#x2022;
   <a title="文档" href="http://deeru.readthedocs.io"><strong>文档</strong></a>
-  &#x2022;
-  <a title="插件与主题" href="https://github.com/gojuukaze/deeru_plugin_theme"><strong>插件与主题</strong></a>
   &#x2022;
   <a title="贡献代码" href="http://deeru.readthedocs.io/zh_CN/master/developer_guide/contributing.html"><strong>贡献代码</strong></a>
 </p>
@@ -31,13 +29,36 @@
 
 DeerU 是一个开源博客系统，它基于Django开发。  
 
-它提供了丰富的json数据接口（需安装[api插件](https://github.com/gojuukaze/deeru_plugin_theme)），前端开发人员可以不依赖Django模板，方便的开发主题，实现前后端分离。
+~~它提供了丰富的json数据接口（需安装[api插件](https://github.com/gojuukaze/deeru_plugin_theme)），前端开发人员可以不依赖Django模板，方便的开发主题，实现前后端分离。~~
+（不再继续维护）
 ___
 
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>V2.0.0</strong> 发布</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>
+<p>DeerU 2.0 开始定位为可供二次开发的博客系统</p>
+<p>基于此定位，此项目将为有django、前端经验开发者提供可自行扩展博客系统。</p>
+此项目今后将只提供博客基础功能更新、安全性更新、可扩展性更新，除此之外的功能（比如主题、cdn等）需要开发者自行开发。
+</td>
+</tr>
+<tr class="even">
+<td>更多内容 >> <a href="/">2.0更新说明</a></td>
+</tr>
+</tbody>
+</table>
 
 依赖
 ---
-* Python 3.5+ -- 安装教程 https://www.ikaze.cn/article/28
+* Python 3.6+
 * pip 10+
 * git
 * libjpeg，zlib -- pillow包的依赖 
@@ -45,12 +66,10 @@ ___
     - centos: ``yum -y install python-devel zlib-devel libjpeg-turbo-devel`` 
 
 
-
 目录
 ---
 
 * 项目文档 ：[https://deeru.readthedocs.io](https://deeru.readthedocs.io)
-* 插件与主题 ：[https://github.com/gojuukaze/deeru_plugin_theme](https://github.com/gojuukaze/deeru_plugin_theme)
 * GITHUB ：[https://github.com/gojuukaze/DeerU](https://github.com/gojuukaze/DeerU)
 * DEMO ：[https://www.ikaze.cn](https://www.ikaze.cn)
 * [安装](#安装)

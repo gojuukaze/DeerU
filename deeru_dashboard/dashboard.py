@@ -1,3 +1,4 @@
+from django.urls import reverse
 from jet.dashboard import modules
 from jet.dashboard.dashboard import Dashboard
 
@@ -21,7 +22,7 @@ class CustomIndexDashboard(Dashboard):
                 },
                 {
                     'title': '创建文章',
-                    'url': '/admin/app/article/add',
+                    'url': reverse('admin:app_article_add'),
                     'external': True,
                 },
                 {

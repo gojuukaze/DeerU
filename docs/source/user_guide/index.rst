@@ -33,14 +33,13 @@
         什么Oo0？你不想用Gunicorn！ 没关系，这一步你可以自由发挥
 
 
-   * 其他 ：:ref:`expression` | :ref:`settings` | :ref:`backup-restore` | :ref:`import-wordpress` | 
+   * 其他 ：:ref:`settings` | :ref:`backup-restore` | :ref:`import-wordpress` |
            :ref:`plugin-theme` | :ref:`sitemap` | :ref:`rich-text-editor` | 
 
-      - 是不是觉得配置要写很多东西，很麻烦。那就用 :ref:`expression` 简化一下你的配置吧！
       - 默认的sqlite拖累了你的性能，想改用mysql？当然没问题，看看 :ref:`settings` 
       - 担心数据丢失，那就来备份一下吧 :ref:`backup-restore` 
       - 你以前使用的是wordpress？那还不快换成DeerU! :ref:`import-wordpress` 
-      - 没有你想要的功能？去插件里找找看 :ref:`plugin-theme` 
+      - 没有你想要的功能？去插件里找找看 :ref:`plugin-theme` （不再提供插件，需要开发中根据需求自行开发）
       - 差点吧这个小东西忘了0.0 :ref:`sitemap`
       - 关于富文本编辑器 :ref:`rich-text-editor`
 
