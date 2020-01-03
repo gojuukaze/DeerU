@@ -29,7 +29,7 @@ Deeru
 
 .. toctree::
    :maxdepth: 2
-   :caption: 目录:
+   :caption: 目录
 
 
    installation
@@ -71,7 +71,7 @@ DeerU使用 `GNU General Public License v3.0 协议 <https://github.com/gojuukaz
 
 admin
 
-.. image:: _static/admin.png
+.. image:: _static/admin.jpg
     :scale: 50%
 
 admin2

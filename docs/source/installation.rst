@@ -9,7 +9,8 @@
 * Python 3.6+
 * pip 10+
 * git
-* libjpeg，zlib -- pillow包的依赖 
+* libjpeg，zlib -- pillow包的依赖
+
     - ubuntu: ``apt-get install libjpeg8-dev zlib1g-dev libfreetype6-dev`` 
     - centos: ``yum -y install python-devel zlib-devel libjpeg-turbo-devel`` 
 
@@ -33,7 +34,8 @@
     deeru-admin install DeerU
 
 从git仓库安装
--------------
+----------------------
+
 
 .. code-block:: bash
 
@@ -41,7 +43,9 @@
     cd DeerU
     pip install -r requirements.txt
 
-手动创建 ``deeru/urls_local.py`` 文件，内容如下:
+从git安装需要手动创建两个文件：
+
+* ``deeru/urls_local.py`` ，内容如下:
 
 .. code-block:: python
 
@@ -53,9 +57,12 @@
         path('', include('app.urls')),
     ]
 
-手动创建 ``deeru/settings_local.py`` 文件，内容如下:
+* ``deeru/settings_local.py`` ，内容如下:
 
 .. code-block:: python
+
+    # v2版本开始需要配置
+    SECRET_KEY = 'xxx'
 
     DEBUG = True
 
@@ -67,3 +74,4 @@
 
     CUSTOM_CONFIG_HANDLER = []
 
+  v2版本需要设置你自己的 ``SECRET_KEY`` ，可以使用命令 ``python manage.py gen_secret_key`` 生成

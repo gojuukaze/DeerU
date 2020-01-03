@@ -6,6 +6,6 @@
 
     deeru-admin upgrade
 
-upgrade命令参考: :ref:`升级命令<cmd-upgrade>`
+upgrade命令参考：:ref:`升级命令<cmd-upgrade>`
 
 DeerU采用git仓库进行升级，因此改动源码可能导致升级失败，需要手动解决冲突。项目中 ``deeru/settings_local.py`` , ``deeru/urls_local.py`` 可以任意修改

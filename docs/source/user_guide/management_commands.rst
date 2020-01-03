@@ -2,7 +2,7 @@
 内置命令
 ==========
 
-所有内置命令放在 ``app/management/commands`` , ``deeru_cmd/management/commands `` 下
+所有内置命令放在 ``app/management/commands`` , ``deeru_cmd/management/commands`` 下
 
 安装
 --------
@@ -98,7 +98,7 @@
 
     .. note::
         
-        1.评论暂不支持审核，所有不会导入未审核的评论，如果需要去掉get_comment()中对应的部分  
+        1.不会导入未审核的评论，如果需要去掉get_comment()中对应的部分
 
         2.wordprees的日期格式必须为： 2018-05-02 15:23:22  
 

@@ -7,53 +7,46 @@
 =========
 你阅读以下文档，帮你快速熟悉DeerU，部署你的博客
 
-   * 第一步 ： :ref:`installation`  | :ref:`init-deeru`  | :ref:`runserver-debug`
+   * 第一步 ： 安装与运行
 
-   完成了第一步，现在你可以先试试你的博客了，不过你可能会发现一些问题，为什么我的文章作者是gojuukaze? 如何修改博客标题？
-   下面让我们开始第二步。
+     - :ref:`installation` ： 安装deeru
+     - :ref:`init-deeru` ： 配置并运行deeru
 
-   * 第二步 ： :ref:`配置简介 <config-summary>` | :ref:`global-config` |  :ref:`ui-config` |  :ref:`配置的值类型 <config-type-img>`
+-----
 
-      
-      - 首先你应该先了解一下DeerU的 :ref:`配置简介 <config-summary>`  
+   * 第二步 ： 发布文章与配置
 
-      - 下面我们在 :ref:`global-config` 中修改作者名，博客名
-
-      - 接下来我们来学习如何自定义界面 ： :ref:`ui-config`
-
-      - 看了ui配置文档后你是不是很奇怪fa图片是什么？ 看看 :ref:`配置的值类型 <config-type-img>` 吧
+      - 现在你可以登录后台管理页面（http://127.0.0.1:8000/admin）发布文章
+      - :ref:`配置简介 <config-summary>` ： v2版对配置进行了可视化化改造，现在配置更简单，你可以在这里查看配置的说明
 
 
    现在你已经学会如何自定义你的博客了，接下来就把你的博客部署放到网上吧
 
-   * 第三步 ： :ref:`deployment`  |  :ref:`gunicorn-d`
-   
-      - 该如何部署DeerU呢？来，看这里 :ref:`deployment` 
-      - 完成基本的设置，静态文件部署后，让我们用Gunicorn运行你的项目吧 ！:ref:`gunicorn-d` 。
-        什么Oo0？你不想用Gunicorn！ 没关系，这一步你可以自由发挥
+------
 
+   * 第三步 ： 部署
 
-   * 其他 ：:ref:`settings` | :ref:`backup-restore` | :ref:`import-wordpress` |
-           :ref:`plugin-theme` | :ref:`sitemap` | :ref:`rich-text-editor` | 
+      - :ref:`deployment`  |  :ref:`gunicorn-d`： 参考这两篇部署项目，或者按你的喜好自行部署
 
-      - 默认的sqlite拖累了你的性能，想改用mysql？当然没问题，看看 :ref:`settings` 
-      - 担心数据丢失，那就来备份一下吧 :ref:`backup-restore` 
-      - 你以前使用的是wordpress？那还不快换成DeerU! :ref:`import-wordpress` 
-      - 没有你想要的功能？去插件里找找看 :ref:`plugin-theme` （不再提供插件，需要开发中根据需求自行开发）
-      - 差点吧这个小东西忘了0.0 :ref:`sitemap`
-      - 关于富文本编辑器 :ref:`rich-text-editor`
+-------
+
+   * 其他
+
+      - :ref:`settings` ： 项目的一些配置项，数据库默认使用sqlite如果你想改用mysql，参考里面的说明
+      - :ref:`backup-restore` ：如果你需要备份博客，参考这篇文章
+      - :ref:`import-wordpress`
+      - :ref:`sitemap`
+      - :ref:`rich-text-editor` ： 关于富文本编辑器的说明
 
 |
 
 .. toctree::
-   :maxdepth: 4
-   :caption: 网站目录:
+   :maxdepth: 3
+   :caption: 目录
 
    getting_started
    configuration/index
-   expression/index
    deployment/index
-   deployment/gunicorn
    settings
    backup_and_restore
    management_commands
