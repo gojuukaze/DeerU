@@ -2,7 +2,7 @@ import json
 
 from bs4 import BeautifulSoup
 from django.dispatch import receiver
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save, pre_save, post_delete
 
 from app.app_models.config_model import Config
 from app.app_models.content_model import Article, Comment, FlatPage
@@ -45,6 +45,12 @@ def comment_post_save(sender, **kwargs):
     a_meta.save()
     send_reply_email(kwargs['instance'])
 
+
+@receiver(post_delete, sender=Comment, dispatch_uid="comment_post_delete")
+def comment_post_save(sender, **kwargs):
+    a_meta = get_article_meta_by_article(kwargs['instance'].article_id)
+    a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).filter(type=201).count()
+    a_meta.save()
 
 @receiver(pre_save, sender=Album, dispatch_uid="album_pre_save")
 def album_pre_save(sender, **kwargs):
