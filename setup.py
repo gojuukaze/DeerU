@@ -14,11 +14,7 @@ setup(
     url="https://github.com/gojuukaze/DeerU",
     author="gojuukaze",
     author_email="i@ikaze.uu.me",
-    python_requires='>=3.5',
-
-    install_requires=[
-        'Django>=2.0.0',
-    ],
+    python_requires='>=3.6',
 
     zip_safe=False,
     include_package_data=True,
