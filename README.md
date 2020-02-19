@@ -16,11 +16,11 @@
 
 <p align="center">
   <a href="" title="version">
-    <img src="https://img.shields.io/badge/version-v1.0.0-blue.svg" alt="version - v1.0.0">
+    <img src="https://img.shields.io/badge/version-v2.0.0-blue" alt="version - v2.0.0">
   </a>
 
   <a href="https://github.com/gojuukaze/DeerU/blob/master/LICENSE" title="LICENSE">
-    <img src="https://img.shields.io/badge/license-GPL%20V3-blue.svg" alt="license - GPL V3">
+    <img src="https://img.shields.io/badge/license-GPL%20V3-blue" alt="license - GPL V3">
   </a>
 </p>
 
@@ -141,7 +141,7 @@ DeerU使用 [GNU General Public License v3.0 协议](https://github.com/gojuukaz
 >
 > https://froala.com/wysiwyg-editor/pricing  
 >
-> 你可以自己更换其他编辑器（参照文档 [富文本编辑器](http://deeru.readthedocs.io/zh_CN/master/user_guide/rich_text_editor.html) ），我也会在之后内置一些富文本编辑器的替代方案 
+> 你可以自己更换其他编辑器（参照文档 [富文本编辑器](http://deeru.readthedocs.io/zh_CN/master/user_guide/rich_text_editor.html) ）
 
 
 截图
