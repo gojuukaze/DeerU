@@ -51,7 +51,9 @@ ___
 </td>
 </tr>
 <tr class="even">
-<td>更多内容 >> <a href="/">2.0更新说明</a></td>
+<td>更多内容 >> <a href="https://deeru.readthedocs.io/zh_CN/master/change_log.html">2.0更新说明</a> | 
+<a href="https://deeru.readthedocs.io/zh_CN/master/upgrade.html#id2">1.x升级2.0指南</a>
+</td>
 </tr>
 </tbody>
 </table>
