@@ -4,19 +4,15 @@
 开发主题
 ==============
 
-你可以使用django的模板开发主题，
-如果你不想用django模板，你可以新建一个独立的前端工程，然后使用 `api插件 <https://github.com/gojuukaze/deeru-api>`_ 从后端获取数据。
-
-
-如果你需要使用django的模板开发，下面给出了一些必要说明
-
+使用django的模板开发，下面给出了一些必要说明
 
 * 创建django app:: 
 
     python manage.py start theme m_theme
+
 |
 
-    和插件不同，主题的目录下多了两个文件夹:: 
+    执行之后会生成m_theme文件夹，里面的主要文件有:: 
 
         m_theme/
             templates/
@@ -80,7 +76,7 @@
 
     内置的配置满足不了你的需要，想增加一个"侧边栏配置"？
 
-    首先你需要在 ``consts.py`` 的 ``m_theme_config_context`` 中加入你的配置:: 
+    首先你需要在 ``m_theme/consts.py`` 的 ``m_theme_config_context`` 中加入你的配置:: 
 
         m_theme_config_context = {
             'm_theme_aside_config' : 'M_Theme侧边栏配置'
@@ -90,7 +86,7 @@
 
 * 关于评论的form
 
-    文章详情页面传了一个 CommentForm ,但并不建议直接用它来生成form。另外，该form评论内容content生成的 ``<textarea>`` 并不是富文本编辑器。
+    文章详情页面传了一个 CommentForm ,但并不建议直接用它来生成form。另外，该form评论中content生成的 ``<textarea>`` 并不是富文本编辑器。
 
     下面给了一个form的示例:: 
 
@@ -122,3 +118,16 @@
         <input type="hidden" name="to_id" id="id_to_id" value="-1">
         <input type="hidden" name="type" id="id_type" value="201">
         <input type="hidden" name="anchor" value="#comment">
+        <div class="field" style="margin-top: 10px;display: flex">
+            {{ comment_form.captcha }}
+        </div>
+
+        <!-- v2.0新增了评论验证码，还需要添加下面js代码 -->
+        <script>
+            $('.captcha').click(function () {
+                $.getJSON("/captcha/refresh/", function (result) {
+                    $('.captcha').attr('src', result['image_url']);
+                    $('#id_captcha_0').val(result['key'])
+                });
+            });
+        </script>

@@ -6,7 +6,14 @@ from django.conf import settings
 
 def parse_attrs(attrs_str):
     """
-
+    对attrs进行特殊处理
+    "style=xx | href=xx"
+    返回
+    {
+       'style':'xx',
+       'href':'xx'
+    }
+    
     :param attrs_str: str
     :return:
     :rtype: dict

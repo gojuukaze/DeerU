@@ -13,7 +13,6 @@ def init_version(apps, schema_editor):
 
 
 def init_config(Config):
-    print('init')
 
     Config.objects.bulk_create([
         # 通用配置

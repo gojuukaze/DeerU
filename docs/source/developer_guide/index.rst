@@ -2,47 +2,44 @@
 开发指南
 ====================
 
-给开发者的开发指南
-=======================
+一些建议
+=====================
 
-* 一些约定
+开发代码时的一些建议 :ref:`role`
 
-    开发代码时请遵从以下约定 :ref:`role`
+model说明 
+=================
 
-* model说明 
-    
-    :ref:`model`
+:ref:`model`
 
-* 代码表达式开发
-
-    代码表达式用于把配置中的字符串解析为dict，str等，主要用于主题的界面配置中
-
-        - :ref:`format-expression`
-
-        - :ref:`custom-expression`
-
-* 第三方模块开发
-
-    开发DeerU的第三方模块和开发Django app没什么区别，不过DeerU对一些地方进行了规范
-
-        - 基础： :ref:`概述<third-party-index>` 
-        - 开发插件： :ref:`plugin` 
-        - 开发主题： :ref:`theme` | :ref:`context` | :ref:`model` | :ref:`url-view`
-            + 开发主题你首先要了解一下基本的东西 :ref:`theme`
-            + 然后你需要知道 context 的结构 :ref:`context` ，context中model的方法 :ref:`model`
-            + 然后每个view里都返回了什么 :ref:`url-view`
-        - 提交插件、主题到DeerU的项目中： :ref:`提交插件、主题 <upload-plugin-theme>` 
+配置说明
+===================
+:ref:`config`
 
 
-.. toctree::
-    :maxdepth: 5
-    :caption: 目录:
-    
-    role
-    model/index
-    expression/index
-    third_party/index
-    context
-    url_view
-    contributing
+主题开发
+===================
+* 开发主题你首先要了解一下基本的东西 :ref:`theme`
+* 然后你需要知道 context 的结构 :ref:`context` ，context中model的方法 :ref:`model`
+* 还有每个view里都返回了什么 :ref:`url-view`
+
+v1版旧的插件开发指南
+=========================
+虽然现在放弃了插件支持，但如果需要自己开发扩展也可以读读
+
+* 基础： :ref:`概述<third-party-index>` 
+* 开发插件： :ref:`plugin` 
+
+
+贡献代码
+====================
+
+你发现了bug或者优化了代码并且想合并到主分支？
+
+首先你需要fork代码到你的仓库，然后切换到dev分支，在dev分支上开发完成后再github中提交 pull request，合并到dev分支。
+
+.. note::
+
+    只接受合并到dev分支的pull request
+
     

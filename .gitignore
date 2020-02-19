@@ -118,3 +118,5 @@ deeru/urls_local.py
 *.ipynb
 json_html
 *.sqlite3*
+
+base_theme_ad

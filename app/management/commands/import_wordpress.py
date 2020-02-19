@@ -18,7 +18,7 @@ class Command(BaseCommand):
     """
     从wordpress xml文件导入
 
-    1.评论暂不支持审核，所有不会导入未审核的评论，如果需要去掉get_comment()中对应的部分
+    1.不会导入未审核的评论，如果需要去掉get_comment()中对应的部分
 
     2.日期格式必须为： 2018-05-02 15:23:22
 

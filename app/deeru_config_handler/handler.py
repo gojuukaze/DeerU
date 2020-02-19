@@ -6,6 +6,7 @@ class KVHandler(BaseHandler):
     """
     args结构：
     {
+       '_handler': 'v2_kv_handler',
        'data':[
            {
               'key':'k1',
@@ -43,6 +44,7 @@ class ImgHandler(BaseHandler):
     """
     args结构：
     {
+        '_handler': 'v2_img_handler',
         'type': 'src',
         'value': '/media/1.png'
     }
@@ -103,6 +105,7 @@ class UrlHandler(BaseHandler):
     """
     args结构：
     {
+        '_handler': 'v2_url_handler',
         'type': 'url',
         'value': '/category/1'
     }

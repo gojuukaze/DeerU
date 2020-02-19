@@ -123,6 +123,8 @@ class ConfigAdmin(admin.ModelAdmin):
         if obj.name == v2_app_config_context['v2_blog_config']:
             if obj.v2_config['host'].endswith('/'):
                 obj.v2_config['host'] = obj.v2_config['host'][:-1]
+            # 对email进行特殊处理
+            # 这快代码和发送邮件是强关联的，所以不用handler处理
             password = obj.v2_config['email'].get('password', '').strip()
             if password:
                 temp = unsign(password)

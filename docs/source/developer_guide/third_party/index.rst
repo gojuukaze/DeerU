@@ -74,7 +74,7 @@ DeerU为第三方开发者提供了一个 ``start`` 命令，用于快速生成D
 .. _upload-plugin-theme: 
 
 
-5. 提交到DeerU插件、主题列表里
+5. 提交到DeerU插件、主题列表里（不再支持插件了）
 
     fork项目 https://github.com/gojuukaze/deeru_plugin_theme 把你的插件、主题加到py、readme 中，提交 合并请求
 
