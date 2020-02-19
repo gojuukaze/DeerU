@@ -2,7 +2,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'bjxu7l2-r*8ar0*#_s360e!jm#5cs$3pd%k(ooz5g*p!72j07t'
 
 INSTALLED_APPS = [
     # admin扩展
