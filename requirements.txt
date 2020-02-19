@@ -1,4 +1,4 @@
-django==2.2.9
+django==2.2.10
 django-jet==1.0.8
 django-ktag==1.0.3
 bleach==3.1.0
