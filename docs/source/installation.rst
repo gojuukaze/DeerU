@@ -1,5 +1,4 @@
 .. _installation:
-
 ============
 安装
 ============
@@ -33,9 +32,8 @@
     pip install deeru
     deeru-admin install DeerU
 
-从git仓库安装
-----------------------
-
+从git仓库安装(不推荐)
+---------------------------
 
 .. code-block:: bash
 
@@ -47,7 +45,7 @@
 
 * ``deeru/urls_local.py`` ，内容如下:
 
-.. code-block:: python
+.. code-block:: python 
 
     from django.contrib import admin
     from django.urls import path, include
@@ -59,19 +57,19 @@
 
 * ``deeru/settings_local.py`` ，内容如下:
 
-.. code-block:: python
+.. code-block:: python 
 
     # v2版本开始需要配置
     SECRET_KEY = 'xxx'
-
+    
     DEBUG = True
-
+    
     ALLOWED_HOSTS = ['*']
-
+    
     CUSTOM_EXPRESSION = []
-
+    
     CUSTOM_APPS = []
-
+    
     CUSTOM_CONFIG_HANDLER = []
 
-  v2版本需要设置你自己的 ``SECRET_KEY`` ，可以使用命令 ``python manage.py gen_secret_key`` 生成
+v2版本需要设置你自己的 ``SECRET_KEY`` ，可以使用命令 ``python manage.py gen_secret_key`` 生成
