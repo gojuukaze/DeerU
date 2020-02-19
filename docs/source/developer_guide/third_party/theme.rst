@@ -4,24 +4,33 @@
 开发主题
 ==============
 
-使用django的模板开发，下面给出了一些必要说明
+使用django的模板开发，下面给出了一些必要说明（
+
+建议新建一个deeru项目，在里面开发:: 
+
+    deeru-admin install deeru2
 
 * 创建django app:: 
 
-    python manage.py start theme m_theme
+    python manage.py startapp m_theme
 
-|
+  执行之后会生成m_theme文件夹，里面的主要文件有:: 
 
-    执行之后会生成m_theme文件夹，里面的主要文件有:: 
+    m_theme/
+        templates/
+            m_theme
+    
+        static/
+            m_theme
 
-        m_theme/
-            templates/
-                m_theme
+  编写代码时，你的html文件应放在 ``templates/m_theme`` 下，静态文件应放在 ``static/m_theme`` 下。
 
-            static/
-                m_theme
+* 把 m_theme添加到 ``settings_local.py`` 中的 ``CUSTOM_APPS`` 下:: 
 
-    编写代码时，你的html文件应放在 ``templates/m_theme`` 下，静态文件应放在 ``static/m_theme`` 下。
+    CUSTOM_APPS = [
+        ...
+        'm_theme',
+    ]
 
 * 编写html
 
