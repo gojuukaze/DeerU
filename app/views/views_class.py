@@ -1,10 +1,13 @@
+from pprint import pprint
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 
 from app.db_manager.content_manager import filter_article_order_by_id, get_article_by_id, filter_article_by_category, \
-    get_category_by_id, filter_article_by_tag, get_article_meta_by_article, get_tag_by_id, filter_comment_by_article, \
+    get_category_by_id, filter_article_by_tag, get_article_meta_by_article, get_tag_by_id, \
+    filter_valid_comment_by_article, \
     get_flatpage_by_id
 from app.forms import CommentForm
 from app.manager import get_base_context
@@ -13,13 +16,14 @@ from app.manager.content_manager import get_flatpage_url_dict
 
 from app.ex_paginator import DeerUPaginator
 
-theme = get_theme()
-
 
 class DeerUContextMixin(ContextMixin):
+    theme = 'base_theme'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         get_base_context(context)
+        self.theme = context['config']['v2_blog_config']['theme']
 
         return context
 
@@ -54,8 +58,11 @@ class ArticleList(ListView):
 
 
 class Home(ArticleList, DeerUContextMixin):
-    template_name = theme + '/home.html'
+    # template_name = theme + '/home.html'
     context_object_name = 'article_list'
+
+    def get_template_names(self):
+        return self.theme + '/home.html'
 
     def _get_paginator(self, page):
         per_page = int(self.request.GET.get('per_page', 7))
@@ -64,8 +71,11 @@ class Home(ArticleList, DeerUContextMixin):
 
 
 class DetailArticle(DetailView, DeerUContextMixin):
-    template_name = theme + '/detail_article.html'
+    # template_name = theme + '/detail_article.html'
     context_object_name = 'article'
+
+    def get_template_names(self):
+        return self.theme + '/detail_article.html'
 
     def get_object(self, queryset=None):
         try:
@@ -79,15 +89,18 @@ class DetailArticle(DetailView, DeerUContextMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = filter_comment_by_article(self.kwargs['article_id'])
+        context['comments'] = filter_valid_comment_by_article(self.kwargs['article_id'])
         context['comment_form'] = CommentForm()
         context['form_error'] = self.request.GET.get('form_error', '')
         return context
 
 
 class CategoryArticle(ArticleList, DeerUContextMixin):
-    template_name = theme + '/category.html'
+    # template_name = theme + '/category.html'
     context_object_name = 'article_list'
+
+    def get_template_names(self):
+        return self.theme + '/category.html'
 
     def _get_paginator(self, page):
         category_id = self.kwargs['category_id']
@@ -106,8 +119,11 @@ class CategoryArticle(ArticleList, DeerUContextMixin):
 
 
 class TagArticle(ArticleList, DeerUContextMixin):
-    template_name = theme + '/tag.html'
+    # template_name = theme + '/tag.html'
     context_object_name = 'article_list'
+
+    def get_template_names(self):
+        return self.theme + '/tag.html'
 
     def _get_paginator(self, page):
         tag_id = self.kwargs['tag_id']
@@ -126,8 +142,11 @@ class TagArticle(ArticleList, DeerUContextMixin):
 
 
 class DetailFlatPage(DetailView, DeerUContextMixin):
-    template_name = theme + '/detail_flatpage.html'
+    # template_name = theme + '/detail_flatpage.html'
     context_object_name = 'flatpage'
+
+    def get_template_names(self):
+        return self.theme + '/detail_flatpage.html'
 
     def get_object(self, queryset=None):
         urld = get_flatpage_url_dict()

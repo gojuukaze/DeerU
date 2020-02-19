@@ -1,13 +1,15 @@
 from ast import literal_eval
 
 from adminsortable2.admin import SortableAdminMixin
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.template.loader import render_to_string
 
 # Register your models here.
 from django.core.cache import cache
+from django.utils.safestring import mark_safe
 
-from app.consts import Global_value_cache_key, app_config_context, Theme_config_cache_key, Theme_cache_key
+from app.consts import Global_value_cache_key, app_config_context, Theme_config_cache_key, Theme_cache_key, \
+    CommentStatusChoices, v2_app_config_context
 from app.ex_admins.admin import FormInitAdmin
 from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm, ConfigAdminForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
@@ -15,9 +17,11 @@ from app.db_manager.content_manager import filter_category_by_article, create_ta
 from app.ex_admins.list_filter import CategoryFatherListFilter
 from app.manager.ct_manager import update_one_to_many_relation_model, get_tag_for_choice
 from app.app_models.other_model import Album
-from app.app_models.config_model import Config
-from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag, FlatPage
+from app.app_models.config_model import Config, Version
+from app.app_models.content_model import Article, Category, ArticleCategory, ArticleTag, Tag, FlatPage, Comment
 from tool.deeru_html import Tag as htag
+from tool.secure import encrypt
+from tool.sign import unsign, sign
 
 
 @admin.register(Article)
@@ -32,21 +36,6 @@ class ArticleAdmin(FormInitAdmin):
     # list_display_links = ['title']
 
     fields = ('title', 'cover_img', 'cover_summary', 'content', 'category', 'tag')
-
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ('title',)
-    #     }),
-    #     ('其他选项', {
-    #         'classes': ('collapse',),
-    #         'fields': ('cover_img', 'cover_summary'),
-    #     }),
-    #     (None, {
-    #         'fields': ('content', 'category', 'tag')
-    #     }),
-    # )
-
-    # fields = ( 'read_num', 'comment_num')
 
     def m_title(self, obj):
         return render_to_string('app/admin/article_title.html', {'article': obj})
@@ -80,8 +69,8 @@ class ArticleAdmin(FormInitAdmin):
         return super().get_form(request, obj, **kwargs)
 
     def save_model(self, request, obj, form, change):
-        cover_img = form.cleaned_data['cover_img'] if form.cleaned_data['is_use_cover_img'] else None
-        cover_summary = form.cleaned_data['cover_summary'] if form.cleaned_data['is_use_cover_summary'] else None
+        cover_img = form.cleaned_data['cover_img']
+        cover_summary = form.cleaned_data['cover_summary']
         obj.cover_img = cover_img
         obj.cover_summary = cover_summary
         result = super().save_model(request, obj, form, change)
@@ -116,40 +105,34 @@ class ArticleAdmin(FormInitAdmin):
 
 @admin.register(Config)
 class ConfigAdmin(admin.ModelAdmin):
-    form = ConfigAdminForm
+    # form = ConfigAdminForm
     is_first = True
     list_display = ['name', 'id']
-    fields = ['name', 'config', 'last_config']
-
-    def get_changelist(self, request, **kwargs):
-        if request.path.endswith('/change/'):
-            self.is_first = True
-
-        return super().get_changelist(request, **kwargs)
+    fields = ['v2_config']
 
     def get_object(self, request, object_id, from_field=None):
         obj = super().get_object(request, object_id, from_field)
-        if self.is_first:
-            self.config_bk = obj.config
-            self.is_first = False
+        obj.v2_config['_id'] = obj.id
         return obj
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).exclude(name__endswith='.old')
+
     def save_model(self, request, obj, form, change):
-        if not self.is_first:
-            obj.last_config = self.config_bk
-        self.is_first = True
-        self.config_bk = None
-        if obj.name == app_config_context['global_value']:
-            cache.set(Global_value_cache_key, literal_eval(obj.config), 3600)
-        elif obj.name == app_config_context['common_config']:
-            cache.set(Theme_cache_key, literal_eval(obj.config)['theme'], 3600)
+
+        if obj.name == v2_app_config_context['v2_blog_config']:
+            if obj.v2_config['host'].endswith('/'):
+                obj.v2_config['host'] = obj.v2_config['host'][:-1]
+            # 对email进行特殊处理
+            # 这快代码和发送邮件是强关联的，所以不用handler处理
+            password = obj.v2_config['email'].get('password', '').strip()
+            if password:
+                temp = unsign(password)
+                if not temp:
+                    # 说明密码没经过加密
+                    obj.v2_config['email']['password'] = sign(encrypt(password))
 
         return super().save_model(request, obj, form, change)
-
-    def add_view(self, request, form_url='', extra_context=None):
-        self.is_first = True
-        self.config_bk = ''
-        return super().add_view(request, form_url, extra_context)
 
 
 @admin.register(Category)
@@ -192,3 +175,57 @@ class FlatPageAdmin(admin.ModelAdmin):
         return render_to_string('app/admin/flatpage_title.html', {'flatpage': obj})
 
     m_title.short_description = '标题'
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    search_fields = ['content', 'nickname']
+    list_display = ('author', 'm_status', 'm_content', 'article', 'created_time')
+    list_filter = ['status', 'created_time']
+    actions = ['make_pass', 'make_fail']
+
+    def m_status(self, obj):
+        return render_to_string('app/admin/comment_status.html', {'status': obj.status})
+
+    m_status.short_description = '状态'
+
+    def author(self, obj):
+        return render_to_string('app/admin/comment_author.html',
+                                {'nickname': obj.nickname, 'email': obj.email or '', 'status': obj.status,
+                                 'id': obj.id})
+
+    author.short_description = '作者'
+
+    def m_content(self, obj):
+        return render_to_string('app/admin/comment_content.html', {'comment': obj})
+
+    m_content.short_description = '内容'
+
+    def article(self, obj):
+        article = obj.article()
+        title = article.title if article else '文章不存在'
+        url = obj.url() if article else ''
+        return mark_safe(
+            '<div style="display:flex;flex-direction:column">'
+            '<a style="font-size:16px;" target="_blank" href="%s"><strong>%s</strong></a>'
+            '<a style="font-size:12px;margin-top:3px" target="_blank" href="%s">跳转到文章评论</a>'
+            '</div>' % (url, title, url)
+        )
+
+    article.short_description = '文章'
+
+    def make_pass(self, request, queryset):
+        for q in queryset:
+            q.status = CommentStatusChoices.Passed
+            q.save()
+            self.message_user(request, "%s 通过" % str(q), level=messages.INFO)
+
+    make_pass.short_description = '通过'
+
+    def make_fail(self, request, queryset):
+        for q in queryset:
+            q.status = CommentStatusChoices.Failed
+            q.save()
+            self.message_user(request, "%s 不通过" % str(q), level=messages.INFO)
+
+    make_fail.short_description = '不通过'

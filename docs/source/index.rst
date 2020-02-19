@@ -21,15 +21,15 @@ Deeru
 
 依赖
 ========
-  python 3+
+  python 3.6+
 
-  django 2.0+
+  django 2.2.x
 
 =========
 
 .. toctree::
    :maxdepth: 2
-   :caption: 目录:
+   :caption: 目录
 
 
    installation
@@ -52,7 +52,7 @@ DeerU使用 `GNU General Public License v3.0 协议 <https://github.com/gojuukaz
 
     https://froala.com/wysiwyg-editor/pricing
 
-    你可以自己更换其他编辑器（ 参考 :ref:`rich-text-editor` ），我也会在之后内置一些富文本编辑器的替代方案 
+    你可以自己更换其他编辑器（ 参考 :ref:`rich-text-editor` ）
 
 
 截图
@@ -71,7 +71,7 @@ DeerU使用 `GNU General Public License v3.0 协议 <https://github.com/gojuukaz
 
 admin
 
-.. image:: _static/admin.png
+.. image:: _static/admin.jpg
     :scale: 50%
 
 admin2

@@ -10,7 +10,7 @@ DeerU 是一个开源博客系统
 依赖
 ----
 
--  Python 3.5+ -- 安装教程 https://www.ikaze.cn/article/28
+-  Python 3.6+ -- 安装教程 https://www.ikaze.cn/article/28
 -  pip 10+
 -  git
 -  libjpeg，zlib -- pillow包的依赖

@@ -41,6 +41,7 @@ release = deeru.__release__
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx_rtd_theme'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -166,3 +167,15 @@ texinfo_documents = [
 
 
 # -- Extension configuration -------------------------------------------------
+
+def setup(app):
+    from sphinx.domains.python import PyField
+    from sphinx.util.docfields import Field
+
+    app.add_object_type(
+        'item',
+        'item',
+        objname='configuration value',
+        indextemplate='pair: %s; configuration value',
+
+    )

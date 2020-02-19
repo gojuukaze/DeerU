@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="DeerU",
-    version="1.0.0",
+    version="2.0.1",
     description="DeerU is a content management system(DeerU 是一个开源博客系统)",
     long_description=open("README.rst").read(),
     license="GUN V3.0",
@@ -14,11 +14,7 @@ setup(
     url="https://github.com/gojuukaze/DeerU",
     author="gojuukaze",
     author_email="i@ikaze.uu.me",
-    python_requires='>=3.5',
-
-    install_requires=[
-        'Django>=2.0.0',
-    ],
+    python_requires='>=3.6',
 
     zip_safe=False,
     include_package_data=True,

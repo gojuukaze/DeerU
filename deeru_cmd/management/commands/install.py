@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 
 from django.core.management import CommandError
+from django.core.management.utils import get_random_secret_key
 from django.template import Context, Engine
 
 from deeru_cmd.management.base import DeerUBaseCommand
@@ -66,7 +67,7 @@ class Command(DeerUBaseCommand):
 
         self.info('复制必要文件...')
 
-        context = Context({}, autoescape=False)
+        context = Context({'SECRET_KEY': get_random_secret_key()}, autoescape=False)
 
         for template_name, new_file in self.get_project_templates():
             template = Engine().from_string(self.get_template_str(template_name))

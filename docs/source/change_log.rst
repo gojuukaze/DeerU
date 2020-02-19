@@ -2,12 +2,28 @@
 Change Log
 ============
 
+2.0.0
+---------
+
+ * 修复下一篇按钮的连接bug
+ * 升级js以及py包
+ * view_class的context规范化
+ * 修改文章简介、图片的提取逻辑
+ * 配置可视化
+ * 评论支持审核
+ * 修改评论数统计规则，只统计对文章的评论
+ * admin增加仪表盘
+ * 新回复邮件提醒功能
+ * 增加日志功能
+ * 评论增加验证码
 
 1.1.0 -alpha
 ----------------
 
     * 评论root_id,to_id规范
     * 评论参数验证
+    * fix bug `#6 <https://github.com/gojuukaze/DeerU/issues/6>`_
+    * 升级django版本，解决低版本安全问题 `CVE-2018-14574 Detail <https://nvd.nist.gov/vuln/detail/CVE-2018-14574>`_
 
 1.0.0
 ----------------

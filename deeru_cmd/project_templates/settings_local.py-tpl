@@ -1,9 +1,18 @@
+SECRET_KEY = '{{ SECRET_KEY }}'
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# v1版配置表达式，已弃用
 CUSTOM_EXPRESSION = []
+
+# v2版配置handler
+CUSTOM_CONFIG_HANDLER = []
 
 CUSTOM_APPS = [
 
 ]
+
+# log目录，需要启用log则去掉注释配置目录
+# LOG_DIR = ''

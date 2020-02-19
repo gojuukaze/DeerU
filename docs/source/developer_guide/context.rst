@@ -4,7 +4,9 @@
 Context
 ==============
 
-如果你要开发主题，那么阅读这篇文档，可以帮您了解view的context中都包含了些什么
+渲染html时view会把context传给html模板，context包含了模板需要的变量，数据等。
+
+如果你要开发主题，那么阅读这篇文档，可以帮您了解context中都包含了些什么
 
 
 基础context格式
@@ -14,36 +16,38 @@ Context
     context = {
     
         'config' : {
-            'global_value' : { ... },
-            'top_menu' : { ... },
-            'top_ico' : [ ... ],
-            'common_config' : { ... }
+            'v2_iconbar_config' : { ... },
+            'v2_navbar_config' : { ... },
+            'v2_common_config' : [ ... ],
+            'v2_blog_config' : { ... }
         }
 
-        'category' : [ 
-
-            {
-                'category' : Category, # Category - Category model的实例化对象
-                'children' :[
-                    {
-                        'category':Category
-                    },
-                    { ... }
-                ]
-        
-            },
-
-            { ... }
-        
-        ]
-
-        'tags' :[ Tag, Tag ,] # Tag - Tag model的实例化对象
+        'global' : {
+            'category' : [ 
     
+                {
+                    'category' : Category, # Category - Category model的实例化对象
+                    'children' :[
+                        {
+                            'category':Category
+                        },
+                        { ... }
+                    ]
+            
+                },
+    
+                { ... }
+            
+            ]
+    
+            'tags' :[ Tag, Tag ,] # Tag - Tag model的实例化对象
+        }
     }
 
-* config : 配置中需要添加在context中的所有配置，默认返回的配置有 'global_value'，'top_menu'，'top_ico'，'common_config'
-* category : 按父子结构整理后的分类
-* tag : 按文章数量排序的tag list，返回20个
+* config : 需要添加在context中的所有配置，默认返回的配置有 'v2_iconbar_config'，'v2_navbar_config'，'v2_common_config'，'v2_blog_config'
+* global : 里面包含了博客的分类，标签
+  - category : 按父子结构整理后的分类
+  - tag : 按文章数量排序的tag list，返回20个
 
 context中的对象
 ==================

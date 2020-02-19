@@ -1,0 +1,18 @@
+<div style="display: flex;margin-left: 5px;margin-top: 2px;border-top: 1px solid rgba(219,219,219,.5);padding-top: 3px">
+    <img style="border-radius: 100px;border: 2px solid #fff;" width="48" height="48" src="https://www.gravatar.com/avatar/00000000000000000000000000000000?s=48">
+    <div style="margin-left: 8px">
+        <strong>{{ comment.nickname }}</strong>
+        <br>
+        <small style="color: #999;font-size: 12px">
+            发布于：{{ comment.created_time }}</small>
+        <br>
+        {{ comment.content|safe }}
+    </div>
+</div>
+<hr/>
+<blockquote style="border-left: 4px solid #dddddd;padding-left: 10px;margin-left: 15px">
+    <p><strong>{{ blog_name }}</strong></p>
+    <p>文章：<a href="{{ host }}{{ comment_url }}">{{ article.title }}</a></p>
+    <p>链接：<a href="{{ host }}{{ comment_url }}">{{ host }}{{ article.url }}</a></p>
+    <p>作者：<a>{{ nickname }}</a></p>
+</blockquote>

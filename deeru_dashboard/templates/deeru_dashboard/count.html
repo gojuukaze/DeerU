@@ -1,0 +1,10 @@
+<div style="display: flex">
+    {% for c in module.children %}
+        <div style="flex: 1;text-align: center">
+            <p style="font-size: 30px;padding: 0;margin: 0;margin-top: 10px;font-weight: bold">{{ c.0 }}</p>
+            <p style="font-size: 14px;padding: 0;margin: 0;margin-top: 5px;margin-bottom: 10px">{{ c.1 }}</p>
+
+        </div>
+    {% endfor %}
+
+</div>

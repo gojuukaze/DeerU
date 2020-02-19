@@ -6,7 +6,7 @@ from tool.deeru_math import var
 
 
 def get_img_tag(img_cofig, allow_none=False):
-    if not img_cofig:
+    if not img_cofig or 'type' not in img_cofig:
         if allow_none:
             return None
         else:

@@ -1,13 +1,17 @@
+import json
+
 from bs4 import BeautifulSoup
 from django.dispatch import receiver
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save, pre_save, post_delete
 
 from app.app_models.config_model import Config
 from app.app_models.content_model import Article, Comment, FlatPage
 from app.app_models.other_model import Album
-from app.db_manager.content_manager import get_or_create_article_meta, get_article_meta_by_article
+from app.db_manager.content_manager import get_or_create_article_meta, get_article_meta_by_article, \
+    filter_valid_comment_by_article
 from app.manager.config_manager import cache_config
-from app.manager.content_manager import get_flatpage_url_dict
+from app.manager.config_manager_v2 import get_real_config
+from app.manager.content_manager import get_flatpage_url_dict, send_reply_email
 
 
 @receiver(pre_save, sender=Article, dispatch_uid="article_pre_save")
@@ -37,9 +41,16 @@ def article_post_save(sender, **kwargs):
 @receiver(post_save, sender=Comment, dispatch_uid="comment_post_save")
 def comment_post_save(sender, **kwargs):
     a_meta = get_article_meta_by_article(kwargs['instance'].article_id)
-    a_meta.comment_num += 1
+    a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).filter(type=201).count()
     a_meta.save()
+    send_reply_email(kwargs['instance'])
 
+
+@receiver(post_delete, sender=Comment, dispatch_uid="comment_post_delete")
+def comment_post_delete(sender, **kwargs):
+    a_meta = get_article_meta_by_article(kwargs['instance'].article_id)
+    a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).filter(type=201).count()
+    a_meta.save()
 
 @receiver(pre_save, sender=Album, dispatch_uid="album_pre_save")
 def album_pre_save(sender, **kwargs):
@@ -52,7 +63,7 @@ def flatpage_post_save(sender, **kwargs):
     get_flatpage_url_dict.invalidate()
 
 
-@receiver(post_save, sender=Config, dispatch_uid="config_post_save")
-def config_post_save(sender, **kwargs):
-    if kwargs['instance'].get_post_save_flag():
-        cache_config(kwargs['instance'])
+@receiver(pre_save, sender=Config, dispatch_uid="config_pre_save")
+def config_pre_save(sender, **kwargs):
+    if not kwargs['instance'].name.endswith('.old'):
+        kwargs['instance'].v2_real_config = get_real_config(kwargs['instance'].v2_config)

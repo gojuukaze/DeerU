@@ -15,7 +15,7 @@ urlpatterns = [
     path('tag/<int:tag_id>', views_class.TagArticle.as_view(), name='tag_article'),
     path('comment/create', views.create_comment, name='create_comment'),
 
-    path('image/upload', views.upload_image, name='upload_image'),
+    path('image/upload', views.upload_image_view, name='upload_image'),
     path('images', views.get_album, name='get_album'),
     path('image/delete', views.delete_image, name='delete_image'),
     path('sitemap.xml', sitemap, {'sitemaps':
@@ -25,5 +25,7 @@ urlpatterns = [
     # path('p/<path:url>', views_class.DetailFlatPage.as_view(), name='detail_flatpage'),
 
     path('404', views.page_not_found_view),
+
+    path('config/<int:config_id>/html', views.get_config_html),
 
 ]

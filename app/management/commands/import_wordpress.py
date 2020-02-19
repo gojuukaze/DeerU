@@ -18,7 +18,7 @@ class Command(BaseCommand):
     """
     从wordpress xml文件导入
 
-    1.评论暂不支持审核，所有不会导入未审核的评论，如果需要去掉get_comment()中对应的部分
+    1.不会导入未审核的评论，如果需要去掉get_comment()中对应的部分
 
     2.日期格式必须为： 2018-05-02 15:23:22
 
@@ -262,7 +262,7 @@ class Command(BaseCommand):
 
                 # 不导入未审核的
                 status = cm.find(self.nwp + 'comment_approved').text
-                if not status:
+                if status != '1':
                     continue
 
                 parent = cm.find(self.nwp + 'comment_parent').text
@@ -304,7 +304,7 @@ class Command(BaseCommand):
 
                 new_cm = Comment.objects.create(nickname=cm['nickname'], content=cm['content'],
                                                 created_time=cm['created_time'], type=type,
-                                                email=cm['email'], article_id=a_id, root_id=root_id, to_id=to_id)
+                                                email=cm['email'], article_id=a_id, root_id=root_id, to_id=to_id, status=2)
                 wpid_to_commentid[wp_id] = new_cm.id
                 if int(parent) == 0:
                     wpid_to_comment_rootid[wp_id] = new_cm.id

@@ -3,11 +3,14 @@
 {% load static %}
 
 {% block head_static %}
-    <title>{{ article.title }} |{{ config.global_value.title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/jodit@3.2.9/build/jodit.min.css" rel="stylesheet">
+    <title>{{ article.title }} |{{ config.v2_blog_config.title }}</title>
+{#    <link href="https://cdn.staticfile.org/jodit/3.2.55/jodit.min.css" rel="stylesheet">#}
+    <link href="{% static '/base_theme/css/jodit.es2018.min.css' %}" rel="stylesheet">
     <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet">
-{#    <script src="https://cdn.bootcss.com/jodit/3.1.94/jodit.min.js"></script>#}
-    <script src="https://cdn.jsdelivr.net/npm/jodit@3.2.9/build/jodit.min.js"></script>
+    {#    <script src="https://cdn.bootcss.com/jodit/3.1.94/jodit.min.js"></script>#}
+{#    <script src="https://cdn.staticfile.org/jodit/3.2.55/jodit.min.js"></script>#}
+    <script src="{% static '/base_theme/js/jodit.es2018.min.js' %}"></script>
+
     <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
     <script src="https://cdn.bootcss.com/clipboard.js/2.0.1/clipboard.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
@@ -130,7 +133,7 @@
                         <strong>转载请注明来源</strong>
                         <p>文章：<a href="{{ article.url }}">{{ article.title }}  </a></p>
                         <p>链接：<a id="copyright_url" href="{{ article.url }}">{{ article.url }}  </a></p>
-                        <p>作者：<a href="/">{{ config.global_value.nickname }}  </a></p>
+                        <p>作者：<a href="/">{{ config.v2_blog_config.nickname }}  </a></p>
 
                     </div>
                 </div>
@@ -196,6 +199,7 @@
                 </div>
             </nav>
 
+            {#评论列表#}
             <div class="box detail_article_box" style="padding: 0">
                 <div class="article-header">
                     <strong id="comment_header" style="font-size: larger">本文共 {{ article.meta_data.comment_num }}
@@ -203,10 +207,10 @@
                 <div id="comment">
                     {% for c in article.format_comments %}
 
-                        <article class="media">
+                        <article id="comment-{{ c.comment.id }}" class="media">
                             <figure class="media-left img_head">
                                 <p class="image is-60x60">
-                                    <img src="https://secure.gravatar.com/avatar/ba501072452b828d7f3b33d8369e349e?s=60">
+                                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?s=60">
                                 </p>
                             </figure>
                             <div class="media-content">
@@ -231,11 +235,11 @@
 
 
                                 {% for child in c.children %}
-                                    <article class="media">
+                                    <article id="comment-{{ child.comment.id }}" class="media">
 
                                         <figure class="media-left is-hidden-touch img_head">
                                             <p class="image is-48x48">
-                                                <img src="https://secure.gravatar.com/avatar/ba501072452b828d7f3b33d8369e349e?s=48">
+                                                <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?s=48">
                                             </p>
                                         </figure>
                                         <div class="media-content">
@@ -276,6 +280,7 @@
                         <span id="comment_help" style="color: rgb(44, 130, 201);">  (对文章评论)</span>
                     </p>
 
+                    {#发布评论#}
                     <article id="comment_form_media" class="media" style="margin-top: 10px">
 
                         <figure class="media-left is-hidden-touch img_head">
@@ -286,7 +291,7 @@
                         <div class="media-content">
 
                             <div class="field">
-                                <span style="color: red">{{ form_error }}</span>
+                                <span id="form_error_msg" style="color: red">{{ form_error }}</span>
                                 <form id="comment_form" action="{% url 'app:create_comment' %}" method="post">
                                     {% csrf_token %}
 
@@ -323,7 +328,11 @@
                                     <input type="hidden" name="root_id" id="id_root_id" value="-1">
                                     <input type="hidden" name="to_id" id="id_to_id" value="-1">
                                     <input type="hidden" name="type" id="id_type" value="201">
-                                    <input type="hidden" name="anchor" value="#comment">
+                                    <input type="hidden" name="err_anchor" value="#form_error_msg">
+                                    <input type="hidden" name="success_anchor" value="#comment-">
+                                    <div class="field" style="margin-top: 10px;display: flex">
+                                        {{ comment_form.captcha }}
+                                    </div>
 
                                     <div class="field" style="margin-top: 12px">
                                         <input type="submit" class="button is-rounded is-active" value="提交"/>
@@ -339,7 +348,7 @@
         </div>
     </div>
     <script>
-        document.title = "{{ article.title }} | {{ config.global_value.title }}";
+        document.title = "{{ article.title }} | {{ config.v2_blog_config.title }}";
         var current_url = document.location.origin + document.location.pathname;
         $('#qrcode_url').qrcode({
             text: current_url,
@@ -357,21 +366,27 @@
         clipboard.on('error', function (e) {
             layer.msg('复制失败', {icon: 2, time: 1900});
         });
+        var joditEditor = createCommentEditor('#id_content');
         var storage = window.localStorage;
         $('#comment_form').submit(function () {
-            var nickname = $("#id_nickname").val();
-            var email = $("#id_email").val();
+            let nickname = $("#id_nickname").val();
+            let email = $("#id_email").val();
             storage["nickname"] = nickname;
             storage["email"] = email;
+            storage["content"] = joditEditor.getEditorValue();
 
         });
 
         $("#id_nickname").val(storage["nickname"]);
         $("#id_email").val(storage["email"]);
 
-        var joditEditor = createCommentEditor('#id_content');
-        $('.jodit_toolbar_btn-emoji')[0].className += ' is-hidden-touch'
 
+        $('.jodit_toolbar_btn-emoji')[0].className += ' is-hidden-touch';
+
+        if ($('#form_error_msg').text() == '验证码错误') {
+            joditEditor.setEditorValue(storage["content"] || '')
+
+        }
 
         function changeForm(type, root_id, to_id, nickname) {
             if (type === 202) {
@@ -381,8 +396,7 @@
                 $('#id_root_id').val(root_id);
                 $('#id_to_id').val(to_id);
                 $('#comment_help').html('  (回复 ' + nickname + ')');
-            }
-            else if (type === 201) {
+            } else if (type === 201) {
                 $('#id_type').val(201);
                 $('#id_root_id').val(-1);
                 $('#id_to_id').val(-1);
@@ -391,17 +405,15 @@
             }
         }
 
-        /*$(function () {
-            console.log('load 2222');
-            var emoj = $('#emoticons-1');
-            emoj.find(':first-child').remove();
-            emoj.find(':first-child').before($('<i class="far fa-smile" aria-hidden="true"></i>'));
-            $("form").submit(function (e) {
-                alert("Submit prevented");
+
+        $('#comment_header').text('本文共 ' + $("[id^='comment-']").length + ' 个回复');
+        $('.captcha').click(function () {
+            $.getJSON("/captcha/refresh/", function (result) {
+                $('.captcha').attr('src', result['image_url']);
+                $('#id_captcha_0').val(result['key'])
             });
-        });*/
-
-
+        });
+        $('#id_captcha_1').css('margin-left', '10px');
     </script>
 
 {% endblock %}
@@ -411,15 +423,15 @@
 {% endblock %}
 
 {% block after_body %}
-    {% if theme_config.baidu_auto_push %}
+    {% if config.v2_blog_config.baidu_auto_push %}
         <script>
             (function () {
+                console.log(111)
                 var bp = document.createElement('script');
                 var curProtocol = window.location.protocol.split(':')[0];
                 if (curProtocol === 'https') {
                     bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-                }
-                else {
+                } else {
                     bp.src = 'http://push.zhanzhang.baidu.com/push.js';
                 }
                 var s = document.getElementsByTagName("script")[0];

@@ -1,26 +1,11 @@
 import json
 from ast import literal_eval
-from pprint import pprint, pformat
 
 from django.db.models import TextField
-from django.forms import Textarea
-from froala_editor.fields import FroalaField
 
-from app.ex_fields.widgets import MFroalaEditor, ConfigWidget
+from jsonfield import JSONField
 
-
-class MFroalaField(FroalaField):
-
-    def formfield(self, **kwargs):
-        if self.use_froala:
-            widget = MFroalaEditor(options=self.options, theme=self.theme, plugins=self.plugins,
-                                   include_jquery=self.include_jquery, image_upload=self.image_upload,
-                                   file_upload=self.file_upload)
-        else:
-            widget = Textarea()
-        defaults = {'widget': widget}
-        defaults.update(kwargs)
-        return super(FroalaField, self).formfield(**defaults)
+from app.ex_fields.widgets import ConfigWidget, ConfigWidgetV2
 
 
 class ConfigField(TextField):
@@ -38,3 +23,12 @@ class ConfigField(TextField):
         defaults.update(kwargs)
         defaults['widget'] = ConfigWidget
         return super(TextField, self).formfield(**defaults)
+
+
+class ConfigFieldV2(JSONField):
+
+    def formfield(self, **kwargs):
+        defaults = {'widget': ConfigWidgetV2}
+        defaults.update(kwargs)
+        defaults['widget'] = ConfigWidgetV2
+        return super().formfield(**defaults)

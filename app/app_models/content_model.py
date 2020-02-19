@@ -3,13 +3,13 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
-from app.consts import Comment_Type
-from app.manager import get_rich_text_filed
+from app.consts import Comment_Type, CommentStatusChoices
+from app.app_models import get_field
 from tool.html_helper import clean_all_tags, get_safe_comment_html
 
 deeru_rich_editor = settings.DEERU_RICH_EDITOR
 
-DeerURichFiled = get_rich_text_filed(deeru_rich_editor['filed'])
+DeerURichFiled = get_field(deeru_rich_editor['filed'])
 
 __all__ = ['Article', 'ArticleMeta', 'Category', 'ArticleCategory', 'Tag', 'ArticleTag']
 
@@ -50,7 +50,7 @@ class Article(models.Model):
 
     def next_article(self):
         try:
-            a = Article.objects.filter(id__gt=self.id).values('id', 'title').order_by('-id')[0]
+            a = Article.objects.filter(id__gt=self.id).values('id', 'title').order_by('id')[0]
             a['url'] = reverse('app:detail_article', args=(a['id'],))
             return a
         except:
@@ -69,26 +69,25 @@ class Article(models.Model):
         return filter_tag_by_article(self.id)
 
     def comments(self):
-        from app.db_manager.content_manager import filter_comment_by_article
-        return filter_comment_by_article(self.id)
+        from app.db_manager.content_manager import filter_valid_comment_by_article
+        return filter_valid_comment_by_article(self.id)
 
     def format_comments(self):
         """
         返回按父子结构整理后的评论
         以下说的 评论、回复 其实是一个东西，方便区分用了两个词，具体看类Comment的说明
 
-        child：包含评论的回复，和对这条评论下回复的回复，children不会再有children
+        children：评论的回复，以及对这条评论下回复 的 回复，children不会再有children
 
         [ { 'comment' : Comment , 'children': [ {'comment' : Comment, 'to_nickname':'xx'} ] } ,{...}]
         :return:
         """
-        from app.db_manager.content_manager import filter_comment_by_article
         result = []
         # 根评论在result中的位置,id:pos
         root_comment_id_to_pos = {}
 
-        comments = filter_comment_by_article(self.id)
-        # 评论在queryset中的位置,id:pos
+        comments = self.comments()
+        # 评论在comments列表中的位置,id:pos
         comment_id_to_pos = {}
 
         r_pos = 0
@@ -100,7 +99,11 @@ class Article(models.Model):
                 root_comment_id_to_pos[c.id] = r_pos
                 r_pos += 1
             else:
-                to_pos = comment_id_to_pos[c.to_id]
+                try:
+                    # 这个try应该是没用了，不过陈年代码不敢妄动，就这样吧 = =
+                    to_pos = comment_id_to_pos[c.to_id]
+                except:
+                    continue
                 to_comment = comments[to_pos]
 
                 root_pos = root_comment_id_to_pos[c.root_id]
@@ -231,22 +234,18 @@ class Comment(models.Model):
 
     nickname = models.CharField(verbose_name='昵称', max_length=20, null=True, blank=True)
     email = models.EmailField(verbose_name='邮箱', null=True, blank=True)
-    content = models.TextField(verbose_name='内容',
-                               # options={
-                               #     'height': 300,
-                               #     'toolbarButtons': ['fontSize', 'color', '|', 'bold', 'italic', 'underline',
-                               #                        'strikeThrough',
-                               #                        '|', 'emoticons', 'insertLink', 'quote', ],
-                               #     'imageUpload': False,'quickInsertButtons':[],
-                               #     'imageManagerLoadURL':'/','imageManagerDeleteURL':'/'
-                               # }
-                               )
+    content = models.TextField(verbose_name='内容')
 
     article_id = models.IntegerField(verbose_name='article_id')
+    status = models.IntegerField(verbose_name='状态', choices=CommentStatusChoices.to_django_choices(),
+                                 default=CommentStatusChoices.Created)
 
     """
     注意区分root_id和to_id，
-    回复才有to_id
+
+    评论 root_id必须是-1
+    对评论的回复 root_id==to_id
+
     如：
 
     文章-0
@@ -255,7 +254,7 @@ class Comment(models.Model):
               |__ 回复-3
                      |__ 回复-3-1
 
-    评论-1   ：root_id是 文章-0 的id
+    评论-1   ：root_id是 -1; to_id是 -1
     回复-2   ：root_id是 评论-1 的id; to_id是 评论-1 的id;
     回复-3   ：root_id是 评论-1 的id; to_id是 评论-1 的id;
     回复-3-1 ：root_id是 评论-1 的id; to_id是 回复-3 的id;
@@ -279,6 +278,19 @@ class Comment(models.Model):
             self.email = clean_all_tags(self.email)
         self.content = get_safe_comment_html(self.content)
         super().save(force_insert, force_update, using, update_fields)
+
+    def article(self):
+        from app.db_manager.content_manager import get_article_by_id
+        return get_article_by_id(self.article_id)
+
+    def url(self):
+        return reverse('app:detail_article', args=(self.article_id,)) + '#comment-' + str(self.id)
+
+    def get_absolute_url(self):
+        return self.url()
+
+    def __str__(self):
+        return '评论<%s>' % self.id
 
 
 class FlatPage(models.Model):

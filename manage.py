@@ -2,7 +2,13 @@
 import os
 import sys
 
+from django.core.management.utils import get_random_secret_key
+
 if __name__ == "__main__":
+
+    if 'gen_secret_key' in sys.argv:
+        print("SECRET_KEY = '%s'" % get_random_secret_key())
+        sys.exit()
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "deeru.settings")
     try:
         from django.core.management import execute_from_command_line

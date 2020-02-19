@@ -1,0 +1,77 @@
+{% load dashboard_tags %}
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://cdn.staticfile.org/jquery.form/4.2.2/jquery.form.min.js"
+            integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i"
+            crossorigin="anonymous"></script>
+<ul>
+    {% for comment in module.children %}
+        <li>
+            <div>
+                <p>{{ comment.nickname }} 发表在《 <a href="{{ comment.url }}"
+                                                  title="跳转到文章评论">{{ comment.article.title }}</a> 》</p>
+                <blockquote title='{{ comment.content | clean}}' style="border-left: 3px solid #dddddd;">{{ comment.content | clean:"40"|safe }}</blockquote>
+                <div id="tool_a{{ comment.id }}" style="margin-top: 6px;visibility: hidden">
+                    <a href="{% url 'admin:app_comment_change' comment.id %}">编辑</a> |
+                    <a id="mPassBut{{ comment.id }}" onclick="mPassBut({{ comment.id }})"
+                       style="cursor:pointer;color:green">通过</a> |
+                    <a id="mFailBut{{ comment.id }}" onclick="mFailBut({{ comment.id }})"
+                       style="cursor:pointer;color:red">不通过</a> |
+                    <a href="{% url 'admin:app_comment_delete' comment.id %}" style="color: red">删除</a>
+
+                </div>
+                <form id="comment-form-{{ comment.id }}" action="{% url 'admin:app_comment_changelist' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="_selected_action" value="{{ comment.id }}">
+                        <input type="hidden" name="action" >
+                    </form>
+            </div>
+        </li>
+        <script>
+            $('#tool_a{{ comment.id }}').parent().mouseover(function () {
+                $('#tool_a{{ comment.id }}').css("visibility", "visible");
+            });
+            $('#tool_a{{ comment.id }}').parent().mouseout(function () {
+                $('#tool_a{{ comment.id }}').css("visibility", "hidden");
+            });
+        </script>
+    {% empty %}
+        <li>暂无数据</li>
+    {% endfor %}
+    <li style="text-align: center"><a href="{% url 'admin:app_comment_changelist' %}?status__exact=0">所有待审评论</a></li>
+
+</ul>
+<script>
+    function mPassBut(id) {
+        $('#comment-form-' + id).children('input[name="action"]').attr('value','make_pass');
+        $('#comment-form-' + id).ajaxSubmit(
+            {
+                type: 'post', //form提交的方式(method:post/get)
+                success: function (data, status) {
+                    $('#comment-form-' + id).parent().parent().hide(500,function () {
+                        $(this).remove()
+                    });
+                },
+                error: function (data) {//提交失败后执行的回调函数
+                    alert("网络异常");
+                },
+            }
+        );
+    }
+    function mFailBut(id) {
+        $('#comment-form-' + id).children('input[name="action"]').attr('value','make_fail');
+        $('#comment-form-' + id).ajaxSubmit(
+            {
+                type: 'post', //form提交的方式(method:post/get)
+                success: function (data, status) {
+                    $('#comment-form-' + id).parent().parent().hide(500,function () {
+                        $(this).remove()
+                    });
+                },
+                error: function (data) {//提交失败后执行的回调函数
+                    alert("网络异常");
+                },
+            }
+        );
+    }
+</script>

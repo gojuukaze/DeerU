@@ -1,0 +1,50 @@
+<div id="comment_content_{{ comment.id }}" >
+    <blockquote style="border-left: 4px solid #dddddd;"><p>{{ comment.content|safe }}</p></blockquote>
+    <div id="tool_a{{ comment.id }}" style="margin-top: 6px;visibility: hidden">
+        <a href="{% url 'admin:app_comment_change' comment.id %}">编辑</a> |
+        <a id="mPassBut{{ comment.id }}" onclick="mPassBut{{ comment.id }}()" style="cursor:pointer;color:green">通过</a> |
+        <a id="mFailBut{{ comment.id }}" onclick="mFailBut{{ comment.id }}()" style="cursor:pointer;color:red">不通过</a> |
+        <a href="{% url 'admin:app_comment_delete' comment.id %}" style="color: red">删除</a>
+    </div>
+</div>
+<script>
+
+    django.jQuery('#tool_a{{ comment.id }}').parent().parent().parent().mouseover(function () {
+        django.jQuery('#tool_a{{ comment.id }}').css("visibility","visible");
+    });
+    django.jQuery('#tool_a{{ comment.id }}').parent().parent().parent().mouseout(function () {
+        django.jQuery('#tool_a{{ comment.id }}').css("visibility","hidden");
+    });
+    function changeSelect(name) {
+        let select = django.jQuery("#changelist-form").find("select");
+        let i = 0;
+        let temp = 0;
+        for (let c of select.children()) {
+            if (c.value === name) {
+                temp = i;
+            }
+            c.selected = false;
+            i++;
+        }
+        for (let c of django.jQuery(":checkbox.action-select")) {
+            c.checked = false;
+        }
+        select.children()[temp].selected = true;
+    }
+
+    function mPassBut{{ comment.id }}() {
+
+        changeSelect("make_pass");
+
+        let checkbox = django.jQuery("#comment_content_{{ comment.id }}").parent().siblings()[0];
+        checkbox.children[0].checked = true;
+        django.jQuery("#changelist-form").find("button").trigger("click");
+    }
+
+    function mFailBut{{ comment.id }}() {
+        changeSelect("make_fail");
+        let checkbox = django.jQuery("#comment_content_{{ comment.id }}").parent().siblings()[0];
+        checkbox.children[0].checked = true;
+        django.jQuery("#changelist-form").find("button").trigger("click");
+    }
+</script>
