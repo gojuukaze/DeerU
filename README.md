@@ -148,16 +148,16 @@ DeerU使用 [GNU General Public License v3.0 协议](https://github.com/gojuukaz
 ---
 首页
 
-<img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/dev/docs/source/_static/home.png?raw=true" width="80%">
+<img alt="DeerU Logo" src="./docs/source/_static/home.png?raw=true" width="80%">
 文章详情
 
-<img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/dev/docs/source/_static/detail.png?raw=true" width="80%">
+<img alt="DeerU Logo" src="./docs/source/_static/detail.png?raw=true" width="80%">
 admin
-<img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/dev/docs/source/_static/admin.png?raw=true" width="80%">
+<img alt="DeerU Logo" src="./docs/source/_static/admin.png?raw=true" width="80%">
 admin2
-<img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/dev/docs/source/_static/admin3.png?raw=true" width="80%">
+<img alt="DeerU Logo" src="./docs/source/_static/admin3.png?raw=true" width="80%">
 手机1
-<img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/dev/docs/source/_static/p1.png?raw=true" width="50%">
+<img alt="DeerU Logo" src="./docs/source/_static/p1.png?raw=true" width="50%">
 手机2
-<img alt="DeerU Logo" src="https://github.com/gojuukaze/DeerU/blob/dev/docs/source/_static/p2.png?raw=true" width="50%">
+<img alt="DeerU Logo" src="./docs/source/_static/p2.png?raw=true" width="50%">
 
