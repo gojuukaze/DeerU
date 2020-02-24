@@ -4,16 +4,13 @@
 
 {% block head_static %}
     <title>{{ article.title }} |{{ config.v2_blog_config.title }}</title>
-{#    <link href="https://cdn.staticfile.org/jodit/3.2.55/jodit.min.css" rel="stylesheet">#}
     <link href="{% static '/base_theme/css/jodit.es2018.min.css' %}" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet">
-    {#    <script src="https://cdn.bootcss.com/jodit/3.1.94/jodit.min.js"></script>#}
-{#    <script src="https://cdn.staticfile.org/jodit/3.2.55/jodit.min.js"></script>#}
+    <link href="https://cdn.staticfile.org/froala-editor/2.9.5/css/froala_style.min.css" rel="stylesheet">
     <script src="{% static '/base_theme/js/jodit.es2018.min.js' %}"></script>
 
-    <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
-    <script src="https://cdn.bootcss.com/clipboard.js/2.0.1/clipboard.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <script src="https://lib.baomitu.com/layer/3.1.1/layer.js"></script>
+    <script src="https://cdn.staticfile.org/clipboard.js/2.0.1/clipboard.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <script src="{% static '/base_theme/js/base_theme.js' %}"></script>
 
 {% endblock %}
