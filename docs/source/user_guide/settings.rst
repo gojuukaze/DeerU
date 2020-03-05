@@ -20,6 +20,7 @@ DeerU所有的配置请在 ``deeru/settings_local.py`` 中添加或修改
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
                 'OPTIONS': {
+                   'charset': 'utf8mb4', # 使用mysql必须设置此项
                    'read_default_file': '/path/to/my.cnf',
                 },
             }
@@ -33,9 +34,8 @@ DeerU所有的配置请在 ``deeru/settings_local.py`` 中添加或修改
         database = NAME
         user = USER
         password = PASSWORD
-        default-character-set = utf8
     
-    注意：如果你使用mysql，需要手动创建mysql database，django并不会帮你自动创建，
+    注意：如果你使用mysql，需要手动创建mysql database，并指定字符集为utf8mb4，否则无法初始化。
     
     如果你更改了数据库配置需要再次初始化项目
     
@@ -99,7 +99,7 @@ CUSTOM_CONFIG_HANDLER
 
     v2配置的自定义handler，用于把配置进行二次处理。
 
-    比如：配置图片时选择了图片id，配置保存时会经过handler处理，把图片id变为url。更多说明，参考: xxx
+    比如：配置图片时选择了图片id，配置保存时会经过handler处理，把图片id变为url。更多说明，参考:  :ref:`handler`
 
 .. _settings-static:
 
