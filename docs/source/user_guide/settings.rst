@@ -11,7 +11,7 @@ DeerU所有的配置请在 ``deeru/settings_local.py`` 中添加或修改
 数据库配置
 -----------
     
-    DeerU默认使用sqlite，如果你需要使用mysql，在 ``settings_local.py`` 中添加
+    DeerU默认使用sqlite，如果你需要使用mysql，需要安装mysql连接库  `mysqlclient <https://pypi.org/project/mysqlclient/>`_  ，并在 ``settings_local.py`` 中添加
     
     .. code-block:: python 
     
@@ -28,6 +28,8 @@ DeerU所有的配置请在 ``deeru/settings_local.py`` 中添加或修改
     
         # my.cnf 文件
         [client]
+        host = 127.xx.xx.xx
+        port = 3306
         database = NAME
         user = USER
         password = PASSWORD
@@ -43,8 +45,7 @@ DeerU所有的配置请在 ``deeru/settings_local.py`` 中添加或修改
     
     https://docs.djangoproject.com/en/3.0/ref/databases
 
-    如果使用 ``mysqlclient`` 连接mysql需要一些依赖，旧版的mysql在mac上有bug，需要修改 ``mysql_config``
-    才能正常安装 ``mysqlclient`` ，具体参考：https://pypi.org/project/mysqlclient/1.4.5/
+    mac上旧版的mysql无法安装 ``mysqlclient`` ，需要修改 ``mysql_config`` ，具体参考：https://pypi.org/project/mysqlclient/1.4.5/
 
 SECRET_KEY
 ---------------
