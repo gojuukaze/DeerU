@@ -45,8 +45,7 @@ DeerU所有的配置请在 ``deeru/settings_local.py`` 中添加或修改
     
     https://docs.djangoproject.com/en/3.0/ref/databases
 
-    mac上旧版的mysql无法安装 ``mysqlclient`` 在mac上有bug，需要修改 ``mysql_config``
-    才能正常安装 ``mysqlclient`` ，具体参考：https://pypi.org/project/mysqlclient/1.4.5/
+    mac上旧版的mysql无法安装 ``mysqlclient`` ，需要修改 ``mysql_config`` ，具体参考：https://pypi.org/project/mysqlclient/1.4.5/
 
 SECRET_KEY
 ---------------
