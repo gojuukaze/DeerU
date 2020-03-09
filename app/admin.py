@@ -145,10 +145,16 @@ class CategoryAdmin(SortableAdminMixin, admin.ModelAdmin):
         CategoryFatherListFilter,
     )
 
+    def has_delete_permission(self, request, obj=None):
+        # todo 因存在关联关系，暂时禁止删除，之后版本处理
+        return False
+
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
+
+    # todo 标签删除逻辑
 
 
 @admin.register(Album)
