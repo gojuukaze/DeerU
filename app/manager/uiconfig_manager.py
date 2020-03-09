@@ -15,7 +15,11 @@ def get_aside_category2():
 
 def get_aside_tags():
     article_tag = ArticleTag.objects.values('tag_id').annotate(article_num=Count('id')).order_by('-article_num')[:20]
-    aside_tags = [[get_tag_by_id(at['tag_id']), at['article_num']] for at in article_tag]
+    aside_tags = []
+    for at in article_tag:
+        tag = get_tag_by_id(at['tag_id'])
+        if tag:
+            aside_tags.append([tag, at['article_num']])
     fill_tags = []
     if len(aside_tags) != 20:
         fill_tags = Tag.objects.exclude(id__in=[at['tag_id'] for at in article_tag])[:20 - len(article_tag)]
