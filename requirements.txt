@@ -6,7 +6,7 @@ beautifulsoup4==4.8.1
 django-admin-sortable2==0.7.3
 django-froala-editor==2.9.5
 djcacheutils==3.0.0
-Pillow==6.2.0
+Pillow==6.2.2
 jsonfield==2.0.2
 django-choices-enums==1.0.3
 pydes==2.0.1
