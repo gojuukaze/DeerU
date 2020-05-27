@@ -127,6 +127,7 @@ ___
     python manage.py runserver 0.0.0.0:8000
 
 ```
+* 生产环境运行参考 [部署DeerU](https://deeru.readthedocs.io/zh_CN/master/user_guide/deployment/index.html)
 
 license
 -------
