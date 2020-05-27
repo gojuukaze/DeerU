@@ -102,7 +102,7 @@ ___
 
 ```bash
 
-    git clone -b dev https://github.com/gojuukaze/DeerU.git
+    git clone https://github.com/gojuukaze/DeerU.git
     cd DeerU
     pip install -r requirements.txt
     
