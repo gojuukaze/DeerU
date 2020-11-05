@@ -16,6 +16,12 @@ from app.manager.content_manager import get_flatpage_url_dict, send_reply_email
 
 @receiver(pre_save, sender=Article, dispatch_uid="article_pre_save")
 def article_pre_save(sender, **kwargs):
+    """
+    If an article save the article.
+
+    Args:
+        sender: (todo): write your description
+    """
     cover_img = getattr(kwargs['instance'], 'cover_img', None)
     cover_summary = getattr(kwargs['instance'], 'cover_summary', None)
     soup = BeautifulSoup(kwargs['instance'].content)
@@ -35,11 +41,23 @@ def article_pre_save(sender, **kwargs):
 
 @receiver(post_save, sender=Article, dispatch_uid="article_post_save")
 def article_post_save(sender, **kwargs):
+    """
+    Creates an article.
+
+    Args:
+        sender: (todo): write your description
+    """
     get_or_create_article_meta(kwargs['instance'].id)
 
 
 @receiver(post_save, sender=Comment, dispatch_uid="comment_post_save")
 def comment_post_save(sender, **kwargs):
+    """
+    Sets the comment of the comment.
+
+    Args:
+        sender: (todo): write your description
+    """
     a_meta = get_article_meta_by_article(kwargs['instance'].article_id)
     a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).filter(type=201).count()
     a_meta.save()
@@ -48,22 +66,46 @@ def comment_post_save(sender, **kwargs):
 
 @receiver(post_delete, sender=Comment, dispatch_uid="comment_post_delete")
 def comment_post_delete(sender, **kwargs):
+    """
+    Handles the comment.
+
+    Args:
+        sender: (todo): write your description
+    """
     a_meta = get_article_meta_by_article(kwargs['instance'].article_id)
     a_meta.comment_num = filter_valid_comment_by_article(kwargs['instance'].article_id).filter(type=201).count()
     a_meta.save()
 
 @receiver(pre_save, sender=Album, dispatch_uid="album_pre_save")
 def album_pre_save(sender, **kwargs):
+    """
+    Saves save is_pre_save.
+
+    Args:
+        sender: (todo): write your description
+    """
     if not kwargs['instance'].name:
         kwargs['instance'].name = kwargs['instance'].img.name
 
 
 @receiver(post_save, sender=FlatPage, dispatch_uid="flatpage_post_save")
 def flatpage_post_save(sender, **kwargs):
+    """
+    Records when a page.
+
+    Args:
+        sender: (todo): write your description
+    """
     get_flatpage_url_dict.invalidate()
 
 
 @receiver(pre_save, sender=Config, dispatch_uid="config_pre_save")
 def config_pre_save(sender, **kwargs):
+    """
+    Configure save save.
+
+    Args:
+        sender: (todo): write your description
+    """
     if not kwargs['instance'].name.endswith('.old'):
         kwargs['instance'].v2_real_config = get_real_config(kwargs['instance'].v2_config)

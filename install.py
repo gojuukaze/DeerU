@@ -5,6 +5,11 @@ import os
 
 
 def run():
+    """
+    Runs the python interpreter.
+
+    Args:
+    """
     print('开始安装DeerU')
     # 环境检测
     if not platform.python_version().startswith('3'):

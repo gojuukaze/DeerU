@@ -16,6 +16,13 @@ class Command(DeerUBaseCommand):
     NEED_PROJECT = True
 
     def add_arguments(self, parser):
+        """
+        Add command line arguments.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+        """
         parser.description = '''升级DeerU'''
 
         parser.add_argument(
@@ -26,6 +33,13 @@ class Command(DeerUBaseCommand):
         )
 
     def handle(self, *args, **options):
+        """
+        Executes the command.
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         branch = options['branch']
         subprocess.run('git reset --hard', shell=True)
         result = subprocess.run('git pull origin '+branch, shell=True)

@@ -47,6 +47,12 @@ class CategoryAdminForm(forms.ModelForm):
     father_id = forms.ChoiceField(label='父级目录', choices=get_category_for_category_form_choice, initial=-1)
 
     def is_valid(self):
+        """
+        Check if the instance is valid
+
+        Args:
+            self: (todo): write your description
+        """
         result = super().is_valid()
         if not result:
             return result
@@ -98,6 +104,12 @@ class ConfigAdminForm(forms.ModelForm):
             raise forms.ValidationError('缺少必须项 : ' + str(diff))
 
     def clean_config(self):
+        """
+        Clean the configuration.
+
+        Args:
+            self: (todo): write your description
+        """
         config = self.cleaned_data['config']
         self.check_bool(config)
         try:
@@ -140,6 +152,12 @@ class FlatpageAdminForm(forms.ModelForm):
         fields = '__all__'
 
     def clean_url(self):
+        """
+        Validate url.
+
+        Args:
+            self: (todo): write your description
+        """
         url = self.cleaned_data['url']
         if not url.startswith('/'):
             raise forms.ValidationError(
@@ -150,6 +168,12 @@ class FlatpageAdminForm(forms.ModelForm):
         return url
 
     def clean(self):
+        """
+        Check if the page is unique.
+
+        Args:
+            self: (todo): write your description
+        """
         url = self.cleaned_data.get('url')
 
         same_url = FlatPage.objects.filter(url=url)

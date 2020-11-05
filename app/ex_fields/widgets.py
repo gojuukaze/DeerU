@@ -22,6 +22,16 @@ class ConfigWidget(forms.Textarea):
                        ]}
 
     def render(self, name, value, attrs=None, renderer=None):
+        """
+        Render the html representation.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            value: (todo): write your description
+            attrs: (dict): write your description
+            renderer: (todo): write your description
+        """
         html = super().render(name, value, attrs)
         el_id = self.build_attrs(attrs).get('id')
         print('--', name)
@@ -56,6 +66,16 @@ class ConfigWidget(forms.Textarea):
 class ConfigWidgetV2(forms.Textarea):
 
     def render(self, name, value, attrs=None, renderer=None):
+        """
+        Render the html representation of the element.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            value: (todo): write your description
+            attrs: (dict): write your description
+            renderer: (todo): write your description
+        """
         value = json.loads(value)
         id = value['_id']
         value.pop('_id')

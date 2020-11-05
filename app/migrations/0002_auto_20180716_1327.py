@@ -12,6 +12,14 @@ from app.manager.ct_manager import update_one_to_many_relation_model
 
 
 def upload_img(model, name, path):
+    """
+    Upload an image to an image.
+
+    Args:
+        model: (todo): write your description
+        name: (str): write your description
+        path: (str): write your description
+    """
     with open(path, 'rb')as f:
         img = ImageFile(f)
         a = model(name=name)
@@ -19,6 +27,13 @@ def upload_img(model, name, path):
 
 
 def init_img(apps, schema_editor):
+    """
+    Initialize image.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Album = apps.get_model("app", "Album")
     base_dir = settings.BASE_DIR
     upload_img(Album, 'logo_white.png', os.path.join(base_dir, 'logo_white.png'))
@@ -28,6 +43,13 @@ def init_img(apps, schema_editor):
 
 
 def init_content(apps, schema_editor):
+    """
+    Initialize the content.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Category = apps.get_model("app", "Category")
     c = Category.objects.create(name='默认分类')
 

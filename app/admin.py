@@ -38,21 +38,51 @@ class ArticleAdmin(FormInitAdmin):
     fields = ('title', 'cover_img', 'cover_summary', 'content', 'category', 'tag')
 
     def m_title(self, obj):
+        """
+        Render the title.
+
+        Args:
+            self: (todo): write your description
+            obj: (todo): write your description
+        """
         return render_to_string('app/admin/article_title.html', {'article': obj})
 
     m_title.short_description = '标题'
 
     def read_num(self, obj):
+        """
+        Reads num from the stream.
+
+        Args:
+            self: (todo): write your description
+            obj: (todo): write your description
+        """
         return obj.meta_data().read_num
 
     read_num.short_description = '阅读数'
 
     def comment_num(self, obj):
+        """
+        Return the number of comments.
+
+        Args:
+            self: (todo): write your description
+            obj: (todo): write your description
+        """
         return obj.meta_data().comment_num
 
     comment_num.short_description = '评论数'
 
     def get_object(self, request, object_id, from_field=None):
+        """
+        This method todo todo.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            object_id: (str): write your description
+            from_field: (int): write your description
+        """
         obj = super().get_object(request, object_id, from_field)
 
         self.old_category = list(filter_category_by_article(obj.id))
@@ -66,9 +96,27 @@ class ArticleAdmin(FormInitAdmin):
         return obj
 
     def get_form(self, request, obj=None, **kwargs):
+        """
+        Returns the form.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            obj: (todo): write your description
+        """
         return super().get_form(request, obj, **kwargs)
 
     def save_model(self, request, obj, form, change):
+        """
+        Add a single model.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            obj: (todo): write your description
+            form: (todo): write your description
+            change: (todo): write your description
+        """
         cover_img = form.cleaned_data['cover_img']
         cover_summary = form.cleaned_data['cover_summary']
         obj.cover_img = cover_img
@@ -89,6 +137,13 @@ class ArticleAdmin(FormInitAdmin):
         return result
 
     def get_changelist(self, request, **kwargs):
+        """
+        To get the changelist for this changelist.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+        """
         if request.path.endswith('/change/'):
             self.field_init_value = {}
             self.old_category = []
@@ -97,6 +152,15 @@ class ArticleAdmin(FormInitAdmin):
         return super().get_changelist(request, **kwargs)
 
     def add_view(self, request, form_url='', extra_context=None):
+        """
+        Add the current admin form.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            form_url: (str): write your description
+            extra_context: (str): write your description
+        """
         self.field_init_value = {}
         self.old_category = []
         self.old_tag = []
@@ -111,14 +175,40 @@ class ConfigAdmin(admin.ModelAdmin):
     fields = ['v2_config']
 
     def get_object(self, request, object_id, from_field=None):
+        """
+        Get object by id.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            object_id: (str): write your description
+            from_field: (int): write your description
+        """
         obj = super().get_object(request, object_id, from_field)
         obj.v2_config['_id'] = obj.id
         return obj
 
     def get_queryset(self, request):
+        """
+        Return queryset.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+        """
         return super().get_queryset(request).exclude(name__endswith='.old')
 
     def save_model(self, request, obj, form, change):
+        """
+        Save the password.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            obj: (todo): write your description
+            form: (todo): write your description
+            change: (todo): write your description
+        """
 
         if obj.name == v2_app_config_context['v2_blog_config']:
             if obj.v2_config['host'].endswith('/'):
@@ -146,6 +236,14 @@ class CategoryAdmin(SortableAdminMixin, admin.ModelAdmin):
     )
 
     def has_delete_permission(self, request, obj=None):
+        """
+        Returns true if the given request has permissions.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            obj: (todo): write your description
+        """
         # todo 因存在关联关系，暂时禁止删除，之后版本处理
         return False
 
@@ -162,6 +260,13 @@ class AlbumAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'show_img']
 
     def show_img(self, obj):
+        """
+        Show an html of an image.
+
+        Args:
+            self: (todo): write your description
+            obj: (callable): write your description
+        """
         t = htag('img', attrs={'src': obj.img.url, 'style': 'overflow:hidden', 'height': '200'})
 
         return t.format_html()
@@ -178,6 +283,13 @@ class FlatPageAdmin(admin.ModelAdmin):
     fields = ('url', 'title', 'content')
 
     def m_title(self, obj):
+        """
+        Render the title.
+
+        Args:
+            self: (todo): write your description
+            obj: (todo): write your description
+        """
         return render_to_string('app/admin/flatpage_title.html', {'flatpage': obj})
 
     m_title.short_description = '标题'
@@ -191,11 +303,25 @@ class CommentAdmin(admin.ModelAdmin):
     actions = ['make_pass', 'make_fail']
 
     def m_status(self, obj):
+        """
+        Show status
+
+        Args:
+            self: (todo): write your description
+            obj: (todo): write your description
+        """
         return render_to_string('app/admin/comment_status.html', {'status': obj.status})
 
     m_status.short_description = '状态'
 
     def author(self, obj):
+        """
+        Returns the author.
+
+        Args:
+            self: (todo): write your description
+            obj: (todo): write your description
+        """
         return render_to_string('app/admin/comment_author.html',
                                 {'nickname': obj.nickname, 'email': obj.email or '', 'status': obj.status,
                                  'id': obj.id})
@@ -203,11 +329,25 @@ class CommentAdmin(admin.ModelAdmin):
     author.short_description = '作者'
 
     def m_content(self, obj):
+        """
+        Render the given object as - string.
+
+        Args:
+            self: (todo): write your description
+            obj: (todo): write your description
+        """
         return render_to_string('app/admin/comment_content.html', {'comment': obj})
 
     m_content.short_description = '内容'
 
     def article(self, obj):
+        """
+        Generate an article
+
+        Args:
+            self: (todo): write your description
+            obj: (todo): write your description
+        """
         article = obj.article()
         title = article.title if article else '文章不存在'
         url = obj.url() if article else ''
@@ -221,6 +361,14 @@ class CommentAdmin(admin.ModelAdmin):
     article.short_description = '文章'
 
     def make_pass(self, request, queryset):
+        """
+        Marks for a request.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            queryset: (str): write your description
+        """
         for q in queryset:
             q.status = CommentStatusChoices.Passed
             q.save()
@@ -229,6 +377,14 @@ class CommentAdmin(admin.ModelAdmin):
     make_pass.short_description = '通过'
 
     def make_fail(self, request, queryset):
+        """
+        Makes an error.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            queryset: (todo): write your description
+        """
         for q in queryset:
             q.status = CommentStatusChoices.Failed
             q.save()

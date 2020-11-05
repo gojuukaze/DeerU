@@ -16,6 +16,11 @@ COMPACT_DATETIME = "%Y%m%d%H%M%S"
 
 
 def now():
+    """
+    Return a datetime.
+
+    Args:
+    """
     return datetime.now()
 
 
@@ -40,6 +45,12 @@ def str_to_datetime(date_str, date_format=FORMAT_DATETIME):
 
 
 def str_to_date(date_str):
+    """
+    Convert date string.
+
+    Args:
+        date_str: (str): write your description
+    """
     return datetime.strptime(date_str, FORMAT_DATE).date()
 
 
@@ -67,6 +78,11 @@ def get_yesterday():
 
 
 def get_yesterday_date():
+    """
+    Get the day of the year.
+
+    Args:
+    """
     _date = datetime.now() - timedelta(days=1)
     return date(_date.year, _date.month, _date.day)
 
@@ -81,6 +97,11 @@ def get_tomorrow():
 
 
 def get_utc_time():
+    """
+    Returns a datetime.
+
+    Args:
+    """
     now_stamp = time.time()
     return datetime.utcfromtimestamp(now_stamp)
 
@@ -180,6 +201,12 @@ def get_week_start_end(_datetime):
 
 
 def timedelta_to_str(time_delta_obj):
+    """
+    Convert a timedelta object to a string.
+
+    Args:
+        time_delta_obj: (todo): write your description
+    """
     total_seconds = int(time_delta_obj.total_seconds())
     pending_str = ''
 

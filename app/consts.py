@@ -46,6 +46,11 @@ class CommentStatusChoices(DjangoChoicesEnum):
 
     @staticmethod
     def valid_choices():
+        """
+        Validate choices of choices are valid.
+
+        Args:
+        """
         return [0, 2]
 
 

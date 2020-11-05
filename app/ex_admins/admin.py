@@ -20,6 +20,16 @@ class FormInitAdmin(admin.ModelAdmin):
     field_init_value = {}
 
     def _changeform_view(self, request, object_id, form_url, extra_context):
+        """
+        The changeform admin admin admin admin view.
+
+        Args:
+            self: (todo): write your description
+            request: (todo): write your description
+            object_id: (str): write your description
+            form_url: (str): write your description
+            extra_context: (todo): write your description
+        """
         to_field = request.POST.get(TO_FIELD_VAR, request.GET.get(TO_FIELD_VAR))
         if to_field and not self.to_field_allowed(request, to_field):
             raise DisallowedModelAdminToField("The field %s cannot be referenced." % to_field)

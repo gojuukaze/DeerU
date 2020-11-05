@@ -10,10 +10,20 @@ from ast import literal_eval
 
 
 def get_aside_category2():
+    """
+    Returns the category2 category2.
+
+    Args:
+    """
     return get_category_tree2()
 
 
 def get_aside_tags():
+    """
+    Returns an article tags.
+
+    Args:
+    """
     article_tag = ArticleTag.objects.values('tag_id').annotate(article_num=Count('id')).order_by('-article_num')[:20]
     aside_tags = []
     for at in article_tag:

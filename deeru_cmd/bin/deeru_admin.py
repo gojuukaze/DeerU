@@ -19,6 +19,11 @@ help_text = [
 
 
 def run():
+    """
+    Main function.
+
+    Args:
+    """
     settings_path = os.path.join(os.getcwd(), 'deeru')
     settings_py = os.path.join(settings_path, 'settings.py')
 

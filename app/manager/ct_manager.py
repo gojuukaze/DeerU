@@ -52,6 +52,12 @@ def get_category_tree():
 
 
 def category_dict_to_list(tree):
+    """
+    Convert a list of dictionaries into a tree.
+
+    Args:
+        tree: (dict): write your description
+    """
     result = []
     for k, v in tree.items():
         children = v.get('children')
@@ -116,6 +122,14 @@ def get_category_tree2():
 
 
 def get_category_for_choice(category=get_category_tree, deep=0):
+    """
+    Returns the category for the given category.
+
+    Args:
+        category: (dict): write your description
+        get_category_tree: (str): write your description
+        deep: (bool): write your description
+    """
     if deep == 0:
         category = get_category_tree()
     choice = []
@@ -129,6 +143,14 @@ def get_category_for_choice(category=get_category_tree, deep=0):
     return choice
 
 def get_category_for_category_form_choice(category=get_category_tree, deep=0):
+    """
+    Returns a form for the given category.
+
+    Args:
+        category: (dict): write your description
+        get_category_tree: (str): write your description
+        deep: (bool): write your description
+    """
     if deep == 0:
         category = get_category_tree()
         choice = [[-1,'无']]
@@ -145,6 +167,13 @@ def get_category_for_category_form_choice(category=get_category_tree, deep=0):
 
 
 def get_father_category(category, include_self=False):
+    """
+    Returns a category.
+
+    Args:
+        category: (str): write your description
+        include_self: (bool): write your description
+    """
     # category = get_category_by_id(category_id)
     if category.father_id == -1:
         return []
@@ -162,6 +191,11 @@ def get_father_category(category, include_self=False):
 
 
 def get_tag_for_choice():
+    """
+    Returns a list of all the choice for a given choice.
+
+    Args:
+    """
     return [t.name for t in get_all_tag()]
 
 
@@ -198,5 +232,11 @@ def update_one_to_many_relation_model(relation_model, one_id_name, one_id,
 
 
 def get_father_category_for_choice(id):
+    """
+    Get a list of the category
+
+    Args:
+        id: (str): write your description
+    """
     c = get_category_for_choice()
     del c[id]

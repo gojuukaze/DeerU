@@ -10,6 +10,13 @@ class CustomIndexDashboard(Dashboard):
     columns = 2
 
     def init_with_context(self, context):
+        """
+        Initialize the children.
+
+        Args:
+            self: (todo): write your description
+            context: (dict): write your description
+        """
         self.children.append(CountModule('统计', column=0, order=0))
 
         self.children.append(modules.LinkList(

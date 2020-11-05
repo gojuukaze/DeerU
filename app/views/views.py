@@ -21,11 +21,24 @@ theme = get_theme()
 
 @requires_csrf_token
 def page_not_found_view(request, exception):
+    """
+    Renders function to html page.
+
+    Args:
+        request: (todo): write your description
+        exception: (todo): write your description
+    """
     return render(request, theme + '/404.html', get_base_context({}))
 
 
 @permission_required('app', raise_exception=True)
 def upload_image_view(request):
+    """
+    The image to image.
+
+    Args:
+        request: (todo): write your description
+    """
     if request.method != 'POST':
         return HttpResponseNotAllowed(['GET', 'POST'])
     file = request.FILES.get('file')
@@ -43,6 +56,12 @@ def upload_image_view(request):
 
 @permission_required('app', raise_exception=True)
 def get_album(request):
+    """
+    Return a list of images.
+
+    Args:
+        request: (todo): write your description
+    """
     images = get_all_image().order_by('-id')
     return JsonResponse(
         [{'tag': 'img', "url": i.img.url, "thumb": i.img.url, 'id': i.id, 'name': i.img.name} for i in images],
@@ -51,6 +70,12 @@ def get_album(request):
 
 @permission_required('app', raise_exception=True)
 def delete_image(request):
+    """
+    Delete an image
+
+    Args:
+        request: (todo): write your description
+    """
     id = request.POST.get('id', 0)
     try:
         get_image_by_id(id).delete()
@@ -60,6 +85,12 @@ def delete_image(request):
 
 
 def create_comment(request):
+    """
+    Create a comment.
+
+    Args:
+        request: (todo): write your description
+    """
     http_referer = request.META.get('HTTP_REFERER')
     if not http_referer:
         return HttpResponseForbidden()
@@ -95,6 +126,13 @@ def create_comment(request):
 
 @permission_required('app', raise_exception=True)
 def get_config_html(request, config_id):
+    """
+    Get html page.
+
+    Args:
+        request: (todo): write your description
+        config_id: (str): write your description
+    """
     config = get_config_by_id(config_id)
     return render(request, 'app/admin/config.html',
                   {'schema': config.v2_schema,

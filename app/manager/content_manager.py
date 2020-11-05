@@ -12,6 +12,11 @@ from app.manager.email import send_mail
 
 @cached(86400, key=FLAT_PAGE_URL_CACHE_KEY)
 def get_flatpage_url_dict():
+    """
+    Returns a dictionary of all pages in a : class
+
+    Args:
+    """
     pages = all_flatpage().values_list('url', 'id')
     urld = {}
     for k, v in pages:
@@ -20,6 +25,12 @@ def get_flatpage_url_dict():
 
 
 def is_valid_comment(comment_form):
+    """
+    Checks if the comment is valid.
+
+    Args:
+        comment_form: (str): write your description
+    """
     to_id = comment_form.cleaned_data['to_id']
     article_id = comment_form.cleaned_data['article_id']
     root_id = comment_form.cleaned_data['root_id']

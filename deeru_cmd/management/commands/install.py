@@ -22,6 +22,13 @@ class Command(DeerUBaseCommand):
     templates_dir = 'project_templates'
 
     def add_arguments(self, parser):
+        """
+        Add command line arguments.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+        """
         parser.description = '''安装下载DeerU项目、插件、主题'''
 
         parser.add_argument('name', type=str, help='名称')
@@ -34,12 +41,24 @@ class Command(DeerUBaseCommand):
         )
 
     def get_project_templates(self):
+        """
+        Return the list of templates.
+
+        Args:
+            self: (todo): write your description
+        """
         return [
             ['settings_local.py-tpl', Path(self.name) / Path('deeru/settings_local.py')],
             ['urls_local.py-tpl', Path(self.name) / Path('deeru/urls_local.py')]
         ]
 
     def install_project(self):
+        """
+        Install the project.
+
+        Args:
+            self: (todo): write your description
+        """
         self.info('开始安装DeerU')
 
         self.info('下载DeerU ...')
@@ -77,6 +96,13 @@ class Command(DeerUBaseCommand):
         self.success('\n安装完成 ！！')
 
     def handle(self, *args, **options):
+        """
+        Install the project.
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         self.name = options['name']
         self.branch = options['branch']
 

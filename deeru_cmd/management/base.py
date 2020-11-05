@@ -12,6 +12,15 @@ class DeerUBaseCommand(BaseCommand):
     templates_dir = ''
 
     def __init__(self, stdout=None, stderr=None, no_color=False):
+        """
+        Initialize the settings.
+
+        Args:
+            self: (todo): write your description
+            stdout: (todo): write your description
+            stderr: (todo): write your description
+            no_color: (str): write your description
+        """
         super().__init__(stdout, stderr, no_color)
 
         # 检测目录位置
@@ -33,6 +42,13 @@ class DeerUBaseCommand(BaseCommand):
         self.success = success_out.write
 
     def get_template_str(self, template_name):
+        """
+        Return the template string.
+
+        Args:
+            self: (todo): write your description
+            template_name: (str): write your description
+        """
         import deeru_cmd
         template_dir = deeru_cmd.__path__[0]
         templdate_file = Path(template_dir) / Path(self.templates_dir) / Path(template_name)
