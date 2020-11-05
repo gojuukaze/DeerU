@@ -35,9 +35,22 @@ class Config(models.Model):
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
 
     def set_post_save_flag(self, v):
+        """
+        Sets the flag.
+
+        Args:
+            self: (todo): write your description
+            v: (todo): write your description
+        """
         self.first_config_post_save = v
 
     def get_post_save_flag(self):
+        """
+        Gets the post.
+
+        Args:
+            self: (todo): write your description
+        """
         return getattr(self, 'first_config_post_save', True)
 
 

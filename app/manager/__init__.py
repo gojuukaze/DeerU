@@ -1,4 +1,9 @@
 def get_config_context():
+    """
+    Returns a dictionary of config variables.
+
+    Args:
+    """
     from django.apps import apps
     import importlib
     from app.db_manager.config_manager import get_config_by_name
@@ -20,6 +25,12 @@ def get_config_context():
 
 
 def get_base_context(context):
+    """
+    Return the base context.
+
+    Args:
+        context: (todo): write your description
+    """
     from app.manager.uiconfig_manager import get_aside_category2, get_aside_tags
     context['config'] = get_config_context()
 

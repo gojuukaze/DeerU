@@ -29,18 +29,42 @@ class Article(models.Model):
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
 
     def __str__(self):
+        """
+        Returns a string representing the title.
+
+        Args:
+            self: (todo): write your description
+        """
         if len(self.title) <= 15:
             return '文章-%d<%s>' % (self.id, self.title)
         else:
             return '文章-%d<%s...%s>' % (self.id, self.title[:7], self.title[-8:])
 
     def url(self):
+        """
+        Return the url for this resource.
+
+        Args:
+            self: (todo): write your description
+        """
         return reverse('app:detail_article', args=(self.id,))
 
     def get_absolute_url(self):
+        """
+        Returns the absolute url of the absolute url.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.url()
 
     def last_article(self):
+        """
+        Return the last article of the article.
+
+        Args:
+            self: (todo): write your description
+        """
         try:
             a = Article.objects.filter(id__lt=self.id).values('id', 'title').order_by('-id')[0]
             a['url'] = reverse('app:detail_article', args=(a['id'],))
@@ -49,6 +73,12 @@ class Article(models.Model):
             return None
 
     def next_article(self):
+        """
+        Returns the next article
+
+        Args:
+            self: (todo): write your description
+        """
         try:
             a = Article.objects.filter(id__gt=self.id).values('id', 'title').order_by('id')[0]
             a['url'] = reverse('app:detail_article', args=(a['id'],))
@@ -57,18 +87,42 @@ class Article(models.Model):
             return None
 
     def meta_data(self):
+        """
+        Return the meta data
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import get_article_meta_by_article
         return get_article_meta_by_article(self.id)
 
     def category(self):
+        """
+        Return the details of the article.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import filter_category_by_article
         return filter_category_by_article(self.id)
 
     def tags(self):
+        """
+        Return a list of tags associated with this article.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import filter_tag_by_article
         return filter_tag_by_article(self.id)
 
     def comments(self):
+        """
+        Return a list.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import filter_valid_comment_by_article
         return filter_valid_comment_by_article(self.id)
 
@@ -144,19 +198,49 @@ class Category(models.Model):
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
 
     def __str__(self):
+        """
+        Return a string representation of this object.
+
+        Args:
+            self: (todo): write your description
+        """
         return '分类-%d<%s>' % (self.id, self.name,)
 
     def url(self):
+        """
+        Return the url for this resource.
+
+        Args:
+            self: (todo): write your description
+        """
         return reverse('app:category_article', args=(self.id,))
 
     def get_absolute_url(self):
+        """
+        Returns the absolute url of the absolute url.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.url()
 
     def get_article_category_list(self):
+        """
+        Returns the list of article objects.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import filter_article_category_by_category
         return filter_article_category_by_category(self.id)
 
     def get_article_list(self):
+        """
+        Return a list of article objects.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import filter_article_by_category
         return filter_article_by_category(self.id)
 
@@ -184,19 +268,49 @@ class Tag(models.Model):
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
 
     def __str__(self):
+        """
+        Return a string representation of this object.
+
+        Args:
+            self: (todo): write your description
+        """
         return '标签-%d<%s>' % (self.id, self.name,)
 
     def url(self):
+        """
+        Return the url for this resource.
+
+        Args:
+            self: (todo): write your description
+        """
         return reverse('app:tag_article', args=(self.id,))
 
     def get_absolute_url(self):
+        """
+        Returns the absolute url of the absolute url.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.url()
 
     def get_article_tag_list(self):
+        """
+        Return a list of article objects.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import filter_article_tag_by_tag
         return filter_article_tag_by_tag(self.id)
 
     def get_article_list(self):
+        """
+        Return a list of article objects.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import filter_article_by_tag
         return filter_article_by_tag(self.id)
 
@@ -213,6 +327,12 @@ class ArticleTag(models.Model):
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
 
     def tag(self):
+        """
+        Return the tag_tag.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import get_tag_by_id
 
         return get_tag_by_id(self.tag_id)
@@ -273,6 +393,16 @@ class Comment(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
+        """
+        Saves the emails.
+
+        Args:
+            self: (todo): write your description
+            force_insert: (bool): write your description
+            force_update: (bool): write your description
+            using: (str): write your description
+            update_fields: (bool): write your description
+        """
         self.nickname = clean_all_tags(self.nickname)
         if self.email:
             self.email = clean_all_tags(self.email)
@@ -280,16 +410,40 @@ class Comment(models.Model):
         super().save(force_insert, force_update, using, update_fields)
 
     def article(self):
+        """
+        Return the article s article
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import get_article_by_id
         return get_article_by_id(self.article_id)
 
     def url(self):
+        """
+        Reverse url for the article.
+
+        Args:
+            self: (todo): write your description
+        """
         return reverse('app:detail_article', args=(self.article_id,)) + '#comment-' + str(self.id)
 
     def get_absolute_url(self):
+        """
+        Returns the absolute url of the absolute url.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.url()
 
     def __str__(self):
+        """
+        Return a string representation of this object.
+
+        Args:
+            self: (todo): write your description
+        """
         return '评论<%s>' % self.id
 
 
@@ -306,10 +460,22 @@ class FlatPage(models.Model):
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
 
     def __str__(self):
+        """
+        Returns a string representing the title.
+
+        Args:
+            self: (todo): write your description
+        """
         if len(self.title) <= 15:
             return '单页面-%d<%s>' % (self.id, self.title)
         else:
             return '单页面-%d<%s...%s>' % (self.id, self.title[:7], self.title[-8:])
 
     def get_absolute_url(self):
+        """
+        Returns the absolute url.
+
+        Args:
+            self: (todo): write your description
+        """
         return reverse('app:detail_flatpage', args=(self.url,))

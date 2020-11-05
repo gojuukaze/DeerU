@@ -25,6 +25,13 @@ class Command(BaseCommand):
     """
 
     def handle(self, *args, **options):
+        """
+        Handle user
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         self.error = self.stderr.write
 
         info_out = OutputWrapper(sys.stdout)

@@ -12,6 +12,17 @@ from tool.sign import unsign
 
 def _send(subject, message, recipient_list,
           email_config=None, html_message=None, fail_silently=False):
+    """
+    Sends an email.
+
+    Args:
+        subject: (str): write your description
+        message: (str): write your description
+        recipient_list: (list): write your description
+        email_config: (dict): write your description
+        html_message: (str): write your description
+        fail_silently: (str): write your description
+    """
     if not email_config:
         blog_config = get_config_by_name(v2_app_config_context['v2_blog_config']).v2_real_config
         email_config = blog_config['email']
@@ -57,6 +68,17 @@ def _send(subject, message, recipient_list,
 
 def send_mail(subject, message, recipient_list,
               email_config=None, html_message=None, fail_silently=False):
+    """
+    Sends an email.
+
+    Args:
+        subject: (str): write your description
+        message: (str): write your description
+        recipient_list: (list): write your description
+        email_config: (str): write your description
+        html_message: (str): write your description
+        fail_silently: (str): write your description
+    """
     t = threading.Thread(target=_send,
                          args=(subject, message, recipient_list, email_config, html_message, fail_silently))
     t.start()

@@ -19,6 +19,12 @@ class Command(DeerUBaseCommand):
     templates_dir = 'app_templates'
 
     def get_app_templates(self):
+        """
+        Generate templates templates.
+
+        Args:
+            self: (todo): write your description
+        """
         app_templates = [
             [
                 'apps.py-tpl',
@@ -89,17 +95,38 @@ class Command(DeerUBaseCommand):
         return app_templates
 
     def add_arguments(self, parser):
+        """
+        Add command line arguments.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+        """
         parser.description = '''创建DeerU插件、主题项目'''
 
         parser.add_argument('type', type=str, choices=['plugin', 'theme'], help='项目的类型')
         parser.add_argument('name', type=str, help='名称')
 
     def mk_dir(self, dir_name):
+        """
+        Create a directory.
+
+        Args:
+            self: (todo): write your description
+            dir_name: (str): write your description
+        """
         for name in dir_name:
             new_dir = os.path.join(self.name, name)
             os.mkdir(new_dir)
 
     def handle(self, *args, **options):
+        """
+        Handle the command.
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         self.type = options['type']
         self.name = options['name']
         management.call_command('startapp', self.name)

@@ -10,6 +10,13 @@ class Command(BaseCommand):
     """
 
     def handle(self, *args, **options):
+        """
+        Handle handle method.
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         config_v1_to_v2()
 
 

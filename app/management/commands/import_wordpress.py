@@ -31,6 +31,13 @@ class Command(BaseCommand):
     """
 
     def add_arguments(self, parser):
+        """
+        Add command line arguments.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+        """
         parser.description = '''从wordpress xml文件导入
     1.评论暂不支持审核，所以不会导入未审核的评论
     2.日期格式必须为： 2018-05-02 15:23:22'''
@@ -64,6 +71,13 @@ class Command(BaseCommand):
         )
 
     def is_cover(self, text):
+        """
+        Return true if the text string.
+
+        Args:
+            self: (todo): write your description
+            text: (str): write your description
+        """
 
         if self.cover == 'ask':
             while True:
@@ -88,6 +102,12 @@ class Command(BaseCommand):
             return False
 
     def get_category(self):
+        """
+        Return the category
+
+        Args:
+            self: (todo): write your description
+        """
         for node in self.root.findall(self.nwp + 'category'):
             key = node.find(self.nwp + 'category_nicename').text
             name = node.find(self.nwp + 'cat_name').text
@@ -95,6 +115,12 @@ class Command(BaseCommand):
             self.category[key] = {'name': name, 'parent': parent}
 
     def save_category(self):
+        """
+        Updates the category.
+
+        Args:
+            self: (todo): write your description
+        """
         names = [c['name'] for key, c in self.category.items()]
         if len(set(names)) != len(names):
             self.error('导入分类失败，存在相同名称的分类')
@@ -136,17 +162,35 @@ class Command(BaseCommand):
             c['id'] = new_c.id
 
     def get_tag(self):
+        """
+        Get all tags of the document
+
+        Args:
+            self: (todo): write your description
+        """
         for node in self.root.findall(self.nwp + 'tag'):
             key = node.find(self.nwp + 'tag_slug').text
             name = node.find(self.nwp + 'tag_name').text
             self.tag[key] = {'name': name}
 
     def save_tag(self):
+        """
+        Save the tag to the database.
+
+        Args:
+            self: (todo): write your description
+        """
         for key, t in self.tag.items():
             new_tag, is_create = Tag.objects.get_or_create(name=t['name'])
             t['id'] = new_tag.id
 
     def get_article(self):
+        """
+        This method to the article
+
+        Args:
+            self: (todo): write your description
+        """
         for node in self.root.findall('item'):
             type = node.find(self.nwp + 'post_type').text
             if type != 'post':
@@ -183,6 +227,12 @@ class Command(BaseCommand):
                                  'category': c, 'tag': t, 'content': content})
 
     def save_article(self):
+        """
+        Save an article metadata.
+
+        Args:
+            self: (todo): write your description
+        """
         for a in self.article:
             new_a_meta = None
             try:
@@ -206,6 +256,12 @@ class Command(BaseCommand):
             a['id'] = new_a.id
 
     def save_article_category(self):
+        """
+        Updates the article.
+
+        Args:
+            self: (todo): write your description
+        """
 
         for a in self.article:
             id = a.get('id')
@@ -221,6 +277,12 @@ class Command(BaseCommand):
                                               lambda x: x, old_many_ids=None)
 
     def save_article_tag(self):
+        """
+        Save the article tags.
+
+        Args:
+            self: (todo): write your description
+        """
 
         for a in self.article:
             id = a.get('id')
@@ -234,6 +296,12 @@ class Command(BaseCommand):
                                               lambda x: x, old_many_ids=None)
 
     def get_comment(self):
+        """
+        Get the comment.
+
+        Args:
+            self: (todo): write your description
+        """
         pos = 0
         for node in self.root.findall('item'):
 
@@ -312,6 +380,13 @@ class Command(BaseCommand):
                     wpid_to_comment_rootid[wp_id] = root_id
 
     def handle(self, *args, **options):
+        """
+        Handle the article
+
+        Args:
+            self: (todo): write your description
+            options: (todo): write your description
+        """
         self.error = self.stderr.write
 
         info_out = OutputWrapper(sys.stdout)

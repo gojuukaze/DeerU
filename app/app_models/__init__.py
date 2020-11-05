@@ -1,4 +1,10 @@
 def get_field(name):
+    """
+    Returns the field of a given name.
+
+    Args:
+        name: (str): write your description
+    """
     import importlib
     temp = name.split('.')
 

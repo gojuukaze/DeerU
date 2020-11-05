@@ -6,11 +6,23 @@ from django.core.signing import Signer
 
 
 def sign(s):
+    """
+    Signs a string with the given signer.
+
+    Args:
+        s: (array): write your description
+    """
     signer = Signer()
     return signer.sign(s)
 
 
 def unsign(s):
+    """
+    Unsign a signer.
+
+    Args:
+        s: (array): write your description
+    """
     signer = Signer()
     try:
         return signer.unsign(s)

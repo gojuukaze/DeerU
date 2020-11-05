@@ -7,6 +7,12 @@ from ast import literal_eval
 
 
 def get_global_value_by_key(name):
+    """
+    Returns global value of a global key.
+
+    Args:
+        name: (str): write your description
+    """
     global_value = get_global_value()
 
     default = Global_Value_Default.get(name, '')
@@ -15,6 +21,11 @@ def get_global_value_by_key(name):
 
 
 def get_global_value():
+    """
+    Get global global value.
+
+    Args:
+    """
     try:
         global_value = cache.get(Global_value_cache_key, None)
         assert global_value is not None
@@ -27,6 +38,11 @@ def get_global_value():
 
 
 def get_theme_config():
+    """
+    Get theme configuration.
+
+    Args:
+    """
     try:
         theme_config = cache.get(Theme_config_cache_key, None)
         assert theme_config is not None
@@ -39,6 +55,11 @@ def get_theme_config():
 
 
 def get_theme():
+    """
+    Returns a theme.
+
+    Args:
+    """
     try:
         theme = cache.get(Theme_cache_key, None)
         assert theme is not None
@@ -78,6 +99,12 @@ def cache_config(config, is_init=False):
 
 
 def get_expression_result(s):
+    """
+    Get the result of an expression.
+
+    Args:
+        s: (todo): write your description
+    """
     if not s:
         return s
     result = format_expression(s)
@@ -87,6 +114,12 @@ def get_expression_result(s):
 
 
 def get_config_cache(config):
+    """
+    Return a cache dict from a configuration dictionary.
+
+    Args:
+        config: (dict): write your description
+    """
     if isinstance(config, list):
         result = []
         for item in config:

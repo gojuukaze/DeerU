@@ -12,6 +12,15 @@ class Tag(object):
     extra_close_tag = ['br', 'hr']
 
     def __init__(self, name, text='', attrs=None):
+        """
+        Initialize an attribute.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            text: (str): write your description
+            attrs: (dict): write your description
+        """
         if attrs is None:
             attrs = {}
 
@@ -23,6 +32,13 @@ class Tag(object):
 
     @classmethod
     def get_tag_from_bs(cls, soup):
+        """
+        Get an instance of the given soup.
+
+        Args:
+            cls: (todo): write your description
+            soup: (str): write your description
+        """
         from bs4 import BeautifulSoup as bs
         from bs4.element import Tag as bs_tag
         father = None
@@ -42,6 +58,13 @@ class Tag(object):
 
     @classmethod
     def get_tag_from_str(cls, html):
+        """
+        Extractsoup from the html tag.
+
+        Args:
+            cls: (todo): write your description
+            html: (str): write your description
+        """
         from bs4 import BeautifulSoup as bs
 
         html = html.replace('\n', '')
@@ -61,6 +84,14 @@ class Tag(object):
         self.children.append(tag)
 
     def set_attr(self, name, value):
+        """
+        Set an attribute on the given node.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            value: (todo): write your description
+        """
         self.attrs[name] = value
 
     def append_attrs_value(self, name, value):
@@ -85,6 +116,12 @@ class Tag(object):
         self.attrs[name] = old_value + value
 
     def __str__(self):
+        """
+        Return a string representation of this element.
+
+        Args:
+            self: (todo): write your description
+        """
 
         children_html = ''.join(str(c) for c in self.children)
         close = '' if self.name in self.extra_close_tag else '</%s>' % self.name
@@ -92,4 +129,10 @@ class Tag(object):
         return '<%s %s>%s %s %s' % (self.name, attrs_html, self.text, children_html, close)
 
     def format_html(self):
+        """
+        Return html formatted string.
+
+        Args:
+            self: (todo): write your description
+        """
         return format_html(str(self))

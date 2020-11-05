@@ -34,5 +34,15 @@ class CategoryFatherListFilter(admin.SimpleListFilter):
             return queryset.filter(father_id=-1)
 
     def __init__(self, request, params, model, model_admin):
+        """
+        Initialize the model parameters.
+
+        Args:
+            self: (todo): write your description
+            request: (dict): write your description
+            params: (dict): write your description
+            model: (todo): write your description
+            model_admin: (todo): write your description
+        """
         super().__init__(request, params, model, model_admin)
 

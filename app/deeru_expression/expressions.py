@@ -32,6 +32,12 @@ class BaseExpression(object):
         return self.result
 
     def __str__(self):
+        """
+        Return a string representation of this class.
+
+        Args:
+            self: (todo): write your description
+        """
         return '%s:"%s"' % (self.__class__, self.args)
 
 
@@ -75,6 +81,12 @@ class Img(BaseExpression):
     """
 
     def calculate(self):
+        """
+        Calculate the image from the database
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.other_manager import get_image_by_id, filter_image_by_start_name
         if not self.args:
             self.args = ''
@@ -131,6 +143,12 @@ class Svg(BaseExpression):
     """
 
     def calculate(self):
+        """
+        Calculate the arguments.
+
+        Args:
+            self: (todo): write your description
+        """
         if not self.args:
             self.args = ''
 
@@ -172,6 +190,12 @@ class Fa(BaseExpression):
     """
 
     def calculate(self):
+        """
+        Calculate the attributes.
+
+        Args:
+            self: (todo): write your description
+        """
         if not self.args:
             self.args = ''
         args = self.args.split('|')
@@ -204,6 +228,12 @@ class Cat(BaseExpression):
     """
 
     def calculate(self):
+        """
+        Calculate category url.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import get_category_by_id, filter_category_by_start_name
         if not self.args:
             self.args = ''
@@ -252,6 +282,12 @@ class Tag(BaseExpression):
     """
 
     def calculate(self):
+        """
+        Calculate the database tag.
+
+        Args:
+            self: (todo): write your description
+        """
         from app.db_manager.content_manager import get_tag_by_id, filter_tag_by_start_name
         if not self.args:
             self.args = ''
@@ -308,6 +344,12 @@ class Text(BaseExpression):
     """
 
     def calculate(self):
+        """
+        Calculate the attributes.
+
+        Args:
+            self: (todo): write your description
+        """
         if not self.args:
             self.args = ''
         args = self.args.split('|')

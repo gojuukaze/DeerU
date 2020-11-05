@@ -24,17 +24,35 @@ COMMENT_ALLOWED_PROTOCOLS = ['http', 'https', 'mailto', 'data']
 
 
 def clean_all_tags(html_doc):
+    """
+    Strips all tags from html string.
+
+    Args:
+        html_doc: (todo): write your description
+    """
     cleaner = Cleaner(tags=[], attributes={}, styles=[], protocols=[], strip=True)
     return cleaner.clean(html_doc)
 
 
 def get_safe_comment_html(html_doc):
+    """
+    Returns html comment comment.
+
+    Args:
+        html_doc: (todo): write your description
+    """
     cleaner = Cleaner(tags=COMMENT_ALLOWED_TAGS, attributes=COMMENT_ALLOWED_ATTRIBUTES, styles=COMMENT_ALLOWED_STYLES,
                       protocols=COMMENT_ALLOWED_PROTOCOLS, strip=False)
     return cleaner.clean(html_doc)
 
 
 def add_link(html_doc):
+    """
+    Add a link to the html document.
+
+    Args:
+        html_doc: (str): write your description
+    """
     return bleach.linkify(html_doc)
 
 
@@ -58,5 +76,11 @@ def clean_all_tags_and_get_img(html_doc):
 
 
 def get_text_from_html_doc(html_doc):
+    """
+    Parse the html document from html
+
+    Args:
+        html_doc: (str): write your description
+    """
     soup = BeautifulSoup(html_doc)
     return soup.text

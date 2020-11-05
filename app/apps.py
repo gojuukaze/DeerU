@@ -8,5 +8,11 @@ class MAppConfig(AppConfig):
     deeru_config_context = 'app.consts.app_config_context'
 
     def ready(self):
+        """
+        Called when the handler.
+
+        Args:
+            self: (todo): write your description
+        """
         # signals are imported, so that they are defined and can be used
         import app.signals.handlers

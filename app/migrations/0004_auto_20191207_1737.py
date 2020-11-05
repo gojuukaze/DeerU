@@ -8,11 +8,24 @@ from tool.version_upgrade.v1_config_to_v2 import config_v1_to_v2
 
 
 def init_version(apps, schema_editor):
+    """
+    Init version.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Version = apps.get_model("app", "Version")
     Version.objects.create(version='v2.0.0')
 
 
 def init_config(Config):
+    """
+    Initialize application config.
+
+    Args:
+        Config: (dict): write your description
+    """
 
     Config.objects.bulk_create([
         # 通用配置
@@ -56,6 +69,13 @@ def init_config(Config):
 
 
 def upgrade_config(apps, schema_editor):
+    """
+    Upgrade application config.
+
+    Args:
+        apps: (todo): write your description
+        schema_editor: (todo): write your description
+    """
     Config = apps.get_model("app", "Config")
     try:
         common_config = Config.objects.get(name=v2_app_config_context['v2_common_config'])

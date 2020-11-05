@@ -32,6 +32,12 @@ def num_to_ch(num):
 
 
 def rand_num(operator):
+    """
+    Generate a random number.
+
+    Args:
+        operator: (todo): write your description
+    """
     if operator in ('+', '*', '-',):
         nums = (random.randint(0, 20), random.randint(0, 20))
         if nums[0] < nums[1] and '-' == operator:
@@ -46,6 +52,14 @@ def rand_num(operator):
 
 
 def get_result(num1, num2, operator):
+    """
+    Returns the result of num1
+
+    Args:
+        num1: (int): write your description
+        num2: (int): write your description
+        operator: (str): write your description
+    """
     if operator == '√':
         return str(num2)
     else:
@@ -53,6 +67,14 @@ def get_result(num1, num2, operator):
 
 
 def get_ch(num1, num2, operator):
+    """
+    Returns the chr of a string
+
+    Args:
+        num1: (int): write your description
+        num2: (int): write your description
+        operator: (str): write your description
+    """
     operators_to_ch = {'+': '加', '*': '乘', '-': '减', '/': '除以', }
     if operator == '√':
         return '根号 %s 等于' % num_to_ch(num1)
@@ -60,6 +82,11 @@ def get_ch(num1, num2, operator):
 
 
 def math_challenge():
+    """
+    Generate a random 8 - bit random 8 8 8 8 8 8 8 8 8 8 8 8
+
+    Args:
+    """
     operators = ('+', '*', '-', '√', '/')
     operator = random.choice(operators)
 
@@ -69,6 +96,13 @@ def math_challenge():
 
 
 def noise_arcs(draw, image):
+    """
+    Noise arc arc onto image.
+
+    Args:
+        draw: (todo): write your description
+        image: (array): write your description
+    """
     size = image.size
     draw.arc([-20, -20, size[0], 20], 0, 295, fill='#FFB5C5')
     draw.line([-20, 20, size[0] + 20, size[1] - 20], fill='#FFB5C5')

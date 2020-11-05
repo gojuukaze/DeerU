@@ -146,6 +146,13 @@ class ManagementUtility:
     Encapsulate the logic of the django-admin and manage.py utilities.
     """
     def __init__(self, argv=None):
+        """
+        Initializes the settings.
+
+        Args:
+            self: (todo): write your description
+            argv: (list): write your description
+        """
         self.argv = argv or sys.argv[:]
         self.prog_name = os.path.basename(self.argv[0])
         if self.prog_name == '__main__.py':

@@ -5,6 +5,12 @@ from django.conf import settings
 
 
 def format_expression(value):
+    """
+    Formats a single expression.
+
+    Args:
+        value: (str): write your description
+    """
     if not value or not isinstance(value, str):
         return value
 

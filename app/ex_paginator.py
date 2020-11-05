@@ -4,6 +4,17 @@ from django.utils.html import format_html
 
 class DeerUPaginator(Paginator):
     def __init__(self, object_list, per_page, current_page_num, orphans=0, allow_empty_first_page=True):
+        """
+        Initialize a list.
+
+        Args:
+            self: (todo): write your description
+            object_list: (list): write your description
+            per_page: (str): write your description
+            current_page_num: (int): write your description
+            orphans: (todo): write your description
+            allow_empty_first_page: (bool): write your description
+        """
         super().__init__(object_list, per_page, orphans, allow_empty_first_page)
         self.current_page_num = current_page_num
         self.start_index = 1

@@ -6,6 +6,13 @@ from tool.deeru_math import var
 
 
 def get_img_tag(img_cofig, allow_none=False):
+    """
+    Get image tag.
+
+    Args:
+        img_cofig: (todo): write your description
+        allow_none: (bool): write your description
+    """
     if not img_cofig or 'type' not in img_cofig:
         if allow_none:
             return None
@@ -34,6 +41,12 @@ def get_img_tag(img_cofig, allow_none=False):
 
 
 def format_menu_config(config):
+    """
+    Format the configuration tag.
+
+    Args:
+        config: (dict): write your description
+    """
     img = config.get('img')
     name = config.get('name', '')
     url = config.get('url', '')
@@ -68,6 +81,12 @@ def format_menu_config(config):
 
 
 def get_top_menu_htmltag_list(menu):
+    """
+    Return a list of all the top - level list.
+
+    Args:
+        menu: (todo): write your description
+    """
     menu_html = []
     for m in menu:
         menu_html.append(format_menu_config(m))
@@ -75,6 +94,15 @@ def get_top_menu_htmltag_list(menu):
 
 
 def category_to_aside_category_htmltag(id, name, has_child, is_child=False):
+    """
+    Convert category to category.
+
+    Args:
+        id: (str): write your description
+        name: (str): write your description
+        has_child: (str): write your description
+        is_child: (bool): write your description
+    """
     div = Tag('div', attrs={'class': 'panel-block'})
     name = Tag('a', name, attrs={'class': 'red_child_a' if is_child else 'red_a',
                                  'href': reverse('app:category_article', args=(id,))})
@@ -93,6 +121,12 @@ def category_to_aside_category_htmltag(id, name, has_child, is_child=False):
 
 
 def get_aside_category_htmltag(category):
+    """
+    Returns the category as a category.
+
+    Args:
+        category: (dict): write your description
+    """
     nav = Tag('nav', attrs={'class': 'panel mpanel has-shadow'})
     head = Tag('p', attrs={'class': 'panel-heading'})
     head.append(Tag('strong', '分类'))
@@ -110,6 +144,12 @@ def get_aside_category_htmltag(category):
 
 
 def get_aside_tag_htmltag_list(aside_tags):
+    """
+    Returns an article tags as a list of strings.
+
+    Args:
+        aside_tags: (todo): write your description
+    """
     article_num = [at[1] for at in aside_tags]
 
     article_var = var(article_num)
@@ -123,6 +163,12 @@ def get_aside_tag_htmltag_list(aside_tags):
 
 
 def get_page_html_list(paginator):
+    """
+    Returns a list of all the list.
+
+    Args:
+        paginator: (todo): write your description
+    """
     number = paginator.current_page_num
     page = paginator.get_page_list()
     html1 = [{'text': format_html('<span class="icon is-small"><i class="fas fa-angle-double-left"></i></span>'),

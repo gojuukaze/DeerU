@@ -5,6 +5,14 @@ from app.manager.config_manager_v2 import get_real_config
 
 
 def _get_config(Config, name, suffix=''):
+    """
+    Get configuration.
+
+    Args:
+        Config: (dict): write your description
+        name: (str): write your description
+        suffix: (str): write your description
+    """
     name = app_config_context[name] + suffix
     config = Config.objects.get(name=name)
     temp_config = literal_eval(config.config)
@@ -14,6 +22,12 @@ def _get_config(Config, name, suffix=''):
 
 
 def v1_attrs_to_v2(attrs: dict):
+    """
+    Convert a list of attributes to a dict.
+
+    Args:
+        attrs: (dict): write your description
+    """
     r = ''
     i = 0
     for k, v in attrs.items():
@@ -24,6 +38,12 @@ def v1_attrs_to_v2(attrs: dict):
 
 
 def v1_img_to_v2(img: dict):
+    """
+    Convert v1 v2 to v2 to v2.
+
+    Args:
+        img: (dict): write your description
+    """
     if not img or len(img) == 0 or not isinstance(img, dict):
         return {" ": ""}
     r = {
@@ -46,6 +66,12 @@ def v1_img_to_v2(img: dict):
 
 
 def _create_v2_blog_config(Config):
+    """
+    Create v2 config.
+
+    Args:
+        Config: (todo): write your description
+    """
     config, config_cache = _get_config(Config, 'global_value')
     config.name = '%s.v1.old' % config.name
     config.save()
@@ -67,6 +93,12 @@ def _create_v2_blog_config(Config):
 
 
 def _create_v2_common_config(Config):
+    """
+    Creates config dict to config.
+
+    Args:
+        Config: (todo): write your description
+    """
     config, config_cache = _get_config(Config, 'common_config')
     config.name = '%s.v1.old' % config.name
     config.save()
@@ -79,6 +111,12 @@ def _create_v2_common_config(Config):
 
 
 def _create_v2_iconbar_config(Config):
+    """
+    Creates v2 config dict.
+
+    Args:
+        Config: (todo): write your description
+    """
     config, config_cache = _get_config(Config, 'top_ico')
     config.name = '%s.v1.old' % config.name
     config.save()
@@ -108,6 +146,13 @@ def _create_v2_iconbar_config(Config):
 
 
 def v1_menu_to_v2(old: dict, is_root=True):
+    """
+    Convert menu menu to menu menu.
+
+    Args:
+        old: (dict): write your description
+        is_root: (bool): write your description
+    """
     if 'line' in old:
         return old
     r = {
@@ -129,6 +174,12 @@ def v1_menu_to_v2(old: dict, is_root=True):
 
 
 def _create_v2_navbar_config(Config):
+    """
+    Create application configbar configuration.
+
+    Args:
+        Config: (todo): write your description
+    """
     config, config_cache = _get_config(Config, 'top_menu')
     config.name = '%s.v1.old' % config.name
     config.save()
@@ -147,6 +198,12 @@ def _create_v2_navbar_config(Config):
 
 
 def config_v1_to_v2(Config):
+    """
+    Creates a v1 config.
+
+    Args:
+        Config: (todo): write your description
+    """
     _create_v2_common_config(Config)
     _create_v2_iconbar_config(Config)
     _create_v2_navbar_config(Config)

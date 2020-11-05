@@ -9,9 +9,23 @@ class CountModule(DashboardModule):
     template = 'deeru_dashboard/count.html'
 
     def __init__(self, title=None, **kwargs):
+        """
+        Initialize the title.
+
+        Args:
+            self: (todo): write your description
+            title: (str): write your description
+        """
         super().__init__(title, **kwargs)
 
     def init_with_context(self, context):
+        """
+        Initialize the article.
+
+        Args:
+            self: (todo): write your description
+            context: (dict): write your description
+        """
         article_count = all_article().count()
         comment_count = all_comment().count()
         flatpage_count = all_flatpage().count()
@@ -25,9 +39,23 @@ class CommentModule(DashboardModule):
     template = 'deeru_dashboard/comment.html'
 
     def __init__(self, title=None, **kwargs):
+        """
+        Initialize the title.
+
+        Args:
+            self: (todo): write your description
+            title: (str): write your description
+        """
         super().__init__(title, **kwargs)
 
     def init_with_context(self, context):
+        """
+        Initialize the context with the given context.
+
+        Args:
+            self: (todo): write your description
+            context: (dict): write your description
+        """
         comments = filter_created_comment().order_by('-id')[:10]
 
         self.children = list(comments)
