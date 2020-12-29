@@ -27,6 +27,7 @@ class Article(models.Model):
 
     created_time = models.DateTimeField(verbose_name="创建时间", default=timezone.now, editable=False)
     modified_time = models.DateTimeField(verbose_name="修改时间", auto_now=True)
+    sorted_num = models.IntegerField(verbose_name="排序号", default=0)
 
     def __str__(self):
         if len(self.title) <= 15:
