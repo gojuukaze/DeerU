@@ -6,6 +6,7 @@ from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponseForbid
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import requires_csrf_token
+from django.core.exceptions import ObjectDoesNotExist
 
 from app.db_manager.config_manager import get_config_by_id
 from app.db_manager.content_manager import get_article_meta_by_article, get_article_by_id
@@ -100,3 +101,20 @@ def get_config_html(request, config_id):
                   {'schema': config.v2_schema,
                    'value': json.dumps(config.v2_config),
                    'script': config.v2_script})
+
+
+@permission_required('app', raise_exception=True)
+def set_acticle_top_view(request, article_id):
+    """
+    设置置顶/取消置顶
+    """
+    try:
+        article_obj = get_article_by_id(article_id)
+        if article_obj.sorted_num:
+            article_obj.sorted_num = 0
+        else:
+            article_obj.sorted_num = 1
+        article_obj.save()
+    except:
+        raise ObjectDoesNotExist()
+    return HttpResponseRedirect(request.headers["Referer"])

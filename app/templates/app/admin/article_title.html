@@ -7,6 +7,13 @@
         <a href="{% url 'admin:app_article_change' article.id %}">编辑</a> |
         <a href="{{ article.url }}" target="_blank">查看</a> |
         <a id='copy_a_url{{ article.id }}' href="javascript:void(0);" data-clipboard-text="{{ article.url }}">复制链接</a> |
+        <a href="{% url 'app:set_acticle_top' article.id %}">
+          {% if article.sorted_num != 0 %}
+            取消置顶
+          {% else%}
+            置顶
+          {% endif %}
+        </a> |
 
         <a href="{% url 'admin:app_article_delete' article.id %}" style="color: red">删除</a>
     </div>

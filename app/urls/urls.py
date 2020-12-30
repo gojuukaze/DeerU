@@ -10,6 +10,7 @@ from app.views import views
 urlpatterns = [
     path('', views_class.Home.as_view(), name='index'),
     path('article/<int:article_id>', views_class.DetailArticle.as_view(), name='detail_article'),
+    path('article/set_top/<int:article_id>', views.set_acticle_top_view, name='set_acticle_top'),
 
     path('category/<int:category_id>', views_class.CategoryArticle.as_view(), name='category_article'),
     path('tag/<int:tag_id>', views_class.TagArticle.as_view(), name='tag_article'),
