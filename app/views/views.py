@@ -104,14 +104,12 @@ def get_config_html(request, config_id):
 
 
 @permission_required('app', raise_exception=True)
-def set_acticle_top(request, article_id):
+def set_acticle_top_view(request, article_id):
     """
     设置置顶/取消置顶
     """
     try:
-        print(article_id)
         article_obj = get_article_by_id(article_id)
-        print(article_obj)
         if article_obj.sorted_num:
             article_obj.sorted_num = 0
         else:
@@ -119,4 +117,4 @@ def set_acticle_top(request, article_id):
         article_obj.save()
     except:
         raise ObjectDoesNotExist()
-    return HttpResponseRedirect("/admin/app/article/")
+    return HttpResponseRedirect(request.headers["Referer"])
