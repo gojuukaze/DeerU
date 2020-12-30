@@ -104,7 +104,7 @@ def get_config_html(request, config_id):
 
 
 @permission_required('app', raise_exception=True)
-def set_acticle_top_view(request, article_id):
+def set_article_top_view(request, article_id):
     """
     设置置顶/取消置顶
     """
@@ -117,4 +117,4 @@ def set_acticle_top_view(request, article_id):
         article_obj.save()
     except:
         raise ObjectDoesNotExist()
-    return HttpResponseRedirect(request.headers["Referer"])
+    return HttpResponseRedirect(reverse('admin:app_article_changelist'))
