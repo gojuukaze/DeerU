@@ -15,6 +15,9 @@
                 <div class="box">
                     <h1 class="title">
                         <a class="red_a" href="{% url 'app:detail_article' a.id %}">{{ a.title }}</a>
+                        {% if a.sorted_num != 0 %}
+                            <span style="font-size: 15px; float: right">[置顶]</span>
+                        {% endif %}
                     </h1>
                     <div class="field is-grouped is-grouped-multiline" style="color: #aaa">
                         <span class="icon"><i class="far fa-calendar-alt"></i></span>
