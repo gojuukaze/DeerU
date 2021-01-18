@@ -7,11 +7,11 @@
   </a>
 </p>
 <p align="center">
-  <a title="快速开始" href="http://deeru.readthedocs.io/zh_CN/master/user_guide/index.html"><strong>快速开始</strong></a>
+  <a title="快速开始" href="https://doc.ikaze.cn/deeru/user_guide/index.html"><strong>快速开始</strong></a>
   &#x2022;
-  <a title="文档" href="http://deeru.readthedocs.io"><strong>文档</strong></a>
+  <a title="文档" href="https://doc.ikaze.cn/deeru/"><strong>文档</strong></a>
   &#x2022;
-  <a title="贡献代码" href="http://deeru.readthedocs.io/zh_CN/master/developer_guide/contributing.html"><strong>贡献代码</strong></a>
+  <a title="贡献代码" href="https://doc.ikaze.cn/deeru/developer_guide/index.html#id5"><strong>贡献代码</strong></a>
 </p>
 
 <p align="center">
@@ -51,8 +51,8 @@ ___
 </td>
 </tr>
 <tr class="even">
-<td>更多内容 >> <a href="https://deeru.readthedocs.io/zh_CN/master/change_log.html">2.0更新说明</a> | 
-<a href="https://deeru.readthedocs.io/zh_CN/master/upgrade.html#id2">1.x升级2.0指南</a>
+<td>更多内容 >> <a href="https://doc.ikaze.cn/deeru/change_log.html">2.0更新说明</a> | 
+<a href="https://doc.ikaze.cn/deeru/upgrade.html#id2">1.x升级2.0指南</a>
 </td>
 </tr>
 </tbody>
@@ -71,7 +71,7 @@ ___
 目录
 ---
 
-* 项目文档 ：[https://deeru.readthedocs.io](https://deeru.readthedocs.io)
+* 项目文档 ：[https://doc.ikaze.cn/deeru/](https://doc.ikaze.cn/deeru/)
 * GITHUB ：[https://github.com/gojuukaze/DeerU](https://github.com/gojuukaze/DeerU)
 * DEMO ：[https://www.ikaze.cn](https://www.ikaze.cn)
 * [安装](#安装)
@@ -127,7 +127,7 @@ ___
     python manage.py runserver 0.0.0.0:8000
 
 ```
-* 生产环境运行参考 [部署DeerU](https://deeru.readthedocs.io/zh_CN/master/user_guide/deployment/index.html)
+* 生产环境运行参考 [部署DeerU](https://doc.ikaze.cn/deeru/user_guide/deployment/index.html)
 
 license
 -------
@@ -142,7 +142,7 @@ DeerU使用 [GNU General Public License v3.0 协议](https://github.com/gojuukaz
 >
 > https://froala.com/wysiwyg-editor/pricing  
 >
-> 你可以自己更换其他编辑器（参照文档 [富文本编辑器](http://deeru.readthedocs.io/zh_CN/master/user_guide/rich_text_editor.html) ）
+> 你可以自己更换其他编辑器（参照文档 [富文本编辑器](https://doc.ikaze.cn/deeru/user_guide/rich_text_editor.html) ）
 
 
 截图
