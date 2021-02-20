@@ -14,11 +14,11 @@ urlpatterns = [
 
     path('category/<int:category_id>', views_class.CategoryArticle.as_view(), name='category_article'),
     path('tag/<int:tag_id>', views_class.TagArticle.as_view(), name='tag_article'),
-    path('comment/create', views.create_comment, name='create_comment'),
+    path('comment/create', views.create_comment_view, name='create_comment'),
 
     path('image/upload', views.upload_image_view, name='upload_image'),
-    path('images', views.get_album, name='get_album'),
-    path('image/delete', views.delete_image, name='delete_image'),
+    path('images', views.get_album_view, name='get_album'),
+    path('image/delete', views.delete_image_view, name='delete_image'),
     path('sitemap.xml', sitemap, {'sitemaps':
                                       {'article': GenericSitemap(article_dict, priority=0.6), },
                                   },
@@ -27,6 +27,6 @@ urlpatterns = [
 
     path('404', views.page_not_found_view),
 
-    path('config/<int:config_id>/html', views.get_config_html),
+    path('config/<int:config_id>/html', views.get_config_html_view),
 
 ]
