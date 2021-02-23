@@ -10,10 +10,9 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
 
     path('', include('deeru.urls_local')),
-
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'app.views.views.page_not_found_view'
+handler404 = 'app.views.views_v2.page_not_found_view'

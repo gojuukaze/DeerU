@@ -2,9 +2,9 @@
 
 from django.urls import path
 
-from app.views import views_class
+from app.views import views_class, views_v2
 
 urlpatterns = [
-    path('<path:url>', views_class.DetailFlatPage.as_view(), name='detail_flatpage'),
+    path('<path:url>', views_v2.detail_flatpage_view, name='detail_flatpage'),
 
 ]

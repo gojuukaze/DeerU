@@ -37,7 +37,7 @@ def get_article_by_title(title):
         return None
 
 
-def filter_article_order_by_id(desc=True):
+def all_article_order_by_id(desc=True):
     return Article.objects.filter().order_by("-sorted_num", '-id' if desc else 'id')
 
 

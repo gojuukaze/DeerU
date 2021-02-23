@@ -1,0 +1,7 @@
+{% load base_theme_filter %}
+{% for item in config.v2_iconbar_config.right %}
+    <a class="navbar-item deeru-body-navbar-right-item" href="{{ item.url }}" target="_blank">
+        {{ item.img|get_img }}
+        <span>{{ item.name }}</span>
+    </a>
+{% endfor %}

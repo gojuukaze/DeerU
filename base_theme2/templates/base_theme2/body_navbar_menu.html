@@ -1,0 +1,4 @@
+{% load base_theme_filter %}
+{% for m in config.v2_navbar_config.menu|top_menu %}
+    {{ m.format_html }}
+{% endfor %}

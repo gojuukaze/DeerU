@@ -34,9 +34,9 @@
         from app.db_manager.config_manager import get_config_by_name
         from app.consts import app_config_context
 
-        top_menu_config=get_config_by_name(app_config_context['top_menu'])
+        iconbar_config=get_config_by_name(app_config_context['v2_iconbar_config'])
 
-        top_menu=literal_eval(top_menu_config.cache)
+        print(iconbar.v2_real_config)
 
 
 #. **dispatch_uid**

@@ -1,0 +1,26 @@
+{% load base_theme_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include head_begin_template %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ head_title }}</title>
+    {% include head_static_template %}
+    {% include head_end_template %}
+
+</head>
+<body class="deeru-body">
+{% include body_begin_template %}
+
+{% include body_navbar_template %}
+
+{% include body_section_template %}
+
+{% include body_footer_template %}
+
+{% include body_end_template %}
+
+</body>
+
+</html>

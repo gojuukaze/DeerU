@@ -1,0 +1,4 @@
+{% for c in css %}<link {% for k,v in c.items %}{% if v is True %}{{ k }} {% else %}{{ k }}="{{ v }}" {% endif %}{% endfor %}/>
+{% endfor %}
+{% for j in js %}<script {% for k,v in j.items %}{% if v is True %}{{ k }} {% else %}{{ k }}="{{ v }}" {% endif %}{% endfor %}></script>
+{% endfor %}

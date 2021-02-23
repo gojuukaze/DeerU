@@ -1,0 +1,12 @@
+{% if breadcrumbs %}
+<div class="box">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/">首页</a></li>
+            {% for b in breadcrumbs %}
+            <li class="is-active"><a>{{ b }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>
+{% endif %}

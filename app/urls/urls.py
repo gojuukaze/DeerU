@@ -6,14 +6,15 @@ from django.contrib.sitemaps import GenericSitemap
 from app.sitemap import article_dict
 from app.views import views_class
 from app.views import views
+from app.views import views_v2
 
 urlpatterns = [
-    path('', views_class.Home.as_view(), name='index'),
-    path('article/<int:article_id>', views_class.DetailArticle.as_view(), name='detail_article'),
+    path('', views_v2.home_view, name='index'),
+    path('article/<int:article_id>', views_v2.detail_article_view, name='detail_article'),
     path('article/set_top/<int:article_id>', views.set_article_top_view, name='set_article_top'),
 
-    path('category/<int:category_id>', views_class.CategoryArticle.as_view(), name='category_article'),
-    path('tag/<int:tag_id>', views_class.TagArticle.as_view(), name='tag_article'),
+    path('category/<int:category_id>', views_v2.category_article_list_view, name='category_article'),
+    path('tag/<int:tag_id>', views_v2.tag_article_list_view, name='tag_article'),
     path('comment/create', views.create_comment_view, name='create_comment'),
 
     path('image/upload', views.upload_image_view, name='upload_image'),

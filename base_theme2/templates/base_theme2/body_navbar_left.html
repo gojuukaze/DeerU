@@ -1,0 +1,19 @@
+{% load base_theme_filter %}
+<!-- 网站logo -->
+{% if config.v2_iconbar_config.left.logo %}
+    <a href="/" class="navbar-item deeru-body-navbar-left-logo">
+        {{ config.v2_iconbar_config.left.logo|get_img }}
+    </a>
+{% endif %}
+<!-- 网站标题 -->
+{% if config.v2_iconbar_config.left.blog_name %}
+    <a href="/" class="navbar-item deeru-body-navbar-left-title">
+        {% if config.v2_iconbar_config.left.blog_name|type == 'str' %}
+            <span>{{ config.v2_iconbar_config.left.blog_name }}</span>
+        {% else %}
+            <!-- 这里代码提示会报错，但其实没错！！-->
+            <span {% for k,v in config.v2_iconbar_config.left.blog_name.attrs.items %}{{ k }}='{{ v }}'{% endfor %}>
+            {{ config.v2_iconbar_config.left.blog_name.text }}</span>
+        {% endif %}
+    </a>
+{% endif %}
