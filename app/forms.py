@@ -33,6 +33,7 @@ class ArticleAdminForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     captcha = CaptchaField()
+
     class Meta:
         model = Comment
         fields = '__all__'
@@ -119,6 +120,12 @@ class ConfigAdminForm(forms.ModelForm):
         self.check_keys(temp)
 
         return config
+
+
+class ConfigAdminSchemaForm(forms.ModelForm):
+    class Meta:
+        model = Config
+        fields = ('name', 'v2_schema', 'v2_script')
 
 
 class FlatpageAdminForm(forms.ModelForm):
