@@ -1,142 +1,118 @@
-.. _theme:
+.. _theme-start:
 
 ==============
-开发主题
+快速开始
 ==============
 
-使用django的模板开发，下面给出了一些必要说明（
+跟随这篇教程，帮助你快速对主题进行修改。
 
-建议新建一个deeru项目，在里面开发:: 
+开始之前需要新建个app ( **注意，app名必须是custom_开头**) ::
 
-    deeru-admin install deeru2
+   python manage.py starttheme custom_theme
 
-* 创建django app:: 
+执行之后会 custom_theme app, 目录结构如下 ::
 
-    python manage.py startapp m_theme
-
-  执行之后会生成m_theme文件夹，里面的主要文件有:: 
-
-    m_theme/
+    custom_theme/
         templates/
-            m_theme
-    
+            custom_theme
         static/
-            m_theme
+            custom_theme
+        admin.py
+        apps.py
 
-  编写代码时，你的html文件应放在 ``templates/m_theme`` 下，静态文件应放在 ``static/m_theme`` 下。
-
-* 把 m_theme添加到 ``settings_local.py`` 中的 ``CUSTOM_APPS`` 下:: 
-
-    CUSTOM_APPS = [
-        ...
-        'm_theme',
-    ]
-
-* 编写html
-
-    你需要编写5个html模板，分别是（注意，模板名不能改变）：
-
-        - home.html : 博客首页
-        - detail_article.html : 文章页面
-        - category.html : 分类下的文章列表页
-        - tag.html : 标签下的文章列表页
-        - detail_flatpage.html :  单页面
-
-* url与html的对应关系
-
-    - ``/`` : home.html
-    - ``/article/<int:article_id>`` : detail_article.html
-    - ``/category/<int:category_id>``  : category.html
-    - ``/tag/<int:tag_id>`` : tag.html
-    - ``/你的单页面前缀/<path:flatpage_url>`` : detail_flatpage.html
-
-* view传递的context结构
-
-    查看 :ref:`context` , :ref:`url-view`
-
-* 在模板中使用软连接
-
-    如果你需要在模板中引入静态文件，你应该这样做:: 
-
-        {% load static %}
-        <link href="{% static '/m_theme/css/m_theme.css' %}" />
-        <script src="{% static '/m_theme/js/m_theme.js' %}"></script>
-
-    如果你需要使用文章url或者其他url，你应该这样做:: 
-
-        <a href="{% url 'app:detail_article' article.id %}>
-        <a href="{{ article.url }}>
-
-        <a href="{% url 'app:tag' 23 %}>
-        <a href="{{ tag.url }}>
-
-        <form action="{% url 'app:create_comment' %}" method="post"></form>
+* html 代码应放在 ``custom_theme/templates/custom_theme`` 下; 静态文件应放在 ``custom_theme/static/custom_theme`` 下。
 
 
+在底部增加备案号
+====================
 
-* 如何使用ui配置？
+1. 在 ``templates/custom_theme`` 下新建html文件 ``footer.html`` ::
 
-    如果你看了使用者指南你应该清楚，DeerU内置了"顶部导航栏"、"顶部图标栏"两个配置，你可以在view传到的context['config']中找到他们
+   <p>京备： xxxx </p>
 
-    如果你的主题还需要其他配置，你可以把配置放到"通用配置"中，你也可以新建一个自己的配置。
+2. 在 ``settings_local.py`` 中添加app与模板配置
 
-    
-* 如何新建配置？
+  .. code-block:: python
 
-    内置的配置满足不了你的需要，想增加一个"侧边栏配置"？
+      CUSTOM_APPS = [
+          ...
+          'custom_theme',
+      ]
 
-    首先你需要在 ``m_theme/consts.py`` 的 ``m_theme_config_context`` 中加入你的配置:: 
+       BASE_THEME2_TEMPLATES={
+           ...
 
-        m_theme_config_context = {
-            'm_theme_aside_config' : 'M_Theme侧边栏配置'
-        }
-    
-    然后在admin中添加名为"M_Theme侧边栏配置"的配置，这样context就会传递你的配置，位置在 ``context['config']['m_theme_aside_config']`` 
+           # key为模板名，value为html文件路径 （app名+html文件名）
+           'body_footer_end_template':'custom_theme/footer.html'
+       }
 
-* 关于评论的form
 
-    文章详情页面传了一个 CommentForm ,但并不建议直接用它来生成form。另外，该form评论中content生成的 ``<textarea>`` 并不是富文本编辑器。
+  .. note::
 
-    下面给了一个form的示例:: 
+     v2.1把html分为不同模块，每个模块对应不同模板，方便对主题进行修改。
+     所有页面对应的模块见 ： :ref:`templates`
 
-        {% csrf_token %}
 
-        <div class="fieldWrapper">
-            {{ comment_form.nickname }}
-            {% if comment_form.nickname.help_text %}
-                <p class="help">{{ comment_form.nickname.help_text|safe }}</p>
-            {% endif %}
-        </div>
+添加静态文件
+====================
 
-        <div class="fieldWrapper">
-            {{ comment_form.email }}
-            {% if comment_form.email.help_text %}
-                <p class="help">{{ comment_form.email.help_text|safe }}</p>
-            {% endif %}
-        </div>
+想要在代码中引入新的css,js文件有两种方法：
 
-        <div class="fieldWrapper">
-            {{ comment_form.content }}
-            {% if comment_form.content.help_text %}
-                <p class="help">{{ comment_form.content.help_text|safe }}</p>
-            {% endif %}
-        </div>
+1. 通过修改html引入
 
-        <input type="hidden" name="article_id" id="id_article_id" value="{{ article.id }}">
-        <input type="hidden" name="root_id" id="id_root_id" value="-1">
-        <input type="hidden" name="to_id" id="id_to_id" value="-1">
-        <input type="hidden" name="type" id="id_type" value="201">
-        <input type="hidden" name="anchor" value="#comment">
-        <div class="field" style="margin-top: 10px;display: flex">
-            {{ comment_form.captcha }}
-        </div>
+   新建html文件，并在 settings 的 BASE_THEME2_TEMPLATES 下添加 ``head_end_template`` ，指向新建的html文件。
 
-        <!-- v2.0新增了评论验证码，还需要添加下面js代码 -->
-        <script>
-            $('.captcha').click(function () {
-                $.getJSON("/captcha/refresh/", function (result) {
-                    $('.captcha').attr('src', result['image_url']);
-                    $('#id_captcha_0').val(result['key'])
-                });
-            });
-        </script>
+2. 重写 static 方法
+
+   在 ``custom_theme/admin.py`` 中添加下列代码 ::
+
+        from base_theme2.theme import Theme
+        from django.templatetags.static import static as static_url
+
+        def _static(theme):
+            static = theme._static()
+
+            static.append_css('http://xx')
+            static.append_js(['http://xxx', {'type': 'text/javascript', 'defer': True}])
+
+            url = static_url('/custom_theme/my.css')
+            static.add_css([
+                url,
+                ['http://xxx', {'media': 'all'}]
+            ])
+
+            return static
+
+        Theme.static = _static
+
+   * 使用 append_css，append_js 添加单个url； add_css，add_js 添加一组url。
+   * url可以是字符串或者list。list的第一个参数为url地址，第二个参数是个字典，为标签的属性。
+
+      如 ::
+
+         ['http://xxx', {'type': 'text/javascript', 'defer': True}]
+
+      对应的html代码是 ::
+
+         <script defer type="text/javascript" src="http://xxx"></script>
+   * 如果你的静态文件在本地，你需要用 ``static_url`` 函数获取真实 url
+
+
+修改主题颜色、样式
+====================
+如果你只需要修改颜色、样式，更方便的方法是新建个新的 css 文件，修改对应的css类。
+
+所有css见 ``base_theme2/static/base_theme2/css/base_theme2.css``
+
+修改404页
+==============
+
+编写html，并在 ``BASE_THEME2_TEMPLATES`` 中添加 ``404_template``
+
+下一步
+===========
+
+至此你已经学会了如何开发主题，接下来你需要了解如何在html中读取view传递的数据，以及每个页面对应的模板。
+
+阅读 :ref:`context` 与 :ref:`templates` 。
+
