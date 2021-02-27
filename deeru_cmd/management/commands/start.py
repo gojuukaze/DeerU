@@ -57,12 +57,39 @@ class Command(DeerUBaseCommand):
 
         if self.type == 'theme':
             app_templates += [
-
+                [
+                    'empty.py-tpl',
+                    Path(self.name + '/templates/' + self.name) / Path('home.html')
+                ],
+                [
+                    'empty.py-tpl',
+                    Path(self.name + '/templates/' + self.name) / Path('detail_article.html')
+                ],
+                [
+                    'empty.py-tpl',
+                    Path(self.name + '/templates/' + self.name) / Path('detail_article.html')
+                ],
+                [
+                    'empty.py-tpl',
+                    Path(self.name + '/templates/' + self.name) / Path('category.html')
+                ],
+                [
+                    'empty.py-tpl',
+                    Path(self.name + '/templates/' + self.name) / Path('tag.html')
+                ],
+                [
+                    'empty.py-tpl',
+                    Path(self.name + '/templates/' + self.name) / Path('404.html')
+                ],
+                [
+                    'empty.py-tpl',
+                    Path(self.name + '/templates/' + self.name) / Path('detail_flatpage.html')
+                ],
             ]
         return app_templates
 
     def add_arguments(self, parser):
-        parser.description = '''创建DeerU插件、主题项目 (旧命令，已弃用 ！！！！)'''
+        parser.description = '''创建DeerU插件、主题项目'''
 
         parser.add_argument('type', type=str, choices=['plugin', 'theme'], help='项目的类型')
         parser.add_argument('name', type=str, help='名称')
