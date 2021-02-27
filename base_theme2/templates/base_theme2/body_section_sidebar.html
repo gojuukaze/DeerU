@@ -1,7 +1,8 @@
 {% load base_theme_filter %}
 
 <aside class="column is-hidden-touch is-4 " style="padding-left: 20px">
-    <nav class="panel mpanel " style="">
+{% include body_section_sidebar_begin_template %}
+<nav class="panel mpanel " style="">
         <div class="panel-heading">
             <div class="tabs">
                 <ul>
@@ -19,7 +20,7 @@
             </div>
         </div>
     </nav>
-    <nav class="panel mpanel ">
+<nav class="panel mpanel ">
         <div class="panel-heading" style="padding-bottom: 0">
             <div class="tabs">
                 <ul>
@@ -51,6 +52,8 @@
             </div>
         </div>
     </nav>
+{% include body_section_sidebar_end_template %}
+
 </aside>
 
 <script>

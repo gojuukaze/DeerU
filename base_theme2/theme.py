@@ -82,10 +82,12 @@ class TemplatesMixin(object):
         'body_navbar_menu_template': 'base_theme2/body_navbar_menu.html',
 
         'body_section_template': 'base_theme2/body_section.html',
-        'body_section_content_begin_template': 'base_theme2/empty.html',
+        'body_section_begin_template': 'base_theme2/empty.html',
         'body_section_content_template': 'base_theme2/empty.html',
+        'body_section_sidebar_begin_template':'base_theme2/empty.html',
         'body_section_sidebar_template': 'base_theme2/empty.html',
-        'body_section_content_end_template': 'base_theme2/empty.html',
+        'body_section_sidebar_end_template': 'base_theme2/empty.html',
+        'body_section_end_template': 'base_theme2/empty.html',
 
         'body_footer_begin_template': 'base_theme2/empty.html',
         'body_footer_template': 'base_theme2/body_footer.html',
