@@ -43,7 +43,7 @@ def upload_image_view(request):
 
 
 @permission_required('app', raise_exception=True)
-def get_album(request):
+def get_album_view(request):
     images = get_all_image().order_by('-id')
     return JsonResponse(
         [{'tag': 'img', "url": i.img.url, "thumb": i.img.url, 'id': i.id, 'name': i.img.name} for i in images],
@@ -51,7 +51,7 @@ def get_album(request):
 
 
 @permission_required('app', raise_exception=True)
-def delete_image(request):
+def delete_image_view(request):
     id = request.POST.get('id', 0)
     try:
         get_image_by_id(id).delete()
@@ -60,7 +60,7 @@ def delete_image(request):
     return JsonResponse({})
 
 
-def create_comment(request):
+def create_comment_view(request):
     http_referer = request.META.get('HTTP_REFERER')
     if not http_referer:
         return HttpResponseForbidden()
@@ -95,7 +95,7 @@ def create_comment(request):
 
 
 @permission_required('app', raise_exception=True)
-def get_config_html(request, config_id):
+def get_config_html_view(request, config_id):
     config = get_config_by_id(config_id)
     return render(request, 'app/admin/config.html',
                   {'schema': config.v2_schema,

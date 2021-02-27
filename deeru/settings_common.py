@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # deeru
     'app.apps.MAppConfig',
     'base_theme.apps.BaseThemeConfig',
+    'base_theme2.apps.BaseTheme2Config',
     'deeru_cmd.apps.DeerUCmdConfig',
     'deeru_dashboard.apps.DeeruDashboardConfig',
 ]
@@ -214,3 +215,5 @@ CAPTCHA_FONT_PATH = os.path.join(BASE_DIR, 'data/Alibaba-PuHuiTi-Regular.ttf')
 CAPTCHA_FONT_SIZE = 17
 CAPTCHA_NOISE_FUNCTIONS = ('tool.captcha.noise_arcs',)
 
+
+BASE_THEME2_TEMPLATES={}

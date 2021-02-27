@@ -100,6 +100,7 @@ class Command(DeerUBaseCommand):
             os.mkdir(new_dir)
 
     def handle(self, *args, **options):
+        self.error('注意：旧命令，已弃用 ！！！！')
         self.type = options['type']
         self.name = options['name']
         management.call_command('startapp', self.name)

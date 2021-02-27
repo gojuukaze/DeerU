@@ -1,0 +1,46 @@
+{% load base_theme_filter %}
+<nav class="navbar is-dark is-large">
+    <div id="specialShadow" class="bd-special-shadow" style="opacity: 0; transform: scaleY(1);"></div>
+    <div class="container">
+        <div class="navbar-brand">
+            {% include body_navbar_left_template %}
+
+            <!-- 在手机上显示的菜单图标 -->
+            <span id="navbarBurger" class="navbar-burger " data-target="topMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </span>
+        </div>
+
+        <!-- 右边的图标 -->
+        <div id="headLink" class="navbar-menu">
+            <div class="navbar-end">
+            {% include body_navbar_right_template %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<nav id='topMenuNav' class="navbar  is-hidden-touch has-shadow ">
+    <div class="container ">
+        <div id="topMenu" class="navbar-menu">
+            <div class="navbar-start">
+            {% include body_navbar_menu_template %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    let navbarBurger = document.getElementById('navbarBurger');
+    let topMenuNav = document.getElementById('topMenuNav');
+    navbarBurger.onclick = function () {
+        let menuItem = document.getElementById(navbarBurger.dataset.target);
+        menuItem.classList.toggle('is-active');
+        navbarBurger.classList.toggle('is-active');
+        if (topMenuNav.classList.length === 3)
+            topMenuNav.className = 'navbar has-shadow';
+        else topMenuNav.className = 'navbar has-shadow is-hidden-touch';
+    };
+</script>

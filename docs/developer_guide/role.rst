@@ -4,7 +4,13 @@
 开发建议
 ================
 
-1. **导入model**
+#. **代码路径**
+
+   .. attention::
+
+      重要！！ 你所有的代码都应放在 ``custom_`` 开头的文件夹下
+
+#. **导入model**
 
     你应该从 ``app.app_models`` 中导入，而不是从 ``app.models`` 中，如:: 
 
@@ -34,9 +40,9 @@
         from app.db_manager.config_manager import get_config_by_name
         from app.consts import app_config_context
 
-        top_menu_config=get_config_by_name(app_config_context['top_menu'])
+        iconbar_config=get_config_by_name(app_config_context['v2_iconbar_config'])
 
-        top_menu=literal_eval(top_menu_config.cache)
+        print(iconbar.v2_real_config)
 
 
 #. **dispatch_uid**

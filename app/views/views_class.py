@@ -5,7 +5,7 @@ from django.http import Http404
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import ContextMixin
 
-from app.db_manager.content_manager import filter_article_order_by_id, get_article_by_id, filter_article_by_category, \
+from app.db_manager.content_manager import all_article_order_by_id, get_article_by_id, filter_article_by_category, \
     get_category_by_id, filter_article_by_tag, get_article_meta_by_article, get_tag_by_id, \
     filter_valid_comment_by_article, \
     get_flatpage_by_id
@@ -66,7 +66,7 @@ class Home(ArticleList, DeerUContextMixin):
 
     def _get_paginator(self, page):
         per_page = int(self.request.GET.get('per_page', 7))
-        self.paginator = DeerUPaginator(filter_article_order_by_id(), per_page, page)
+        self.paginator = DeerUPaginator(all_article_order_by_id(), per_page, page)
         return self.paginator
 
 

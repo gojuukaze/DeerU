@@ -1,0 +1,27 @@
+{% load base_theme_filter %}
+
+<div class="column is-8" style="padding-right: 20px">
+    <div class="container" style="width: 100%;">
+        {% include article_list_breadcrumb_template %}
+
+        {% if article_list|length is 0 %}
+            {% include article_list_empty_item_template %}
+        {% endif %}
+        {% for a in article_list %}
+            {% include article_list_item_template %}
+        {% endfor %}
+
+        <nav class="pagination is-right" role="navigation" aria-label="pagination">
+
+            <ul class="pagination-list">
+                {% for p in paginator|page_list %}
+                    <li><a class="pagination-link {{ p.is_current }}"
+                           style="background-color: {% if p.is_current %}#3273dc
+                               {% else %}{% if p.disabled %}#dbdbdb{% else %}#ffffff{% endif %}{% endif %}"
+                           href="{{ p.href }}" {{ p.disabled }}>{{ p.text }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</div>

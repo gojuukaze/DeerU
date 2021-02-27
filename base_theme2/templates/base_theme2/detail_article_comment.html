@@ -1,0 +1,200 @@
+{% load base_theme_filter %}
+
+{#评论列表#}
+<div class="box detail_article_box" style="padding: 0">
+    <div class="article-header">
+        <strong id="comment_header" style="font-size: larger">本文共 {{ article.meta_data.comment_num }}
+            个回复</strong></div>
+    <div id="comment">
+        {% for c in article.format_comments %}
+
+            <article id="comment-{{ c.comment.id }}" class="media">
+                <figure class="media-left img_head">
+                    <p class="image is-60x60">
+                        <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?s=60">
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <div class="fr-view">
+                        <strong>{{ c.comment.nickname }}</strong>
+                        <br>
+                        <small style="color: #999;font-size: 12px">发布于：{{ c.comment.created_time }}</small>
+                        <br>
+                        {{ c.comment.content|safe }}
+                    </div>
+                    <nav class="level ">
+                        <div class="level-left"></div>
+                        <div class="level-right">
+                            <a href="#comment_help" class="level-item" article_id="{{ article.id }}"
+                               onclick="changeForm(202,{{ c.comment.id }},{{ c.comment.id }},'{{ c.comment.nickname }}')">
+                                <span class="icon is-small"><i class="far fa-comment-dots"></i></span>
+                                <p>&nbsp回复{% if c.children %}&nbsp({{ c.children|length }}){% endif %}</p>
+                            </a>
+                        </div>
+
+                    </nav>
+
+
+                    {% for child in c.children %}
+                        <article id="comment-{{ child.comment.id }}" class="media">
+
+                            <figure class="media-left is-hidden-touch img_head">
+                                <p class="image is-48x48">
+                                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?s=48">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="fr-view">
+                                    <strong>{{ child.comment.nickname }}</strong>
+                                    <br>
+                                    <small style="color: #999;font-size: 12px">
+                                        发布于：{{ child.comment.created_time }}</small>
+                                    <br>
+                                    {{ child.comment.content|safe }}
+
+                                </div>
+                                <nav class="level ">
+                                    <div class="level-left"></div>
+                                    <div class="level-right">
+                                        <a href="#comment_help" class="level-item"
+                                           article_id="{{ article.id }}"
+                                           onclick="changeForm(202,{{ c.comment.id }},{{ child.comment.id }},'{{ child.comment.nickname }}')">
+                                                    <span class="icon is-small"><i
+                                                            class="far fa-comment-dots"></i></span>
+                                            <p>&nbsp回复</p>
+                                        </a>
+                                    </div>
+
+                                </nav>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            </article>
+        {% endfor %}
+        <br>
+        {% if article.meta_data.comment_num != 0 %}
+            <hr>
+        {% endif %}
+        <p>
+            <strong style="font-size: larger;">发表评论</strong>
+            <span id="comment_help" style="color: rgb(44, 130, 201);">  (对文章评论)</span>
+        </p>
+
+        {#发布评论#}
+        <article id="comment_form_media" class="media" style="margin-top: 10px">
+
+            <figure class="media-left is-hidden-touch img_head">
+                <p class="image is-60x60">
+                    <img src="https://secure.gravatar.com/avatar/ba501072452b828d7f3b33d8369e349e?s=60">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="field">
+                    <span id="form_error_msg" style="color: red">{{ form_error }}</span>
+                    <form id="comment_form" action="{% url 'app:create_comment' %}" method="post">
+                        {% csrf_token %}
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input" type="text" placeholder="昵称" name="nickname"
+                                       maxlength="20" id="id_nickname">
+                                <span class="icon is-small is-left">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+
+                            </p>
+                        </div>
+
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input" type="email" placeholder="邮箱" name="email"
+                                       maxlength="254" id="id_email">
+                                <span class="icon is-small is-left">
+                                            <i class="fas fa-envelope"></i>
+                                        </span>
+
+                            </p>
+                        </div>
+
+                        <div class="fieldWrapper">
+
+                            {{ comment_form.content }}
+                            {% if comment_form.content.help_text %}
+                                <p class="help">{{ comment_form.content.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                        <input type="hidden" name="article_id" id="id_article_id" value="{{ article.id }}">
+                        <input type="hidden" name="root_id" id="id_root_id" value="-1">
+                        <input type="hidden" name="to_id" id="id_to_id" value="-1">
+                        <input type="hidden" name="type" id="id_type" value="201">
+                        <input type="hidden" name="err_anchor" value="#form_error_msg">
+                        <input type="hidden" name="success_anchor" value="#comment-">
+                        <div class="field" style="margin-top: 10px;display: flex">
+                            {{ comment_form.captcha }}
+                        </div>
+
+                        <div class="field" style="margin-top: 12px">
+                            <input type="submit" class="button is-rounded is-active" value="提交"/>
+                            <button type="button" class="button is-rounded is-active"
+                                    style="margin-left: 12px" onclick="changeForm(201,-1,-1,'')">改为评论文章
+                            </button>
+                        </div>
+                    </form>
+                </div>
+        </article>
+    </div>
+</div>
+
+<script>
+
+    var joditEditor = createCommentEditor('#id_content');
+    var storage = window.localStorage;
+    $('#comment_form').submit(function () {
+        let nickname = $("#id_nickname").val();
+        let email = $("#id_email").val();
+        storage["nickname"] = nickname;
+        storage["email"] = email;
+        storage["content"] = joditEditor.getEditorValue();
+
+    });
+
+    $("#id_nickname").val(storage["nickname"]);
+    $("#id_email").val(storage["email"]);
+
+
+    $('.jodit_toolbar_btn-emoji')[0].className += ' is-hidden-touch';
+
+    if ($('#form_error_msg').text() == '验证码错误') {
+        joditEditor.setEditorValue(storage["content"] || '')
+
+    }
+
+    function changeForm(type, root_id, to_id, nickname) {
+        if (type === 202) {
+            joditEditor.value = '<p>回复 <span style="color: rgb(44, 130, 201);">' + nickname + ' </span>:</p>';
+            //$('#id_content').froalaEditor('html.set', '<p>回复 <span style="color: rgb(44, 130, 201);">' + nickname + ' </span>:</p>');
+            $('#id_type').val(type);
+            $('#id_root_id').val(root_id);
+            $('#id_to_id').val(to_id);
+            $('#comment_help').html('  (回复 ' + nickname + ')');
+        } else if (type === 201) {
+            $('#id_type').val(201);
+            $('#id_root_id').val(-1);
+            $('#id_to_id').val(-1);
+            $('#comment_help').html('  (对文章评论)');
+
+        }
+    }
+
+
+    $('#comment_header').text('本文共 ' + $("[id^='comment-']").length + ' 个回复');
+    $('.captcha').click(function () {
+        $.getJSON("/captcha/refresh/", function (result) {
+            $('.captcha').attr('src', result['image_url']);
+            $('#id_captcha_0').val(result['key'])
+        });
+    });
+    $('#id_captcha_1').css('margin-left', '10px');
+</script>
+
+

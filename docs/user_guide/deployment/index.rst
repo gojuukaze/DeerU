@@ -96,5 +96,9 @@ django 非debug模式下并不会返回静态、媒体文件，你可以用下�
 
     * `Gunicorn <https://docs.djangoproject.com/zh-hans/2.0/howto/deployment/wsgi/gunicorn/>`_
 
-django官方推荐使用Apache + mod_wsgi的方式部署，因为个人喜好的原因这里介绍的是使用Gunicorn部署的方法，详见：:ref:`gunicorn-d`
+django官方推荐使用Apache + mod_wsgi的方式部署，因为个人喜好的原因这里介绍的是使用Gunicorn部署的方法
 
+.. toctree::
+   :maxdepth: 2
+
+   gunicorn.rst

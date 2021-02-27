@@ -28,14 +28,32 @@ Deeru
 =========
 
 .. toctree::
-   :maxdepth: 2
    :caption: 目录
-
+   :maxdepth: 3
+   :hidden:
 
    installation
    upgrade
    user_guide/index
-   developer_guide/index
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: 开发指南
+   :hidden:
+
+   developer_guide/role
+   developer_guide/theme/index
+   developer_guide/model/index
+   developer_guide/config/index
+   developer_guide/contribution
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: change log
+   :hidden:
+
    change_log
 
 License

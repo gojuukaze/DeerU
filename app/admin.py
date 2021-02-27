@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 from app.consts import Global_value_cache_key, app_config_context, Theme_config_cache_key, Theme_cache_key, \
     CommentStatusChoices, v2_app_config_context
 from app.ex_admins.admin import FormInitAdmin
-from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm, ConfigAdminForm
+from app.forms import ArticleAdminForm, CategoryAdminForm, FlatpageAdminForm, ConfigAdminForm, ConfigAdminSchemaForm
 from app.db_manager.content_manager import filter_category_by_article, create_tag, filter_tag_by_name_list, \
     filter_tag_by_article
 from app.ex_admins.list_filter import CategoryFatherListFilter
@@ -108,12 +108,19 @@ class ConfigAdmin(admin.ModelAdmin):
     # form = ConfigAdminForm
     is_first = True
     list_display = ['name', 'id']
-    fields = ['v2_config']
+    # fields = ['v2_config']
 
     def get_object(self, request, object_id, from_field=None):
         obj = super().get_object(request, object_id, from_field)
         obj.v2_config['_id'] = obj.id
         return obj
+
+    def get_form(self, request, obj=None, change=False, **kwargs):
+        if change:
+            self.fields = ['v2_config']
+            return super(ConfigAdmin, self).get_form(request, obj, change, **kwargs)
+        self.fields = []
+        return ConfigAdminSchemaForm
 
     def get_queryset(self, request):
         return super().get_queryset(request).exclude(name__endswith='.old')
@@ -154,7 +161,9 @@ class CategoryAdmin(SortableAdminMixin, admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
 
-    # todo 标签删除逻辑
+    def has_delete_permission(self, request, obj=None):
+        # todo 因存在关联关系，暂时禁止删除，之后版本处理
+        return False
 
 
 @admin.register(Album)

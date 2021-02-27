@@ -57,9 +57,13 @@ class Article(models.Model):
         except:
             return None
 
+    _meta_data = None
+
     def meta_data(self):
-        from app.db_manager.content_manager import get_article_meta_by_article
-        return get_article_meta_by_article(self.id)
+        if self._meta_data is None:
+            from app.db_manager.content_manager import get_article_meta_by_article
+            self._meta_data = get_article_meta_by_article(self.id)
+        return self._meta_data
 
     def category(self):
         from app.db_manager.content_manager import filter_category_by_article
@@ -69,9 +73,13 @@ class Article(models.Model):
         from app.db_manager.content_manager import filter_tag_by_article
         return filter_tag_by_article(self.id)
 
+    _comments = None
+
     def comments(self):
-        from app.db_manager.content_manager import filter_valid_comment_by_article
-        return filter_valid_comment_by_article(self.id)
+        if self._comments is None:
+            from app.db_manager.content_manager import filter_valid_comment_by_article
+            self._comments = filter_valid_comment_by_article(self.id)
+        return self._comments
 
     def format_comments(self):
         """

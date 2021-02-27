@@ -2,44 +2,25 @@
 开发指南
 ====================
 
-一些建议
-=====================
+.. Attention::
 
-开发代码时的一些建议 :ref:`role`
-
-model说明 
-=================
-
-:ref:`model`
-
-配置说明
-===================
-:ref:`config`
+   注意！！！ 你所有的代码都应放在 ``custom_`` 开头的文件夹下
 
 
-主题开发
-===================
-* 开发主题你首先要了解一下基本的东西 :ref:`theme`
-* 然后你需要知道 context 的结构 :ref:`context` ，context中model的方法 :ref:`model`
-* 还有每个view里都返回了什么 :ref:`url-view`
+.. toctree::
+   :hidden:
+   :maxdepth: 5
 
-v1版旧的插件开发指南
-=========================
-虽然现在放弃了插件支持，但如果需要自己开发扩展也可以读读
-
-* 基础： :ref:`概述<third-party-index>` 
-* 开发插件： :ref:`plugin` 
+   role
+   theme/index
+   model/index
+   config/index
+   contribution.rst
 
 
-贡献代码
-====================
+.. topic:: 目录
 
-你发现了bug或者优化了代码并且想合并到主分支？
-
-首先你需要fork代码到你的仓库，然后切换到dev分支，在dev分支上开发完成后再github中提交 pull request，合并到dev分支。
-
-.. note::
-
-    只接受合并到dev分支的pull request
-
-    
+    * :ref:`role`
+    * :ref:`theme`
+    * :ref:`model`
+    * :ref:`config`
