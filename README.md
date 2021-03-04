@@ -162,3 +162,9 @@ admin2
 手机2
 <img alt="DeerU Logo" src="./docs/source/_static/p2.png?raw=true" width="50%">
 
+捐赠
+=========
+
+开源不易，如果你觉得对你有帮助，求打赏个一块两块的
+
+![](https://lpm-resource-1302770967.cos.ap-beijing.myqcloud.com/s_cover/i_shang.jpg)
