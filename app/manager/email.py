@@ -38,7 +38,8 @@ def _send(subject, message, recipient_list,
         'port': port,
         'username': username,
         'password': password,
-        'fail_silently': fail_silently
+        'fail_silently': fail_silently,
+        'timeout': 10,
 
     }
     if secure == 'tls':
@@ -51,8 +52,7 @@ def _send(subject, message, recipient_list,
     if html_message:
         mail.attach_alternative(html_message, 'text/html')
 
-    a= mail.send()
-    print(a)
+    a = mail.send()
 
 
 def send_mail(subject, message, recipient_list,
