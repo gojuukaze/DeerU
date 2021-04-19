@@ -1,4 +1,5 @@
 {% load base_theme_filter %}
+{% load static %}
 
 {#评论列表#}
 <div class="box detail_article_box" style="padding: 0">
@@ -11,7 +12,7 @@
             <article id="comment-{{ c.comment.id }}" class="media">
                 <figure class="media-left img_head">
                     <p class="image is-60x60">
-                        <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?s=60">
+                        <img style="width: 60px;height: 60px" src="{% static '/base_theme2/img/avatar.jpg' %}">
                     </p>
                 </figure>
                 <div class="media-content">
@@ -40,7 +41,7 @@
 
                             <figure class="media-left is-hidden-touch img_head">
                                 <p class="image is-48x48">
-                                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?s=48">
+                                    <img style="width: 44px;height: 44px" src="{% static '/base_theme2/img/avatar.jpg' %}">
                                 </p>
                             </figure>
                             <div class="media-content">
@@ -86,7 +87,7 @@
 
             <figure class="media-left is-hidden-touch img_head">
                 <p class="image is-60x60">
-                    <img src="https://secure.gravatar.com/avatar/ba501072452b828d7f3b33d8369e349e?s=60">
+                    <img style="width: 60px;height: 60px" src="{% static '/base_theme2/img/avatar.jpg' %}">
                 </p>
             </figure>
             <div class="media-content">
