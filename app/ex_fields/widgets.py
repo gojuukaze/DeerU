@@ -1,7 +1,9 @@
 import json
 
 from django import forms
+from django.forms import Media
 from django.utils.safestring import mark_safe
+from froala_editor.widgets import FroalaEditor
 
 
 class ConfigWidget(forms.Textarea):
@@ -81,3 +83,37 @@ class ConfigWidgetV2(forms.Textarea):
         ''' % (el_id, id, el_id, el_id)
 
         return mark_safe(html)
+
+class DeerUFroalaEditor(FroalaEditor):
+    def _media(self):
+        # 修改font-awesome, jq为国内地址
+        css = {
+            'all': ('https://cdn.staticfile.org/font-awesome/4.4.0/css/font-awesome.min.css',
+                    'froala_editor/css/froala_editor.min.css', 'froala_editor/css/froala_style.min.css',
+                    'froala_editor/css/froala-django.css')
+        }
+        js = ('froala_editor/js/froala_editor.min.js', 'froala_editor/js/froala-django.js',)
+
+        if self.include_jquery:
+            js = ('https://cdn.staticfile.org/jquery/1.11.0/jquery.min.js',) + js
+
+        if self.theme:
+            css['all'] += ('froala_editor/css/themes/' + self.theme + '.min.css',)
+
+        if self.language:
+            js += ('froala_editor/js/languages/' + self.language + '.js',)
+
+        for plugin in self.plugins:
+            js += ('froala_editor/js/plugins/' + plugin + '.min.js',)
+            from froala_editor import PLUGINS_WITH_CSS
+            if plugin in PLUGINS_WITH_CSS:
+                css['all'] += ('froala_editor/css/plugins/' + plugin + '.min.css',)
+        for plugin in self.third_party:
+            js += ('froala_editor/js/third_party/' + plugin + '.min.js',)
+            from froala_editor import THIRD_PARTY_WITH_CSS
+            if plugin in THIRD_PARTY_WITH_CSS:
+                css['all'] += ('froala_editor/css/third_party/' + plugin + '.min.css',)
+
+        return Media(css=css, js=js)
+
+    media = property(_media)

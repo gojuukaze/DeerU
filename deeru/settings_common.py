@@ -2,7 +2,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 INSTALLED_APPS = [
     # admin扩展
     'jet.dashboard',
@@ -179,7 +178,7 @@ FLATPAGE_URL = '/p/'
 # 富文本编辑器配置
 
 DEERU_RICH_EDITOR = {
-    'filed': 'froala_editor.fields.FroalaField',
+    'filed': 'app.ex_fields.fields.DeerUFroalaField',
     'article_kwargs': {
         'options': {
             'height': 350,
@@ -215,5 +214,4 @@ CAPTCHA_FONT_PATH = os.path.join(BASE_DIR, 'data/Alibaba-PuHuiTi-Regular.ttf')
 CAPTCHA_FONT_SIZE = 17
 CAPTCHA_NOISE_FUNCTIONS = ('tool.captcha.noise_arcs',)
 
-
-BASE_THEME2_TEMPLATES={}
+BASE_THEME2_TEMPLATES = {}
