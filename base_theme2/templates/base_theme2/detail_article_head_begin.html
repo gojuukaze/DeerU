@@ -1,0 +1,4 @@
+{% load base_theme2_filter %}
+<META NAME="description" CONTENT="{{ article.summary|clear_tag }}">
+<META NAME="keywords" CONTENT="{% for t in article.tags %}{{ t.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+

@@ -200,6 +200,8 @@ class HomeTemplate(Theme):
 
 class DetailArticleTemplate(Theme):
     ex_template_context = {
+        'detail_article_head_begin_template': 'base_theme2/detail_article_head_begin.html',
+
         'detail_article_template': 'base_theme2/detail_article.html',
         'detail_article_content_template': 'base_theme2/detail_article_content.html',
         'detail_article_comment_template': 'base_theme2/detail_article_comment.html',
@@ -219,6 +221,8 @@ class DetailArticleTemplate(Theme):
             'form_error': form_error
         }
 
+        self.ex_template_context['head_begin_template'] = self.ex_template_context[
+            'detail_article_head_begin_template']
         self.ex_template_context['body_section_content_template'] = self.ex_template_context[
             'detail_article_template']
         self.ex_template_context['body_section_sidebar_template'] = self.ex_template_context[
